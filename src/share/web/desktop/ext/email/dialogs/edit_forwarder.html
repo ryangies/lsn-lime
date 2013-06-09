@@ -1,0 +1,37 @@
+[#:into ./base.html]
+
+<dl>
+  <dt><label for="email">Email Address:</label></dt>
+  <dd><input type="text" name="email" id="fw_email" readonly="readonly"/></dd>
+  <dt><label for="name">Forward to this address:</label></dt>
+  <dd><input type="text" name="forward" id="fw_dest"/></dd>
+</dl>
+
+[#:css]
+#area[#UID] dl {margin:0 .5em 0 .5em;}
+#area[#UID] dt {margin:.5em 0 0 0;}
+#area[#UID] dd {margin:0 0 .5em 0;}
+#fw_email, #fw_dest {width:20em;}
+[#:end css]
+
+[#:js event='dialog, ready']
+var email = dlg[#UID].params.email;
+js.dom.getElement('fw_email').value = email;
+js.dom.getElement('fw_dest').value = '';
+new js.lsn.Request('[#`../module.pm/query`]', {
+  onSuccess: function (resp) {
+    var account = resp.responseHash.get('body');
+    js.dom.getElement('fw_dest').value = account.get('destination');
+  }
+}).submit({type: 'get_forwarder', email: email});
+[#:end js]
+
+[#:js event='dialog, ok']
+var params = {type: 'update_forwarder'};
+js.util.overlay(params, js.dom.getValues('area[#UID]'));
+doMailCommand(params);
+[#:end js]
+
+__DATA__
+
+title => Edit Forwarder

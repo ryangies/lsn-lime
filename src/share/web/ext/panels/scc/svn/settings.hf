@@ -1,0 +1,28 @@
+# HashFile 2.1
+#{
+input => %{
+  fieldsets => @{
+    %{
+      heading => Folders under version control
+      fields => %{
+        roots => %{
+          label => 
+          type => text
+          value => htdocs
+        }
+      }
+    }
+  }
+}
+buttons => @{
+  %{
+    text => Info
+    action => info
+  }
+  %{
+    text => Commit
+    confirm => Are you sure?
+    action => exec
+  }
+}
+#}

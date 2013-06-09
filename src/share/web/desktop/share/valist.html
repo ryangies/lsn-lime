@@ -1,0 +1,33 @@
+<div class="valist">
+[#:for (props) in _list]
+  <div class="[#props/type || 'item']">
+    [#:if props/icon]
+    <img src="[#props/icon]"/>
+    [#:end if]
+    [#:if props/type eq 'action']
+    <a class="lsn" href="javascript:void(0)" onclick="[#props/action]">[#props/desc.txt]</a>
+    [#:elsif props/type eq 'space']
+    &nbsp;
+    [#:elsif props/type eq 'label']
+    <span>[#props/desc.txt]</span>
+    [#:elsif ! props/type]
+    <a class="lsn" [#:if props/src]href="[#props/src]"[#:end if]
+      onclick="[#props/js];return false;">[#props/desc.txt]</a>
+    [#:end if]
+  </div>
+[#:end for]
+</div>
+
+[#:css]
+div.valist {margin:0 .5em;}
+div.valist div.space {margin:.25em 0;font-size:.5em;line-height:.5em;}
+div.valist div.hr {margin:.5em 0;}
+div.valist div.hr {border-bottom:1px solid #777;}
+div.valist div.label {margin:.5em 0;}
+div.valist div.label {font-weight:bold;}
+div.valist div.label {position:relative;}
+div.valist div.label span {vertical-align:text-bottom;}
+div.valist div.item {margin:.5em 0;}
+div.valist div.item img {vertical-align:text-top;float:left;}
+div.valist div.item a {display:block;margin-left:24px;}
+[#:end css]

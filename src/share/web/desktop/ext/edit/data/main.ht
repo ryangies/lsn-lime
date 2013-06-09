@@ -1,0 +1,29 @@
+[#:js src=`./local.js`]
+[#:css src=`./layout.css`]
+[#:css src=`./main.css`]
+
+<div id="data[#UID]"></div>
+
+[#:js event='widget,load']
+  var editor = new js.desktop.ext.edit.data.Main();
+  js.dom.replaceChildren('data[#UID]', [editor.getUI()]);
+  this.props.editor = editor;
+[#:end js]
+
+[#:js event='widget,show']
+  var editor = this.props.editor;
+  var addr = this.params.addr;
+  editor.reset();
+  if (addr) {
+    var db = js.hubb.getInstance();
+    db.fetch(addr, function (node) {
+      if (node) {
+        editor.load(node);
+      } else {
+        js.console.log('No data node for address');
+      }
+    });
+  } else {
+    js.console.log('No address provided');
+  }
+[#:end js]

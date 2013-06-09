@@ -1,0 +1,29 @@
+# HashFile 2.1
+
+viewers => @{
+  %{
+    type-equals => directory
+    widget.url => /desktop/ext/browse/qview/directory/index.html
+  }
+  %{
+    type-match => ^file-(jpe?g|gif|bmp|png|tiff?)$
+    widget.url => /desktop/ext/browse/qview/iframe/index.html
+  }
+  %{
+    type-equals => file-flv
+    widget.url => /desktop/ext/browse/qview/flash/index.html
+  }
+  %{
+    type-equals => file-mp3
+    widget.url => /desktop/ext/browse/qview/audio/index.html
+  }
+  %{
+    type-match => ^file-(text|data|multipart)
+    widget.url => /desktop/ext/edit/ace/index.html
+  }
+  %{
+    type-match => ^data-scalar
+#   widget.url => /desktop/ext/browse/qview/text/index.html
+    widget.url => /desktop/ext/edit/ace/index.html
+  }
+}

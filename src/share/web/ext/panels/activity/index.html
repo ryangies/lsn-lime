@@ -1,0 +1,68 @@
+[#:into /ext/share/layouts/contained.ht]
+<div id="activity-page">
+
+  <h2>[#about/heading]</h2>
+  <pre class="help">[#about/help.txt]</pre>
+
+  <form action=""><input type="submit" value="Refresh"/></form>
+
+  <table id="activity">
+    <thead>
+      <tr>
+        <th>Last activity</th>
+        <th>User name</th>
+        <th>SID</th>
+      </tr>
+    </thead>
+    <tbody>
+      [#:for (bundle) in ./module.pm/get_active]
+      <tr class="[#bundle/delta_class]">
+        <td class="ar">[#bundle/delta_dhms]</td>
+        <td class="al">[#bundle/cred/un]</td>
+        <td class="al"><tt>[#bundle/cred/SID]</tt></td>
+      <tr>
+      [#:end for]
+    </tbody>
+  </table>
+
+</div>
+
+[#:use /ext/share/data/colors.hf]
+[#:css]
+
+  #activity-page {
+    margin:10px;
+  }
+  pre.help {
+    background:[#gray95];
+  }
+  #activity {
+    border-collapse:collapse;
+    margin:10px 0;
+  }
+  #activity tr.recent {
+    color:[#red];
+    background-color:[#gray90];
+  }
+  #activity tr.today {
+    background-color:[#gray90];
+  }
+  #activity tr {
+    background-color:[#gray80];
+  }
+  #activity th,
+  #activity td {
+    border:.5px solid [#gray10];
+    padding:1em;
+  }
+
+[#:end css]
+__DATA__
+about => %{
+  heading => Recent site activity for authenticated users
+  help.txt => ${
+Last activity - (years:months:days) hours:minutes:seconds since their last request
+User name     - User name
+SID           - Session ID
+  }
+}

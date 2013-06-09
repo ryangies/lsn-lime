@@ -1,0 +1,21 @@
+# HashFile 2.1
+target => ../hashtable.js
+name => HashTable Editing
+version => .001
+files => @{
+  dom/dom.js
+  model/Item.js
+  model/Root.js
+  view/View.js
+  view/ListItem.js
+  view/ListView.js
+  view/FileCombo.js
+  view/EditView.js
+  edit/Field.js
+  edit/InputInteger.js
+  edit/InputStatic.js
+  edit/InputSelect.js
+  edit/InputSelectTable.js
+  edit/Properties.js
+  app/Application.js
+}

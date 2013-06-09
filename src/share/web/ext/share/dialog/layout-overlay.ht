@@ -1,0 +1,39 @@
+<div id="[#_content_id]">
+  <div class="overlay-header">
+    <div class="overlay-buttons">
+      <a href="#close" rel="action">[#:html:image `./images/btn_close.gif` border='0' alt='Close']</a>
+    </div>
+    <div class="overlay-title">
+      [#:if _icon][#:html:image _icon][#:end if] [#_title || 'No title']
+    </div>
+  </div>
+  [#CONTENT || 'No content']
+</div>
+<!--[if lte IE 6.5]><iframe width="0" height="0" src="about:blank"></iframe><![endif]-->
+
+[#:use /ext/share/data/colors.hf]
+[#:use /res/css/snippets.hf]
+[#:css]
+#[#_content_id] .overlay-header {
+  border-bottom:1px solid [#gray50];
+  [#linear-gradient color0=gray95 color1=gray90]
+}
+#[#_content_id] .overlay-content {
+  text-align:left;
+}
+#[#_content_id] .overlay-title { text-align: left; margin:10px 20px 10px 10px; font-weight:bold; }
+#[#_content_id] .overlay-title * { vertical-align:text-bottom; }
+#[#_content_id] .overlay-buttons { position:absolute; top:10px; right:10px; height:20px; }
+#[#_content_id] .overlay-buttons img { display:block; }
+[#:end css]
+[#:js -once]
+  var bodyArea = env.layout.getArea('layout-body');
+  var overlayLayout = bodyArea.addLayout({'name':'overlay-area'});
+  var overlayArea = overlayLayout.addColumn('overlay-area', null, {
+    'structure':'nested',
+    'gap': [20]
+  });
+  var overlayHeader = overlayArea.addRow('overlay-header', 37, [0,0,1,0]);
+  var overlayContent = overlayArea.addRow('overlay-content', null);
+  var overlayFooter = overlayArea.addRow('overlay-footer', 37);
+[#:end js]

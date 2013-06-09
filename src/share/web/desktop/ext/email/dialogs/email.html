@@ -1,0 +1,35 @@
+[#:into ./base.html]
+
+<dl>
+  <dt><label for="email">Email Address:</label></dt>
+  <dd><input type="text" name="email" id="email[#UID]"/></dd>
+  <dt><label for="name">Full Name:</label></dt>
+  <dd><input type="text" name="name" id="name[#UID]"/></dd>
+  <dt><label for="passwd">Password:</label></dt>
+  <dd><input type="password" name="passwd" id="passwd[#UID]"/></dd>
+  <dt><label for="passwd2">Password (again):</label></dt>
+  <dd><input type="password" name="passwd2" id="passwd2[#UID]"/></dd>
+</dl>
+
+[#:css]
+#area[#UID] dl {margin:0 .5em 0 .5em;}
+#area[#UID] dt {margin:.5em 0 0 0;}
+#area[#UID] dd {margin:0 0 .5em 0;}
+#email[#UID], #name[#UID] {width:20em;}
+#passwd[#UID], #passwd2[#UID] {width:10em;}
+[#:end css]
+
+[#:js event='dialog, load']
+if (!js.dom.getElement('email[#UID]').value) {
+  js.dom.getElement('email[#UID]').value = '@[#../module.pm/get_domain_root]';
+}
+js.dom.addEventListener('btn_[#UID]_ok', 'click', function () {
+  var params = {type: 'add_vmail'};
+  js.util.overlay(params, js.dom.getValues('area[#UID]'));
+  doMailCommand(params);
+});
+[#:end js]
+
+__DATA__
+
+title => New Email Account 

@@ -1,0 +1,6 @@
+# HashFile 2.1
+From    => Testing <support@livesite.net>
+To      => Support <support@livesite.net>
+Subject => TEST [#num]
+Body    => This is a test message
+HTML    => This is a <i>test</i> message

@@ -1,0 +1,37 @@
+[#:into ./dlg-base.html]
+
+<iframe frameborder="0" allowtransparency="true" id="[#UID2]frame" src="about:blank"></iframe><br/>
+<button id="btn_[#UID2]_refresh"type="button">Refresh</button>
+
+[#:css]
+#[#UID2]frame {width:50em;height:30em;border:1px inset black;}
+[#:end css]
+
+[#:js event='widget, load']
+js.dom.addEventListener('btn_[#UID2]_refresh', 'click', function () {
+  var doc = js.dom.getContentDocument("[#UID2]frame");
+  doc.location.reload();
+});
+[#:end js]
+
+[#:js event='widget, ready']
+var loc = new js.http.Location(this.params.href);
+loc.addParameter('X-Response-Type', 'text/plain');
+loc.addParameter('X-Auth', 'disable');
+loc.addParameter('X-CacheHack', js.util.randomId());
+js.dom.setAttribute("[#UID2]frame", 'src', loc.getHref());
+var vp = js.dom.getViewportPosition();
+var maxHeight = vp.height - 100;
+var maxWidth = vp.width - 100;
+if (js.dom.getHeight('[#UID2]frame') > maxHeight) {
+  js.dom.setStyle('[#UID2]frame', 'height', maxHeight + 'px');
+}
+if (js.dom.getWidth('[#UID2]frame') > maxWidth) {
+  js.dom.setStyle('[#UID2]frame', 'width', maxWidth + 'px');
+}
+[#:end js]
+
+__DATA__
+
+_title => View Source
+_subtitle => 

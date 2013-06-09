@@ -1,0 +1,9 @@
+# HashFile 2.1
+category => domain
+name => Subversion
+title => Subversion
+desc => Deploy changes from inwork to production.
+icon => /res/icons/16x16/status/software-update-available.png
+side => right
+canClose => true
+loadInBackground => false

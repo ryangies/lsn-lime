@@ -1,0 +1,7 @@
+# HashFile 2.1
+category => domain
+name => Email
+title => Email Accounts
+desc => Manage hosted email accounts and mail forwarders.
+icon => /res/icons/16x16/apps/internet-mail.png
+canClose => true

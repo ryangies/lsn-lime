@@ -1,0 +1,28 @@
+# HashFile 2.1
+name => Action
+items => @{
+  %{
+    type => category
+    heading => Current Folder
+    items => @{
+      %{
+        type => item
+        text => Item Text
+        tooltip => Item Tooltip
+        action => item-action
+      }
+    }
+  }
+  %{
+    type => category
+    heading => Current Folder
+    items => @{
+      %{
+        type => item
+        text => Item Text
+        tooltip => Item Tooltip
+        action => item-action
+      }
+    }
+  }
+}

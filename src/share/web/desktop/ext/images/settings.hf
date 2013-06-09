@@ -1,0 +1,64 @@
+HashFile 2.1
+input => %{
+  fieldsets => @{
+    %{
+      heading => Display Settings
+      fields => %{
+        background => %{
+          label => Background
+          type => select
+          options => @{
+            %{
+              text => hatch
+              value => hatch
+            }
+            %{
+              text => white
+              value => white
+            }
+            %{
+              text => black
+              value => black
+            }
+          }
+        }
+        resize => %{
+          label => Display Size
+          type => text
+          value => 100x100
+        }
+      }
+    }
+    %{
+      heading => Search for images
+      fields => %{
+        directory => %{
+          label => Directory
+          type => text
+          value => /images
+        }
+        filter => %{
+          label => Filter
+          type => text
+          value => 
+        }
+        size => %{
+          label => Image Size
+          type => text
+          value => 
+        }
+      }
+    }
+  }
+}
+buttons => @{
+  %{
+    text => Resize and Save
+    confirm => This will overwite existing images, are you sure you want to do this?
+    action => resize
+  }
+  %{
+    text => Search
+    action => search
+  }
+}

@@ -1,0 +1,39 @@
+[#:use ../build.hf]
+[#:set _content_id => '[#screen/id]-properties']
+[#:js]
+
+  function onOk (action) {
+    this.hide();
+  }
+
+  env.dialogs.register('[#_content_id]', js.[#namespace].view.PropertiesView, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.addActionListener('onOk', onOk, this);
+  });
+
+[#:end js]
+[#:css]
+
+  #[#_content_id] #buttons {
+    position:absolute;
+    right:10px;
+    bottom:10px;
+  }
+  #[#_content_id] #content {
+    position:relative;
+  }
+
+[#:end css]
+
+[#:into /ext/share/dialog/layout-overlay.ht]
+  <div id="content" class="overlay-content"></div>
+  <div class="overlay-footer">
+    <div id="buttons">
+      <button type="button" name="action" value="ok">OK</button>
+    </div>
+  </div>
+[#:end into]
+
+__DATA__
+_title => Edit Properties
+_icon => /res/icons/16x16/di/settings.png

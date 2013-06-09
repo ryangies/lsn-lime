@@ -1,0 +1,47 @@
+[#:comment]
+  The ajaxorg / ace project (is truely what we've been waiting for)
+  https://github.com/ajaxorg/ace/wiki/Embedding---API
+  http://groups.google.com/group/ace-discuss/browse_thread/thread/e8132c858d26be0c
+[#:end comment]
+[#:js src='/res/js/ace/ace.js']
+[#:js src='/res/js/ace/theme-twilight.js']
+[#:js src='/res/js/ace/mode-javascript.js']
+[#:css]
+    #[#UID] { 
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+[#:end css]
+
+<pre id="[#UID]"></pre>
+    
+[#:css]
+[#:end css]
+
+[#:js]
+var w[#UID];
+[#:end js]
+
+[#:js event='widget, load']
+w[#UID] = this;
+this.props.editor = ace.edit("[#UID]");
+this.props.editor.setTheme("ace/theme/twilight");
+var JavaScriptMode = require("ace/mode/javascript").Mode;
+this.props.editor.getSession().setMode(new JavaScriptMode());
+[#:end js]
+
+[#:js event='widget, show']
+var dnode = this.params.dnode;
+this.props.editor.getSession().setValue(dnode.getContent());
+[#:end js]
+
+[#:js event='widget, ready']
+this.props.editor.gotoLine(1);
+[#:end js]
+
+[#:js event='widget, hide']
+[#:end js]

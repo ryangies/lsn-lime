@@ -1,0 +1,31 @@
+[#:into /ext/share/layouts/master.ht]
+
+[#:js event='document,load']
+
+  env.hub.startAutoRefresh();
+
+  env.hub.get('/ext/share/test/listview.html/list', function (dnode) {
+
+    var view = new js.ext.share.data.view.ListView();
+    js.dom.appendChildren('list', view.getElements());
+    view.
+    view.load(dnode);
+
+  });
+
+[#:end js]
+
+<div class="layout-body">
+
+  <div id="list"></div>
+
+</div>
+
+__DATA__
+list => @{
+  Alpha
+  Beta
+  Delta
+  Charlie
+  Eichardt's
+}

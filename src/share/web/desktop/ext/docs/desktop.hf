@@ -1,0 +1,8 @@
+# HashFile 2.1
+category => desktop
+name => User Manual
+title => User Manual
+desc => Documentation for using the Desktop.
+icon => /res/icons/16x16/apps/help-browser.png
+canClose => true
+unavailable => 1

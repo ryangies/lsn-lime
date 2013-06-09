@@ -1,0 +1,64 @@
+# HashFile 2.1
+items => @{
+
+  %{
+    type => category
+    target => selection
+    heading => Selected Item
+    items => @{
+
+      %{
+        type => item
+        text => Edit
+        tooltip => Edit the current item
+        target => selection
+        action => {#screen/id}-edit-item
+        icon => /res/icons/16x16/emblems/pen.png
+      }
+
+      %{
+        type => item
+        text => Change Id
+        tooltip => Change this item's key
+        target => selection
+        action => do-file-rename
+        icon => /res/icons/16x16/emblems/key.png
+      }
+
+      %{
+        type => item
+        text => Move up
+        target => selection
+        tooltip => Change the order in which this item appears
+        action => data-reorder-previous
+        icon => /res/icons/16x16/actions/arrowUp.png
+        matchTypes => @{
+          ^data-
+        }
+      }
+
+      %{
+        type => item
+        text => Move down
+        target => selection
+        tooltip => Change the order in which this item appears
+        action => data-reorder-next
+        icon => /res/icons/16x16/actions/arrowDown.png
+        matchTypes => @{
+          ^data-
+        }
+      }
+
+      %{
+        type => item
+        text => Delete
+        tooltip => Remove permanently
+        target => selection
+        action => {#screen/id}-delete-item
+        icon => /res/icons/16x16/actions/edit-delete2.png
+      }
+
+    }
+  }
+
+}

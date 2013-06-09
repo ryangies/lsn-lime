@@ -1,0 +1,77 @@
+[#:into ../../share/master.ht]
+<div id="list"></div>
+
+[#:js]
+
+js.dom.addEventListener(document, 'load', function (event) {
+  new js.lsn.ext.mainmenu.Main();
+});
+
+js.extend('lsn.ext.mainmenu', function (js) {
+
+  var Proto = {};
+
+  this.Main = function () {
+    var req = new js.lsn.Request('[#`./module.pm/get_menu_entries_all`]');
+    req.addEventListener('onSuccess', this.onLoad, this);
+    req.submit();
+  }
+
+  this.Main.prototype = Proto;
+
+  Proto.onLoad = function (req) {
+    var entries = req.responseHash.get('body').toObject();
+    var list = js.dom.getElement('list');
+    for (var i = 0, entry; entry = entries[i]; i++) {
+      var items = [];
+      for (var j = 0, module; module = entry.modules[j]; j++) {
+        if (!module.enabled) continue;
+        var a = js.dom.createElement('a.lsn=' + (module.title || module.name));
+        if (module.action) {
+          js.dom.addEventListener(a, 'click', this.execAction, this, [module]);
+          js.dom.setStyle(a, 'cursor', 'pointer');
+        } else {
+          js.dom.setAttribute(a, 'href', module.src);
+          js.dom.addEventListener(a, 'click', this.openItem, this, [module]);
+        }
+        items.push(js.dom.createElement('div.item', ['img', {src: module.icon}, a]));
+      }
+      if (items.length) {
+        list.appendChild(js.dom.createElement('div.label', ['span=' + entry.heading]));
+        js.dom.appendChildren(list, items);
+      }
+    }
+  };
+
+  Proto.execAction = function (event, props) {
+    js.dom.stopEvent(event);
+    var func = new Function(props.action);
+    func();
+  };
+
+  Proto.openItem = function (event, props) {
+    if (parent.js.lsn.desktop) {
+      if (props.multitab) {
+        props.id = js.util.randomId('tab');
+      } else {
+        props.id = props.uid;
+      }
+      parent.js.lsn.desktop.createTab(props);
+      js.dom.stopEvent(event);
+    }
+  }
+
+});
+
+[#:end js]
+
+[#:css]
+#list {margin:.5em .5em;}
+#list div.label {margin:1em 0 .5em 0;position:relative;}
+#list div.label span {vertical-align:text-bottom;}
+#list div.hr {margin:.1em 0 .5em 0;}
+#list div.item, #list div.action {margin:.2em 0 .5em .5em;}
+#list div.hr {border-bottom:1px solid black;}
+#list img {float:left;}
+#list a {margin-left:2em;display:block;}
+[#:end css]

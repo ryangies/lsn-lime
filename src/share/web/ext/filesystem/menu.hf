@@ -1,0 +1,93 @@
+# HashFile 2.1
+items => @{
+
+  %{
+    type => category
+    target => cwd
+    heading => Current folder
+    items => @{
+      %{
+        type => item
+        text => New Folder
+        tooltip => Create a new sub-folder
+        action => ext-filesystem-show-create-folder
+        icon => /res/icons/16x16/actions/folder-new.png
+      }
+      %{
+        type => item
+        text => New File
+        tooltip => Create new text file
+        action => ext-filesystem-show-create-file
+        icon => /res/icons/16x16/actions/document-new.png
+      }
+      %{
+        type => item
+        text => Upload File
+        tooltip => Upload a file from this computer
+        action => ext-filesystem-show-upload-file
+        icon => /res/icons/16x16/status/mail-attachment.png
+      }
+      %{
+        type => item
+        text => Download from the web
+        tooltip => Fetch a file from the network
+        action => ext-filesystem-show-fetch-file
+        icon => /res/icons/16x16/apps/internet-web-browser.png
+      }
+    }
+  }
+
+  %{
+    type => category
+    target => selection
+    heading => Selected item
+    items => @{
+      %{
+        type => item
+        text => Rename
+        tooltip => Change the name
+        action => do-file-rename
+        icon => /res/icons/16x16/emblems/key.png
+      }
+      %{
+        type => item
+        text => Copy
+        tooltip => Copy to another folder
+        action => ext-filesystem-show-copy
+        icon => /res/icons/16x16/actions/edit-copy.png
+      }
+      %{
+        type => item
+        text => Move
+        tooltip => Move to another folder
+        action => ext-filesystem-show-move
+        icon => /res/icons/16x16/actions/edit-move.png
+      }
+      %{
+        type => item
+        text => Delete
+        tooltip => Remove permanently
+        action => ext-filesystem-show-delete
+        icon => /res/icons/16x16/actions/edit-delete2.png
+      }
+      %{
+        type => file-action
+        target => selection
+        text => Change mode
+        tooltip => Change the file mode
+        action => do-file-chmod
+        icon => /res/icons/16x16/emblems/emblem-system.png
+        matchTypes => @{
+          ^file-
+        }
+      }
+    }
+  }
+
+  %{
+    type => category
+    target => selection
+    heading => <hr/>
+  }
+
+}

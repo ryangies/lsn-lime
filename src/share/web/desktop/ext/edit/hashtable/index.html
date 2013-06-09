@@ -1,0 +1,80 @@
+[#:into /desktop/share/standard.ht]
+[#:js src=`/res/js/app.js`]
+[#:js src=`./hashtable.js`]
+[#:css src=`./styles.css`]
+
+<div class="mainMenuArea">
+  <button value="action:doMenuCreate">[#:html:image '/res/icons/16x16/actions/edit-copy.png'] Add another item</button>
+</div>
+
+<div class="mainArea"></div>
+
+<div class="listViewArea">
+  <ol id="listView"></ol>
+</div>
+
+<div class="editArea"></div>
+
+<div class="editMenuArea">
+  <div id="editMenu" class="hidden">
+    <button value="action:doEditSave">[#:html:image '/res/icons/16x16/status/checkmark.png'] Save</button>
+    <button value="action:doEditCancel">[#:html:image '/res/icons/16x16/actions/media-playback-stop.png'] Cancel</button>
+    &nbsp;
+    <button value="action:doEditMoveUp">[#:html:image '/res/icons/16x16/actions/arrowUp.png'] Move Up</button>
+    <button value="action:doEditMoveDown">[#:html:image '/res/icons/16x16/actions/arrowDown.png'] Move Down</button>
+    &nbsp;
+    <a href="#action:"></a>
+    <button value="action:doEditDelete">[#:html:image '/res/icons/16x16/actions/edit-delete2.png'] Delete this item</button>
+  </div>
+</div>
+<div class="editViewArea">
+  <div id="editView" class="hidden"></div>
+</div>
+
+<div class="gapA"></div>
+<div class="gapB"></div>
+<div class="gapC"></div>
+
+[#:js extend='global']
+
+  // Application configuration
+  var config = [#:json:var ./module.pm/get_config];
+
+  // Application controller
+  var app = new js.lsn.hashtable.app.Application(config);
+
+  // Page layout areas
+  var layout = new js.lsn.layout.ViewportLayout({gap:[10]});
+//layout.addRow('headArea', 50);
+  layout.addRow('mainMenuArea', 40);
+  layout.addRow('gapA', 1);
+  layout.addRow('mainArea');
+  layout.addRow('gapB', 1);
+
+  var mainArea  = layout.getArea('mainArea');
+  mainArea.addColumn('listViewArea', .25);
+  mainArea.addColumn('gapC', 1);
+  mainArea.addColumn('editArea');
+
+  var editArea  = layout.getArea('editArea');
+  editArea.addRow('editMenuArea', 40);
+  editArea.addRow('editViewArea');
+
+  var editViewArea  = layout.getArea('editViewArea');
+  var fieldLabelArea = editViewArea.addColumn('fieldLabelArea', .25);
+  var fieldInputArea = editViewArea.addColumn('fieldInputArea');
+
+  fieldLabelArea.addActionListener('onUpdate', function (action, area) {
+    var w = area.getRegion().width;
+    area.getStyleSheet().updateRule('#label', {'width': w});
+    area.getStyleSheet().updateRule('#input', {'margin-left': w});
+  });
+
+  fieldInputArea.addActionListener('onUpdate', function (action, area) {
+    var w = area.getRegion().width - 40;
+    area.getStyleSheet().updateRule('#input textarea.textarea', {'width': w});
+    area.getStyleSheet().updateRule('#input input.text', {'width': w});
+    area.getStyleSheet().updateRule('#input p', {'width': w});
+  });
+
+[#:end js]

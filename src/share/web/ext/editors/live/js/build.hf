@@ -1,0 +1,8 @@
+# HashFile 2.1
+target => ../local.js
+files => @{
+  Screen.js
+  ui/Panel.js
+  ui/Tab.js
+  handlers.js
+}

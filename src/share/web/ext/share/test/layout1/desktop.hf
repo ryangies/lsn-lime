@@ -1,0 +1,6 @@
+# HashFile 2.1
+addr => /ext/share/test/layout1/
+name => Sample Layout 1
+icon => /res/icons/16x16/emotes/face-cool.png
+elem => ext-share-test-layout1
+layout => layout1

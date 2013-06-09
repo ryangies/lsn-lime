@@ -1,0 +1,40 @@
+[#:use ./colors.hf]
+h1,h2,h3,h4,h5,h6{margin:.2em 0;}
+h1{font-size:2em;font-weight:bold;}
+h2{font-size:1.6em;font-weight:bold;}
+h3{font-size:1.2em;font-weight:bold;}
+h4{font-size:1.0em;color:[#gray2];font-weight:bold;}
+h5{font-size:1.0em;color:[#gray2];}
+h6{font-size:1.0em;}
+html body {margin:10px;}
+.statusPopup {
+  text-align:left;
+}
+.statusPopup .footerButtons {
+  text-align:right;
+}
+.statusPopup.statusNotify {
+  border:1px outset [#green1];
+  background-color:[#green2];
+  color:[#white];
+}
+.statusPopup.statusAlert {
+  border:1px outset [#orange1];
+  background-color:[#orange2];
+  color:[#white];
+}
+.statusPopup.statusConfirm {
+  border:1px outset [#orange1];
+  background-color:[#orange2];
+  color:[#white];
+}
+.statusPopup.statusLoading {
+  border:1px outset [#blue1];
+  background-color:[#blue2];
+  color:[#white];
+}
+.statusPopup.statusLoading img.indicator {
+  margin-right:1em;
+  padding:4px;
+  background:[#gray2];
+}

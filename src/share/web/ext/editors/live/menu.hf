@@ -1,0 +1,114 @@
+# HashFile 2.1
+items => @{
+
+  %{
+    type => category
+    heading => Document
+    items => @{
+
+      %{
+        type => item
+        text => Open...
+        tooltip => Open a text file
+        action => ext-editors-live-file-open
+        icon => /res/icons/16x16/actions/document-open.png
+      }
+
+      %{
+        type => item
+        target => selection
+        text => Save
+        tooltip => Save the current file
+        action => ext-editors-live-file-save
+        icon => /res/icons/16x16/actions/document-save.png
+      }
+
+#{
+      %{
+        type => item
+        target => selection
+        text => Save As...
+        tooltip => Save this file under a different name
+        action => ext-editors-live-file-save-as
+      }
+#}
+
+      %{
+        type => item
+        target => selection
+        text => Reload
+        tooltip => Reload the contents of this file
+        action => ext-editors-live-file-reload
+        icon => /res/icons/16x16/actions/view-refresh.png
+      }
+
+      %{
+        type => item
+        target => selection
+        text => Close
+        tooltip => Close the file
+        action => ext-editors-live-file-close
+        icon => /res/icons/16x16/actions/document-close.png
+      }
+
+    }
+  }
+
+  %{
+    type => category
+    target => selection
+    heading => View
+    items => @{
+
+      %{
+        type => item
+        target => selection
+        text => View normally
+        tooltip => Open this document in a new tab (outside of this editor)
+        action => ext-editors-live-file-goto
+        icon => /res/icons/16x16/actions/window-new.png
+      }
+
+      %{
+        type => item
+        target => selection
+        text => View source...
+        tooltip => View the compiled HTML source of the document
+        action => ext-editors-live-file-view-source
+        icon => /res/icons/16x16/mimetypes/text-html.png
+      }
+
+    }
+  }
+
+  %{
+    type => category
+    target => selection
+    heading => Tools
+    items => @{
+
+      %{
+        type => item
+        target => selection
+        text => Email this document...
+        tooltip => Send this document as an HTML-email
+        action => ext-editors-live-file-mail
+        icon => /res/icons/16x16/apps/internet-mail.png
+      }
+
+    }
+  }
+
+#{
+  %{
+    heading => Options
+    buttons => @{
+      %{
+        type => html
+        html => <select></select>
+      }
+    }
+  }
+#}
+
+}

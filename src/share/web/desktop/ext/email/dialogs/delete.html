@@ -1,0 +1,29 @@
+[#:into ./base.html]
+
+<div id="msg[#UID]">
+  Are you sure you want to delete:
+  <blockquote id="[#UID]_email"></blockquote>
+</div>
+
+[#:css]
+#msg[#UID] {margin:0 .5em 2em .5em; width: 30em;}
+#msg[#UID] blockquote {margin:1em;font-weight:bold;color:red;}
+[#:end css]
+
+[#:js event='dialog, load']
+js.dom.addEventListener('btn_[#UID]_ok', 'click', function () {
+  var params = {
+    type: 'delete_' + dlg[#UID].params.type,
+    email: dlg[#UID].params.email
+  };
+  doMailCommand(params);
+});
+[#:end js]
+
+[#:js event='dialog, ready']
+  js.dom.getElement('[#UID]_email').innerHTML = dlg[#UID].params.email;
+[#:end js]
+
+__DATA__
+
+title => Delete Email Address

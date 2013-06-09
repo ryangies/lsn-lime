@@ -1,0 +1,14 @@
+[#:use /ext/share/data/colors.hf]
+
+/**
+ * Fix for ACE.
+ */
+#ext-editors-text-area {
+  margin:0;
+}
+/**
+ * Bottom scrollbar overlaps content when inside an overflow:auto div.
+ */
+.CodeMirror.layout1-area4 {
+  overflow:hidden;
+}

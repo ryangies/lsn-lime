@@ -1,0 +1,62 @@
+[#:into /ext/share/layouts/layout.ht]
+[#/ext/share/contrib/codemirror/include.ht]
+
+[#:js event='document,load']
+
+  var form = new js.ext.share.input.Form();
+  form.loadSchema([#:json ./test1.schema]);
+  var fields = form.getFields();
+  var rows = [];
+  for (var i = 0, field; field = fields[i]; i++) {
+    rows = rows.concat(js.dom.createElements('TR', [
+      'TH=' + field.data.label,
+      'TD', field.input.getElements(),
+      'TD#' + field.data.name
+    ]));
+    field.input.write();
+  }
+  js.dom.appendChildren('form-area', rows);
+
+  js.dom.addActionListener('my-serialize', function (action, elem) {
+    var fields = form.getFields();
+    for (var i = 0, field; field = fields[i]; i++) {
+      js.dom.replaceChildren(field.data.name, js.dom.createElements('#text', {
+        'nodeValue': field.input.serialize()
+      }));
+    }
+  });
+
+[#:end js]
+
+<div class="layout-body oa">
+  <h1>Sample Form</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Label</th>
+        <th>Input</th>
+        <th><button type="button" value="action:my-serialize">Serialize</button></th>
+      </tr>
+    </thead>
+    <tbody id="form-area"></tbody>
+  </table>
+</div>
+
+[#:css]
+
+  table {
+    border-collapse:collapse;
+  }
+  table tbody#form-area td {
+    border:1px solid black;
+  }
+
+  .CodeMirror {
+    border: 1px solid gray;
+  }
+
+  .CodeMirror .cm-tab {
+    border-bottom:1px dotted orange;
+  }
+
+[#:end css]

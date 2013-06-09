@@ -1,0 +1,99 @@
+[#:use /desktop/share/colors.hf]
+h3 {
+  color:[#blue1];
+  margin:.4em 0;
+}
+button {
+  padding:3px 5px;
+  color:[#blue1];
+}
+button * {
+  vertical-align:text-bottom;
+}
+.action {
+  cursor:pointer;
+}
+.hidden {
+  display:none;
+}
+div.gapA, div.gapB, div.gapC {
+  background:[#blue2];
+}
+ol#listView {
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+ol#listView li {
+  margin:0;
+  padding:4px 2px;
+  background-color:[#white];
+  border-bottom:1px solid [#gray2];
+}
+ol#listView li:hover {
+  background-color:[#gray4];
+}
+ol#listView li.sel {
+  background-color:[#gray3];
+  color:[#blue1];
+}
+ol#listView li a {
+  display:block;
+}
+div.listViewArea,
+div.editViewArea {
+  overflow:auto;
+}
+div.editArea {
+  background:[#gray3];
+}
+div#editMenu {
+  background:[#gray2];
+  border-bottom:1px solid [#gray1];
+  color:[#white];
+}
+div#editMenu,
+div#editView {
+  padding:5px;
+}
+div#editView dl {
+  margin:0 1em;
+}
+div#editView dt {
+  font-weight:bold;
+  font-size:1.1em;
+}
+div#editView dd {
+  margin-top:.5em;
+  margin-bottom:1em;
+  margin-left:.5em;
+}
+div#editView input#editName,
+div#editView input#editFile {
+  width:300px;
+}
+div#editView textarea,
+div#editView input[type="text"] {
+  padding:.25em;
+}
+div#editView #field {
+  clear:left;
+  padding-top:5px;
+  padding-bottom:15px;
+}
+div#editView #field.first {
+}
+div#editView #label {
+  color:[#black];
+  float:left;
+}
+div#editView #label label {
+  font-weight:bold;
+  margin-left:1em;
+}
+div#editView P.description {
+  margin:.5em;
+  color:[#gray1];
+}
+div#editView #input {
+}

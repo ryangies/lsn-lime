@@ -1,0 +1,46 @@
+[#:js]
+
+  var input = null;
+
+  function onDialogShow (action, context) {
+    var type = context.marker.getOption('input');
+    var inputsArea = this.getElementById('inputs');
+    var value = js.dom.getValue(context.marker.elem);
+    var params = context.marker.getOptions();
+    context.input = input = js.ext.share.input.factory.createObject(type, params);
+    input.deserialize(value);
+    js.dom.replaceChildren(inputsArea, input.getElements());
+  }
+
+  function onDialogReady (action) {
+    input.select();
+    input.focus();
+  }
+
+  function onDialogHide (action) {
+    var inputsArea = this.getElementById('inputs');
+    js.dom.removeChildren(inputsArea);
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.DialogForm, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.addActionListener('onDialogShow', onDialogShow, this);
+    this.addActionListener('onDialogReady', onDialogReady, this);
+    this.addActionListener('onDialogHide', onDialogHide, this);
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="ok">OK</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-editors-live-input
+_title => Edit
+_icon => /res/icons/16x16/emblems/footnote-edit.png

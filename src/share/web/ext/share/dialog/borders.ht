@@ -1,0 +1,16 @@
+[#:use /ext/share/data/colors.hf]
+[#:use /res/css/snippets.hf]
+[#:css]
+#[#UID2] {}
+#[#UID2] {
+  position:relative;
+  border:1px solid [#gray50];
+  border-radius:3px;
+  [#box-shadow blur='8px', color => gray80]
+  [#linear-gradient color0 => white, color1 => gray98]
+}
+[#:end css]
+<div id="[#UID2]">
+  [#CONTENT]
+</div>
+<!--[if lte IE 6.5]><iframe width="0" height="0" src="about:blank"></iframe><![endif]-->

@@ -1,0 +1,40 @@
+[#:into /res/layouts/xhtml]
+[#:js src=`/res/js/livesite.js`]
+[#:js src=`/res/js/hub.js`]
+[#:js src=`/res/js/app.js`]
+[#:js src=`./inc/editor.js`]
+
+[#:js]
+  app = new js.lsn.ext.wireframe.app.Editor();
+  layout = new js.lsn.layout.ViewportLayout();
+  layout.addRow('menuBar', 40);
+  layout.addRow('toolBar', 60);
+  layout.addRow('mainArea');
+  layout.addRow('statusBar', 40);
+
+  var mainArea = layout.getArea('mainArea');
+  mainArea.addColumn('treeView', 200);
+  mainArea.addColumn('workArea');
+  mainArea.addColumn('liveView');
+
+  var workArea = layout.getArea('workArea');
+  workArea.addRow('editView');
+[#:end js]
+
+<div class="menuBar">[#./inc/file.ht]</div>
+<div class="toolBar">[#./inc/insert.ht]</div>
+<div class="treeView">[#./inc/tree.ht]</div>
+<div class="editView">[#./inc/edit.ht]</div>
+[#./inc/code-view.ht]
+<div class="liveView">[#./inc/preview.ht]</div>
+<div class="statusBar">[#./inc/xpath.ht]</div>
+
+[#:use /desktop/share/colors.hf]
+[#:css]
+.menuBar {background-color:[#gray3];}
+.toolBar {background-color:[#gray2];}
+.treeView {background-color:[#gray3];}
+.editView {background-color:[#gray3];}
+.liveView {background-color:[#gray1];}
+.statusBar {background-color:[#gray3];}
+[#:end css]

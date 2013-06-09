@@ -1,0 +1,49 @@
+[#:use /res/palettes/lsn.hf]
+html body {font-family:sans-serif;font-size:10pt;color:[#gray1]}
+h1 {margin-bottom:0;}
+a {color:[#gray1];}
+a:hover {color:[#black];}
+a.sel, a.sel:hover {color:[#gray1];}
+
+div#statusArea,
+div#settingsArea {margin:1em 0;padding:1em;border:1px solid [#gray2];}
+
+div#settingsArea td {text-align:left;}
+div#settingsArea th {text-align:left;font-weight:normal;}
+div#settingsArea th h4 {color:[#brown1];font-weight:bold;margin:0;}
+div#settingsArea input.text,
+div#settingsArea input.password,
+div#settingsArea textarea {width:350px;padding:3px;}
+
+div#helpText,
+div#settingsArea {display:none;}
+
+div#outputArea {position:relative;}
+div#outputArea pre {margin:0;padding:0 .2em;}
+div#outputArea pre.status {background-color:[#green1];color:white;margin:.2em 0;padding:.2em;}
+div#outputArea pre.error {background-color:[#red1];color:white;font-weight:bold;}
+div#outputArea pre.result {color:[#gray1];}
+[#:for (syn) in "./syntax.hf/diff"]
+div#outputArea pre.result.[#syn/name] {[#syn/style]}
+[#:end for]
+
+div#statusArea table { margin-bottom:10px; border-collapse:collapse;}
+div#statusArea tbody tr * { color:[#gray2]; }
+div#statusArea tbody tr.checked * { color:[#black]; }
+div#statusArea th,
+div#statusArea td { text-align:left; padding:5px; }
+div#statusArea a.action { color:[#blue1] !important; }
+div#statusArea a.action:hover { color:[#orange1] !important;text-decoration:underline !important; }
+
+div#statusArea div.error { color:[#red1]; padding:5px;margin:5px 0;border:1px solid [#red1];
+  background-color:[#gray3];
+}
+
+div#statusArea tr.checked.add * {color:[#green1] !important;}
+div#statusArea tr.checked.remove * {color:[#red1] !important;}
+div#statusArea tr.checked.commit * {color:[#blue1] !important;}
+div#statusArea tr.checked.replace * {color:[#orange1] !important;}
+div#statusArea tr.checked.skip * {color:[#gray2] !important;}
+div#statusArea tr.checked.revert * {color:[#red1] !important;}
+div#statusArea tr.checked.ignore * {color:[#gray2] !important;}
+div#statusArea tr.checked.destroy * {color:[#red1] !important;}

@@ -1,0 +1,80 @@
+[#:use /ext/share/data/colors.hf]
+[#:use /res/css/snippets.hf]
+[#:use ./build.hf]
+
+#[#screen/id]-screen .editors-area > div {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  padding-bottom:20px;
+}
+
+#[#screen/id]-area4 #[#screen/id]-editor {
+  position:absolute;
+  top:0;
+  left:0;
+}
+
+#[#screen/id]-editor table.tree-list-view {
+  width:100%;
+}
+#[#screen/id]-editor table.tree-list-view.empty {
+  visibility:hidden;
+  display:none;
+}
+#[#screen/id]-editor table.tree-list-view tbody tr {
+  [#linear-gradient color1 => gray99, color0 => gray95]
+}
+#[#screen/id]-editor table.tree-list-view tbody tr.selected {
+  [#linear-gradient color1 => orange2, color0 => orange3]
+}
+#[#screen/id]-editor table.tree-list-view th.icon {
+  width:16px;
+}
+#[#screen/id]-editor table.tree-list-view th,
+#[#screen/id]-editor table.tree-list-view td {
+  border-right:1px solid [#gray95];
+  text-align:left;
+  vertical-align:top;
+  padding:5px;
+}
+#[#screen/id]-editor table.tree-list-view td {
+  padding:5px;
+}
+#[#screen/id]-editor table.tree-list-view td input.text,
+#[#screen/id]-editor table.tree-list-view td textarea {
+  width:100%;
+}
+
+/** 
+ *  Custom styles for shared tree-view widgets.
+ *  See /ext/share/css/ui/tree-views.css
+ */
+
+div.[#screen/id]-crumb-view {
+}
+
+table.[#screen/id]-tree-list-view {
+}
+
+div.[#screen/id]-tree-view {
+}
+
+div.[#screen/id]-select-view {
+  padding-bottom:16px;
+}
+
+
+/** 
+ *  Custom styles for shared panel-menu widgets.
+ *  See /ext/share/css/ui/panel-menu.css
+ */
+
+#[#screen/id]-area3 dl.panel-menu dt,
+#[#screen/id]-area3 dl.panel-menu dd,
+#[#screen/id]-area3 dl.panel-menu ol,
+#[#screen/id]-area3 dl.panel-menu li,
+#[#screen/id]-area3 dl.panel-menu dd {
+  float:left;
+}

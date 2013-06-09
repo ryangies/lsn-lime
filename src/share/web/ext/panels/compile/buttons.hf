@@ -1,0 +1,27 @@
+# HashFile 2.1
+settings => @{
+  %{
+    text => Save Settings
+    action => set_config
+  }
+}
+simple => @{
+  %{
+    text => Compile
+    action => compile
+  }
+}
+advanced => @{
+  %{
+    text => Query Local (query)
+    action => query_local
+  }
+  %{
+    text => Compile (clean, query, compile)
+    action => compile
+  }
+  %{
+    text => Rsync (rsync)
+    action => rsync
+  }
+}

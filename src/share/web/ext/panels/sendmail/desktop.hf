@@ -1,0 +1,7 @@
+# HashFile 2.1
+category => domain
+title => Sendmail
+name => Sendmail
+desc => Manage settings for sending email
+icon => /res/icons/16x16/apps/internet-mail.png
+canClose => true

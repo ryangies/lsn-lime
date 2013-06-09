@@ -1,0 +1,9 @@
+# HashFile 2.1
+category => advanced
+name => Web-server Log
+title => Web-server Log
+desc => View the web-server log.
+icon => /res/icons/16x16/status/dialog-warning.png
+side => right
+canClose => true
+loadInBackground => false

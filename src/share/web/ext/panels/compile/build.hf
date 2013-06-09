@@ -1,0 +1,5 @@
+# HashFile 2.1
+target => local.js
+files => @{
+  js/*.js
+}

@@ -1,0 +1,225 @@
+# HashFile 2.1
+# 
+# Just the field inputs
+#
+
+# %{
+#   type => text
+#   name => test-yesno
+#   label => Yes/No
+#   value => 
+#   description => Help text describing the meaning of this field.
+#   example => An example value
+#   input => %{
+#     max-length => 64
+#   }
+# }
+
+fields => @{
+
+  %{
+    type => text
+    name => test-text
+    label => Text
+    input => %{
+#     max-length => 64
+    }
+  }
+
+  %{
+    type => yesno
+    name => test-yesno
+    label => Yes/No
+  }
+
+  %{
+    type => onoff
+    name => test-onoff
+    label => On/Off
+  }
+
+  %{
+    type => bool
+    name => test-bool
+    label => True/False
+  }
+
+  %{
+    type => checkbox
+    name => test-checkbox
+    label => Checkbox
+  }
+
+  %{
+    type => date
+    name => test-date
+    label => Date
+  }
+
+  %{
+    type => datetime
+    name => test-datetime
+    label => Datetime
+  }
+
+  %{
+    type => decimal
+    name => test-decimal
+    label => Decimal
+  }
+
+  %{
+    type => currency
+    name => test-currency
+    label => Currency
+  }
+
+  %{
+    type => hidden
+    name => test-hidden
+    label => Hidden
+  }
+
+  %{
+    type => integer
+    name => test-integer
+    label => Integer
+  }
+
+  %{
+    type => percent
+    name => test-percent
+    label => Percent
+  }
+
+  %{
+    type => password
+    name => test-password
+    label => Password
+  }
+
+  %{
+    type => select
+    name => test-select1
+    label => Select (option format 1)
+    input => %{
+      options => @{
+        %{
+          value => a
+          text => Alpha
+        }
+        %{
+          value => b
+          text => Bravo
+        }
+        %{
+          value => c
+          text => Charlie
+        }
+      }
+    }
+  }
+
+  %{
+    type => select
+    name => test-select2
+    label => Select (option format 2)
+    input => %{
+      options => @{
+        Alpha
+        Bravo
+        Charlie
+      }
+    }
+  }
+
+  %{
+    type => select
+    name => test-select3
+    label => Select (option format 3)
+    input => %{
+      options => %{
+        a => Alpha
+        b => Bravo
+        c => Charlie
+      }
+    }
+  }
+
+  %{
+    type => select
+    name => test-select4
+    label => Select (options by reference)
+    input => %{
+      options => /res/data/states.hf/map
+    }
+  }
+
+  %{
+    type => select-from
+    name => test-select-from
+    label => Select from
+    input => %{
+      options => /ext/share/test/schema/select-from.hf/fruits
+    }
+  }
+
+  %{
+    type => select-from
+    name => test-select-from2
+    label => Select from 2
+    input => %{
+      dataSource => /ext/share/test/select-from.hf
+    }
+  }
+
+  %{
+    type => textarea
+    name => test-textarea
+    label => Textarea
+  }
+
+  %{
+    type => code
+    name => test-code
+    label => CodeMirror
+    input => %{
+      mode => javascript
+      theme => cobalt
+#     extraKeys => %{
+#       Tab => indentMore
+#       Shift-Tab => indentLess
+#     }
+#     indentUnit => 2
+#     indentWithTabs => false
+#     smartIndent => true
+#     tabSize => 4
+#     keyMap => default
+#     lineWrapping => false
+#     lineNumbers => false
+#     gutter => false
+#     fixedGutter => false
+#     firstLineNumber => 1
+#     readOnly => false
+#     matchBrackets => false
+#     undoDepth => 40
+#     tabindex => null
+    }
+  }
+
+  %{
+    type => image-list
+    name => test-image-list
+    label => Image List
+    input => %{
+      dataSource => /images
+    }
+  }
+
+  %{
+    type => latlng
+    name => test-latlng
+    label => Latitude/Longitude
+  }
+
+}

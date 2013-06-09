@@ -1,0 +1,7 @@
+# HashFile 2.1
+category => domain
+name => User Accounts
+title => User accounts
+desc => Manage website users and administrators.
+icon => /res/icons/16x16/apps/system-users.png
+canClose => true

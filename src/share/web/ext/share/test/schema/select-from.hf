@@ -1,0 +1,12 @@
+# HashFile 2.1
+fruits => @{
+  %{
+    name => Apple
+  }
+  %{
+    name => Banana
+  }
+  %{
+    name => Cherry
+  }
+}

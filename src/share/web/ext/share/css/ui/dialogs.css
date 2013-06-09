@@ -1,0 +1,39 @@
+[#:use /ext/share/data/colors.hf]
+[#:use /res/css/snippets.hf]
+#dialog-contents {
+  min-width:300px;
+}
+#dialog-contents dl.form {
+  margin:0;
+}
+#dialog-contents dl.form dt.form-field {
+}
+#dialog-contents dl.form dd.form-field {
+  margin:0 .5em .5em;
+}
+#dialog-contents dl.form dd.form-field input.text {
+  width:280px;
+}
+#dialog-buttons {
+  clear:both;
+  text-align:right;
+  margin-top:10px;
+}
+#dialog-contents div.input {
+}
+#dialog-contents p.description {
+  font-size:smaller;
+  font-style:italic;
+  color:[#gray30];
+  margin:0;
+}
+
+.overlay-area {
+  border:1px solid [#gray50];
+  border-radius:3px;
+  [#box-shadow blur='8px', color => gray80]
+  [#linear-gradient color0 => white, color1 => gray98]
+}
+.overlay-mask {
+  background:[#gray80] !important;
+}

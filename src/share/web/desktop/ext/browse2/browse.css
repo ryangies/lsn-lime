@@ -1,0 +1,27 @@
+[#:use /desktop/share/colors.hf]
+a {cursor:pointer;}
+html, body {background-color:[#white];}
+html, body {overflow:hidden;width:100%;height:100%;}
+div.na {filter: alpha(opacity=55); -moz-opacity: .55; opacity: .55;}
+div.na a {cursor:default;text-decoration:none;font-style:italic;}
+
+#workspace {position:relative;border:none;padding:0;}
+
+#tree {overflow:auto;border:none;position:relative;left:0;}
+#tree {padding:0;}
+
+#hsplit {position:absolute;top:0;}
+#hsplit {background:url("/res/tabset/images/hsep.png");repeat-y;font-size:0pt;
+  cursor:e-resize;}
+
+#editarea {position:relative;left:0;margin:0;padding:0;;overflow:hidden;}
+#editarea {background:[#gray3];}
+
+div.hidden {visibility:hidden;}
+
+table.hublist td.detail0 {font-size:small;color:[#blue1];font-family:monospace;
+  padding-right:1em;text-align:right;}
+table.hublist td.detail1 {font-size:small;color:[#green1];font-family:monospace;
+  padding-right:1em;}
+table.hublist td.detail2 {font-size:small;color:[#gray1];font-family:monospace;
+  padding-right:1em;}

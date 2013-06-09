@@ -1,0 +1,21 @@
+This is a refactor of of the code in ../filesystem because
+we want a more abstract sense of things (not just the filesystem).
+
+However, we still will design to the data members being js.hubb
+built objects.
+
+A bigger refactor is to bring js.hubb over here.
+
+Why, because we would like:
+
+  a) to build hub objects which are not contiguous (such as a
+     query or module result)
+
+  b) to build hub objects from json (rather than a req/resp)
+
+All that being said, maybe it is a better idea to put this code
+into js.hubb.
+
+The kicker is this Schema and SchemaLoader stuff. Brought in
+from the collections project. I imagine it would be nice if the
+hub objects themselves had a getSchema method.

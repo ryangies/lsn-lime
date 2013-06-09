@@ -1,0 +1,10 @@
+# HashFile 2.1
+category => site
+title => Deploy
+name => Deploy
+desc => Deploy changes using RSYNC
+icon => /res/icons/16x16/status/network-transmit.png
+side => right
+canClose => true
+loadInBackground => false
+config => /web/admin/config/deploy-rsync.hf

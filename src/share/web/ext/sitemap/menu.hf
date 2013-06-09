@@ -1,0 +1,90 @@
+# HashFile 2.1
+#icon => /res/icons/16x16/actions/edit-copy.png
+#icon => /res/icons/16x16/actions/edit-move.png
+
+items => @{
+
+  %{
+    target => cwd
+    type => category
+    heading => Current category
+    items => @{
+
+      %{
+        type => item
+        text => New webpage&hellip;
+        tooltip => Create a new webpage
+        action => ext-sitemap-show-new-webpage
+        icon => /res/icons/16x16/sitemap/webpage.png
+      }
+
+      %{
+        type => item
+        text => New category&hellip;
+        tooltip => Create a new category
+        action => ext-sitemap-show-new-category
+        icon => /res/icons/16x16/sitemap/category.png
+      }
+
+      %{
+        type => item
+        text => Add entry&hellip;
+        tooltip => Create a new entry from an existing resource
+        action => ext-sitemap-show-new-sitemap-entry
+        icon => /res/icons/16x16/sitemap/webpage.png
+      }
+
+    }
+  }
+
+  %{
+    target => selection
+    type => category
+    heading => Selected item
+    items => @{
+
+      %{
+        type => item
+        text => Move up
+        tooltip => Change the order in which this item appears
+        action => ext-sitemap-move-up
+        icon => /res/icons/16x16/actions/arrowUp.png
+      }
+
+      %{
+        type => item
+        text => Move down
+        tooltip => Change the order in which this item appears
+        action => ext-sitemap-move-down
+        icon => /res/icons/16x16/actions/arrowDown.png
+      }
+
+      %{
+        type => item
+        text => Properties&hellip;
+        tooltip => View and update properties of this sitemap item
+        action => ext-sitemap-edit-properties
+        icon => /res/icons/16x16/di/settings.png
+      }
+
+      %{
+        target => selection
+        type => webpage-action
+        text => Edit live
+        tooltip => Open in the live webpage editor
+        action => ext-sitemap-edit-live
+        icon => /res/icons/16x16/apps/ext-editors-live.png
+      }
+
+      %{
+        type => item
+        text => Remove&hellip;
+        tooltip => Remove the selected item
+        action => ext-sitemap-show-remove
+        icon => /res/icons/16x16/actions/edit-delete2.png
+      }
+
+    }
+  }
+
+}

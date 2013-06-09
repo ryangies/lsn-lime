@@ -1,0 +1,8 @@
+# HashFile 2.1
+unavailable => 1
+category => desktop
+name => Preferences
+title => Preferences
+desc => User preferences for the Desktop.
+icon => /res/icons/16x16/emotes/face-cool.png
+canClose => true

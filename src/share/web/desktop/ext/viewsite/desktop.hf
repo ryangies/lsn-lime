@@ -1,0 +1,8 @@
+# HashFile 2.1
+category => site
+multitab => 1
+name => Website
+title => View Website
+desc => View your website
+icon => /res/icons/16x16/apps/internet-web-browser.png
+canClose => true

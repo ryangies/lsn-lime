@@ -1,0 +1,67 @@
+[#:js]
+
+  function onDialogLoad (action) {
+    // Clear the list of skeletons (from last time)
+    var select = this.form.getInput('skeleton').elem;
+    js.dom.removeChildren(select);
+  }
+
+  function onDialogShow (action, params) {
+    // Populate the list of skeletons
+    var addr = params.addr;
+    params.dnode = env.hub.fetch(addr, [function (dnode) {
+      if (!dnode) return;
+      var addr = dnode.getAddress();
+      var select = this.form.getInput('skeleton').elem;
+      var options = [];
+      var keys = dnode.keys();
+      var isArray = js.util.isa(dnode, js.data.Array);
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        var label = key;
+        if (isArray) {
+          var item = dnode.getValue(key);
+          label = item.getValue(item.keys()[0])
+        }
+        options.push(js.dom.createElement('OPTION', {
+          'value': js.data.addr_join(addr, key),
+          'innerHTML': label
+        }));
+      }
+      js.dom.replaceChildren(select, options);
+    }, this]);
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.DialogForm, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.form.loadSchema([#:json schema]);
+    this.form.attachUI(this.getElementById('inputs'));
+    this.addActionListener('onDialogLoad', onDialogLoad, this);
+    this.addActionListener('onDialogShow', onDialogShow, this);
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="ok">Create</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-editors-live-select-skeleton
+_title => Select the block type
+_icon => /res/icons/16x16/status/checkmark.png
+schema => %{
+  fields => @{
+    %{
+      type => select
+      name => skeleton
+      label => Block type
+      description => Create a new instance of this block type.
+    }
+  }
+}

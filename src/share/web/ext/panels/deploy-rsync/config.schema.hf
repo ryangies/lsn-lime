@@ -1,0 +1,18 @@
+# HashFile 2.1
+fields => @{
+  %{
+    type => text
+    name => src
+    label => Source
+  }
+  %{
+    type => text
+    name => dest
+    label => Destination
+  }
+  %{
+    type => textarea
+    name => excludes
+    label => Excludes
+  }
+}

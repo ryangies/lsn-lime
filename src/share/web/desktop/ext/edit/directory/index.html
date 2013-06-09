@@ -1,0 +1,41 @@
+<div id="editor[#UID]">
+  <div style="width:150px;">
+  [#/desktop/share/valist.html _list=cmds]
+  </div>
+</div>
+
+[#:js]
+var w[#UID];
+function showDialog[#UID](name) {
+  new js.lsn.Dialog('/res/lsn/dlg/'+name+'.html').show(w[#UID].params);
+}
+[#:end js]
+
+[#:js event='widget, ready']
+w[#UID] = this;
+[#:end js]
+
+__DATA__
+
+cmds => @{
+  %{
+    js => showDialog[#UID]('newdir');
+    icon => /res/icons/16x16/actions/folder-new.png
+    desc.txt => New folder
+  }
+  %{
+    js => showDialog[#UID]('newfile');
+    icon => /res/icons/16x16/actions/document-new.png
+    desc.txt => New text file
+  }
+  %{
+    js => showDialog[#UID]('upload');
+    icon => /res/icons/16x16/status/mail-attachment.png
+    desc.txt => Upload a file
+  }
+  %{
+    js => showDialog[#UID]('download');
+    icon => /res/icons/16x16/apps/internet-web-browser.png
+    desc.txt => Fetch a file
+  }
+}

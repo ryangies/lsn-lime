@@ -1,0 +1,11 @@
+# HashFile 2.1
+copyright => Livesite (c) Livesite Networks, LLC.
+target => ../local.js
+name => Editor for text files
+version => .001
+files => @{
+  Editor.js
+  ui/Tab.js
+  Screen.js
+  handlers.js
+}

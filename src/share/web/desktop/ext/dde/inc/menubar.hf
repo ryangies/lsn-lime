@@ -1,0 +1,397 @@
+# HashFile 2.1
+
+none => %{
+  buttons => @{
+  }
+}
+
+empty => %{
+  buttons => @{
+    %{
+      text => Finish
+      alt => Finish editing
+      icon => images/icons/okBack.png
+      class => nobg
+      cmd => stopEditing
+    }
+  }
+}
+
+main => %{
+  buttons => @{
+
+    %{
+      text => Save
+      alt => Save the current document
+      icon => images/icons/save.png
+      class => nobg
+      cmd => docSave
+    }
+
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    %{
+      text => Refresh
+      alt => Refresh the current document (ctrl+r)
+      icon => /res/icons/16x16/actions/view-refresh.png
+      cmd => docRefresh
+    }
+
+#{
+    %{
+      text => Open
+      alt => Open a document
+      icon => /res/icons/16x16/actions/document-open.png
+      cmd => docOpen
+    }
+#}
+
+    %{
+      text => View
+      alt => Open a browser window to this document
+      icon => /res/icons/16x16/actions/window-new.png
+      cmd => docGoto
+    }
+
+    %{
+      text => Email
+      alt => Send this document as an HTML Email
+      icon => /res/icons/16x16/apps/internet-mail.png
+      cmd => docMail
+    }
+
+    %{
+      text => Source
+      alt => View source
+      icon => /res/icons/16x16/mimetypes/text-html.png
+      cmd => docViewSource
+    }
+
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    %{
+      elem => currdoc
+    }
+
+  }
+}
+
+text => %{
+  buttons => @{
+
+    %{
+      text => Finish
+      alt => Finish editing
+      icon => images/icons/okBack.png
+      class => nobg
+      cmd => stopEditing
+    }
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    # Character
+
+    %{
+      text => Bold
+      alt => Bold (ctrl+b)
+      icon => images/icons/bold.png
+      target => editor
+      cmd => bold
+      state => B
+    }
+
+    %{
+      text => Italic
+      alt => Italic (ctrl+i)
+      icon => images/icons/italic.png
+      target => editor
+      cmd => italic
+      state => I
+    }
+
+    %{
+      text => Underline
+      alt => Underline (ctrl+u)
+      icon => images/icons/underline.png
+      target => editor
+      cmd => underline
+      state => U
+    }
+
+    %{
+      text => Color
+      alt => Color
+      icon => images/icons/color.png
+      target => editor
+      cmd => foreColor
+    }
+
+    %{
+      text => Link
+      alt => Link (ctrl+l)
+      icon => images/icons/link.png
+      target => editor
+      cmd => createLink
+    }
+
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    # Font sizes
+
+    %{
+      text => Big
+      alt => Bigger font size
+      icon => images/icons/big.png
+      target => editor
+      cmd => increaseFontSize
+    }
+
+    %{
+      text => Small
+      alt => Smaller font size
+      icon => images/icons/small.png
+      target => editor
+      cmd => decreaseFontSize
+    }
+
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    # Justification
+
+    %{
+      text => Left
+      alt => Justify Left
+      icon => images/icons/justifyLeft.png
+      target => editor
+      cmd => justifyLeft
+    }
+
+    %{
+      text => Center
+      alt => Justify Cetner
+      icon => images/icons/justifyCenter.png
+      target => editor
+      cmd => justifyCenter
+    }
+
+    %{
+      text => Right
+      alt => Justify Right
+      icon => images/icons/justifyRight.png
+      target => editor
+      cmd => justifyRight
+    }
+
+    %{
+      text => Full
+      alt => Justify Full
+      icon => images/icons/justifyFull.png
+      target => editor
+      cmd => justifyFull
+    }
+
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    %{
+      text => Ordered
+      alt => Ordered list
+      icon => images/icons/insertOrderedList.png
+      target => editor
+      cmd => insertOrderedList
+      #cmd => insert:ol(li(br))
+    }
+
+    %{
+      text => Unordered
+      alt => Unordered list
+      icon => images/icons/insertUnorderedList.png
+      target => editor
+      cmd => insertUnorderedList
+      #cmd => insert:ul(li(br))
+    }
+
+    %{
+      text => Indent
+      alt => Increase indent
+      icon => images/icons/indent.png
+      target => editor
+      cmd => indent
+    }
+
+    %{
+      text => Outdent
+      alt => Decrease indent
+      icon => images/icons/outdent.png
+      target => editor
+      cmd => outdent
+    }
+
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    # Paragraph
+
+    %{
+      text => Paragraph
+      alt => Paragraph (ctrl+0)
+      icon => images/icons/p.png
+      target => editor
+      cmd => setParagraphType:p
+    }
+
+    %{
+      text => Heading 1
+      alt => Heading 1 (ctrl+1)
+      icon => images/icons/h1.png
+      target => editor
+      cmd => setParagraphType:h1
+    }
+
+    %{
+      text => Heading 2
+      alt => Heading 2 (ctrl+2)
+      icon => images/icons/h2.png
+      target => editor
+      cmd => setParagraphType:h2
+    }
+
+    %{
+      text => Heading 3
+      alt => Heading 3 (ctrl+3)
+      icon => images/icons/h3.png
+      target => editor
+      cmd => setParagraphType:h3
+    }
+
+    %{
+      text => Heading 4
+      alt => Heading 4 (ctrl+4)
+      icon => images/icons/h4.png
+      target => editor
+      cmd => setParagraphType:h4
+    }
+
+    %{
+      text => Image
+      alt => Insert image (ctrl+g)
+      icon => images/icons/insertImage.png
+      target => editor
+      cmd => insertImage
+    }
+
+    %{
+      text => Image link
+      alt => Insert linked image (ctrl+shift+g)
+      icon => images/icons/insertImageLink.png
+      target => editor
+      cmd => insertImageLink
+    }
+
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    %{
+      text => Scrub HTML
+      alt => Scrub HTML (ctrl+m)
+      icon => /res/icons/16x16/actions/edit-clear.png
+      target => editor
+      cmd => scrubHTML
+    }
+
+    %{
+      text => Replace text
+      alt => Replace text
+      icon => /res/icons/16x16/actions/edit-find-replace.png
+      target => editor
+      cmd => replaceText
+    }
+
+    %{
+      text => Edit HTML
+      alt => Edit HTML (ctrl+e)
+      icon => /res/icons/16x16/mimetypes/text-html.png
+      target => editor
+      cmd => editHTML
+    }
+
+  }
+}
+
+block => %{
+  buttons => @{
+
+    %{
+      text => Finish
+      alt => Finish editing
+      icon => images/icons/okBack.png
+      class => nobg
+      cmd => stopEditing
+    }
+
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    %{
+      text => Move up
+      alt => Move up
+      icon => images/icons/arrowUp.png
+      target => editor
+      cmd => moveUp
+    }
+
+    %{
+      text => Move down
+      alt => Move down
+      icon => images/icons/arrowDown.png
+      target => editor
+      cmd => moveDown
+    }
+
+    %{
+      icon => images/icons/hsep.png
+    }
+
+    %{
+      text => Insert before
+      alt => Insert a new block before this block
+      icon => images/icons/blockInsertBefore.png
+      target => editor
+      cmd => insertBefore
+    }
+
+    %{
+      text => Insert after
+      alt => Insert a new block after this block
+      icon => images/icons/blockInsertAfter.png
+      target => editor
+      cmd => insertAfter
+    }
+
+    %{
+      text => Remove
+      alt => Remove this block
+      icon => images/icons/blockRemove.png
+      target => editor
+      cmd => remove
+    }
+
+  }
+}

@@ -1,0 +1,33 @@
+# HashFile 2.1
+categories => %{
+  collections => Collections
+  custom => Custom Modules
+  site => Site Administration
+  domain => Domain Management
+  advanced => Advanced
+  help => Help
+  desktop => Desktop
+  experimental => Experimental
+}
+static => %{
+  desktop => @{
+    %{
+      uid => ext:settings
+      enabled => 1
+      src => /ext/settings/index.html
+#     src => /desktop/ext/settings/index.html
+      name => Settings
+      title => Settings
+      icon => /res/icons/16x16/categories/preferences-system.png
+      canClose => true
+    }
+#   Example which uses the 'action' value
+#   %{
+#     uid => desktop:signout
+#     enabled => 1
+#     action => parent.js.lsn.desktop.logout()
+#     title => Sign out
+#     icon => /res/icons/16x16/actions/system-log-out.png
+#   }
+  }
+}

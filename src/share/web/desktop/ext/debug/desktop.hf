@@ -1,0 +1,9 @@
+# HashFile 2.1
+category => advanced
+name => Debug
+title => Debugging Information
+desc => View server and environment variables.
+icon => /res/icons/16x16/emotes/face-glasses.png
+side => right
+canClose => true
+loadInBackground => false

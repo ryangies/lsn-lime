@@ -1,0 +1,12 @@
+# HashFile 2.1
+target => ./lib/package.js
+files => @{
+  lib/codemirror.js
+  addon/mode/overlay.js
+  addon/dialog/dialog.js
+  addon/search/searchcursor.js
+  addon/search/search.js
+  addon/search/match-highlighter.js
+  src/helper.js
+  src/InputCode.js
+}

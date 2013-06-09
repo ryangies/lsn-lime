@@ -1,0 +1,14 @@
+[#:into /ext/share/layouts/layout.ht]
+[#./screen.ht]
+
+[#:js event='document, load']
+  var loc = new js.http.Location();
+  var addr = loc.getParameters()['addr'];
+  if (addr) {
+    var db = env.hub;
+    db.fetch(addr, function (dnode) {
+      var screen = env.screens.get('/ext/editors/text/');
+      screen.load({'dnode':dnode});
+    });
+  }
+[#:end js]

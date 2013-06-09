@@ -1,0 +1,50 @@
+[#:into ../../share/standard.ht]
+[#:js src=`../../share/desktop.js`]
+[#:js src=`./local.js`]
+
+<h1>[#:ce heading]</h1>
+<div>[#:ce intro.txt]</div>
+
+[#:use ../../share/colors.hf]
+[#:css]
+  h3 {
+    font-weight:normal;
+  }
+  div#extlist {
+    padding:0 10px;
+  }
+  h2 {
+    padding:5px;
+    background-color:[#gray3];
+    border-top:2px solid [#gray2];
+  }
+  div#extlist div.btns {
+    text-align:right;
+    padding:5px;
+    background-color:[#gray3];
+    border-bottom:1px solid [#gray2];
+  }
+  div.mm_item {
+    margin:2px 20px;
+    padding:2px;
+    color:[#gray2];
+  }
+  div.enabled {
+    color:[#green1];
+  }
+  div.mm_item * {
+    margin-right:5px;
+  }
+  span.title {
+    font-weight:bold;
+  }
+[#:end css]
+
+[#:js event='document,load']
+  new js.lsn.ext.settings.Main();
+[#:end js]
+
+__DATA__
+# HashFile 2.1
+heading => Desktop Settings
+intro.txt => <p>These are the default settings for all Desktop users.</p>

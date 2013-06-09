@@ -1,0 +1,10 @@
+[#:for (name,file) in ./**/*.html]
+<a href="[#:finfo:addr file]">[#name]</a><br />
+[#:end for]
+[#:for (url) in urls]
+<a href="[#url]">[#url]</a><br />
+[#:end for]
+__DATA__
+urls => @{
+  /res/icons/16x16
+}

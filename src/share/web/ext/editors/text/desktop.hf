@@ -1,0 +1,5 @@
+# HashFile 2.1
+addr => /ext/editors/text/
+name => Text editor
+icon => /res/icons/16x16/apps/accessories-text-editor.png
+elem => ext-editors-text-screen

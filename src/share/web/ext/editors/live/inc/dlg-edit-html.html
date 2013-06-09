@@ -1,0 +1,125 @@
+[#/ext/share/contrib/codemirror/include.ht]
+[#/ext/share/contrib/js-beautify/include.ht]
+[#:js]
+
+  var _editorOptions = {
+    'mode': 'htmlmixed',
+    'lineWrapping': false
+  };
+
+  var _beautifyOptions = {
+    'indent_size': 2,
+    'indent_char': ' ',
+    'max_char': 100,
+    'brace_style': 'expand',
+    'unformatted': ['a', 'sub', 'sup', 'b', 'i', 'u']
+  };
+
+  var _input;
+  var _context;
+  var _keypress;
+
+  function onDialogLoad (action) {
+    // Create our keyboard handlers
+    _keypress = new js.dom.KeyPress();
+    _keypress.setHandler('ctrl+enter', onOk, this);
+    _keypress.setHandler('esc', this.hide, this);
+    // Create the input control
+    _input = js.ext.share.input.factory.createObject('code', _editorOptions);
+    js.dom.appendChildren(
+      this.getElementById('content'),
+      _input.getElements()
+    );
+    var editor = _input.getEditor();
+    js.dom.addClassName(editor.getWrapperElement(), 'overlay-content');
+    js.dom.addClassName(editor.getScrollerElement(), 'overlay-content-height');
+  }
+
+  function setValue (text) {
+    _input.deserialize(js.ext.share.contrib.beautifyHTML(text, _beautifyOptions));
+  }
+
+  function onDialogShow (action, params) {
+    _context = params;
+    setValue(_context.editor.getHTML());
+    _keypress.attach(js.window);
+  }
+
+  function onDialogReady (action) {
+    _input.focus();
+    _input.getEditor().refresh();
+  }
+
+  function onDialogHide (action) {
+    _keypress.detach(js.window);
+    _context.editor.focus();
+    _context = null;
+    _input.reset();
+  }
+
+  function onDecode (action) {
+    setValue(js.data.entities.decode(_input.serialize(), false));
+  }
+
+  function onScrub (action) {
+    js.console.log('onScrub');
+    var div = _context.js.dom.createElement('DIV', {
+      'innerHTML': _input.serialize()
+    });
+    var scrubber = new js.dom.Scrubber(_context.js);
+    scrubber.scrub(div);
+//  setValue(div.innerHTML);
+    _input.deserialize(div.innerHTML);
+  }
+
+  function onOk (action) {
+    _context.editor.setHTML(_input.serialize());
+    this.hide();
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.Overlay, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.addActionListener('onDialogLoad', onDialogLoad, this);
+    this.addActionListener('onDialogShow', onDialogShow, this);
+    this.addActionListener('onDialogReady', onDialogReady, this);
+    this.addActionListener('onDialogHide', onDialogHide, this);
+    this.addActionListener('onDecode', onDecode, this);
+    this.addActionListener('onScrub', onScrub, this);
+    this.addActionListener('onOk', onOk, this);
+  });
+
+[#:end js]
+[#:css]
+
+  #[#_content_id] #buttons {
+    position:absolute;
+    right:10px;
+    bottom:10px;
+  }
+
+[#:end css]
+
+[#:into /ext/share/dialog/layout-overlay.ht]
+  <div id="content"></div>
+  <div class="overlay-footer">
+    <div id="buttons">
+      <button type="button" name="action" value="scrub">Scrub</button>
+      <button type="button" name="action" value="decode">Convert UTF-8 to HTML entities</button>
+      <button type="button" name="action" value="ok">OK</button>
+    </div>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-editors-live-edit-html
+_title => Edit inner HTML
+_icon => /res/icons/16x16/mimetypes/text-html.png
+schema => %{
+  fields => @{
+    %{
+      type => code
+      name => innerHTML
+      label => HTML
+    }
+  }
+}

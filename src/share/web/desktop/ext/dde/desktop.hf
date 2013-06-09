@@ -1,0 +1,8 @@
+# HashFile 2.1
+category => site
+multitab => 1
+name => Editor
+title => Edit existing pages
+desc => Allows one to directly edit content while viewing the site.
+icon => /res/icons/16x16/apps/accessories-text-editor.png
+canClose => true

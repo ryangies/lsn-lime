@@ -1,0 +1,53 @@
+# HashFile 2.1
+
+# Minimum height for top section
+topmin => 100
+
+# Space around the tree and tree sidebar
+area-vpad => 2
+area-hpad => 4
+
+# Width of the tree sidebar
+sidebar-width => 0
+
+# Tree menu
+treetop-height => 30
+
+# Height of the horizontal resize bar
+resize-height => 5
+
+# Height of the editor's title area
+title-height => 48
+
+# Actions for all (but the root) list items
+action1 => @{
+  %{
+    js => js.local.cpsel(event)
+    icon => /res/icons/16x16/actions/edit-copy.png
+    desc.txt => Copy
+  }
+  %{
+    js => js.local.mvsel(event)
+    icon => /res/icons/16x16/actions/edit-move.png
+    desc.txt => Move
+  }
+  %{
+    js => js.local.rmsel(event)
+    icon => /res/icons/16x16/actions/edit-delete2.png
+    desc.txt => Delete
+  }
+  %{
+    type => space
+  }
+}
+
+# More actions (displayed in the top-right)
+action2 => @{
+#{
+  %{
+    js => js.local.intab(event)
+    icon => /res/icons/16x16/actions/tab-new.png
+    desc.txt => Open in tab
+  }
+#}
+}

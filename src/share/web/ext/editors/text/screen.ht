@@ -1,0 +1,39 @@
+[#/ext/share/contrib/codemirror/include.ht]
+[#:css src=`./local.css`]
+[#:js src=`./local.js`]
+[#:js]
+
+  var screen = new js.ext.editors.text.Screen([#:json ./desktop.hf]);
+  env.screens.add(screen);
+
+  var initiator = new js.ext.share.Initiator({
+    'text': 'Edit text',
+    'type': 'file-action',
+    'target': 'selection',
+    'tooltip': 'Open in text editor',
+    'action': 'edit-text-file',
+    'icon': '/res/icons/16x16/apps/accessories-text-editor.png',
+    'sortValue': 1,
+    'matchTypes': [/file-text/, /file-data-hash/, /file-multipart-/]
+  });
+
+  var handler = function (action, node) {
+    if (!node) return;
+    var addr = js.util.isAssociative(node) ? node.data.getAddress() : node;
+    env.hub.get(addr, function (dnode) {
+      if (!dnode) return;
+      var screen = env.screens.get('/ext/editors/text/');
+      env.screens.select(screen, {'dnode': dnode});
+    });
+  };
+
+  env.registerHandler('edit-text-file', handler, initiator);
+
+[#:end js]
+
+<div id="ext-editors-text-screen" class="screen-area screen-hidden">
+  [#/ext/share/var/bg-layout1.ht]
+  <div id="ext-editors-text-menu" class="layout1-area2"></div>
+  <div id="ext-editors-text-tabs" class="layout1-area3"></div>
+  [#/ext/share/contrib/js-beautify/include.ht]
+</div>

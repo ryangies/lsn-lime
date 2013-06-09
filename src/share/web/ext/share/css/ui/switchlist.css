@@ -1,0 +1,54 @@
+/** ext.share.ui.Switchlist */
+ol.switchlist {
+  background:[#gray30];
+  line-height:24px;
+  padding:0;
+}
+ol.switchlist li *,
+ol.switchlist a * {
+  vertical-align:text-bottom;
+}
+ol.switchlist a {
+  display:inline;
+  text-decoration:none;
+}
+ol.switchlist,
+ol.switchlist a,
+ol.switchlist a:visited {
+  color:[#gray60];
+}
+ol.switchlist a:hover {
+  background-color:[#gray40];
+}
+ol.switchlist {
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+ol.switchlist li {
+  float:left;
+  margin:0;
+  padding:0;
+}
+ol.switchlist a {
+  padding:0px 6px;
+  display:block;
+}
+ol.switchlist .cell {
+  display:block;
+  float:left;
+}
+ol.switchlist .icon {
+  padding-right:4px;
+}
+ol.switchlist a span {
+  padding:3px 0;
+}
+ol.switchlist a.sel {
+  background-image:url(/ext/share/images/var/menu_selected.png);
+  background-repeat:no-repeat;
+  background-position:center bottom;
+}
+ol.switchlist a.sel span.mark {
+  color:[#orange3];
+}

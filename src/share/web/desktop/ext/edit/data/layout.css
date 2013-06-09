@@ -1,0 +1,25 @@
+.lde, .lde div {position:relative;}
+.lde .lbl {padding:2px 0;}
+.lde .lbl {float:left;margin-right:4px;}
+.lde .wrap {padding-left:20px;margin:4px 0;}
+.lde .wrap {background:repeat-y url(/res/icons/16x16/nodes/mpe-bg.png);}
+.lde .wrap img.beg {position:absolute;left:0;top:0;}
+.lde .wrap img.end {position:absolute;left:0;bottom:0;}
+
+.lde .ctrl * {vertical-align:middle;}
+
+.lde .ctrl input,
+.lde .ctrl textarea {padding:2px;}
+
+.lde .ctrl textarea {margin-bottom:0;}
+
+.lde .ctrl div.rszta {
+  margin-top:0;
+  padding:0 2px;
+  height: 3px;
+  font-size: 0;
+  line-height: 0;
+  cursor: n-resize;
+}
+
+.lde .clear {clear:both;}

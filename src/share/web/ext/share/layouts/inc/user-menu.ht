@@ -1,0 +1,37 @@
+[#:js]
+
+  js.dom.addActionListener('user-show-properties', function (action) {
+    new js.lsn.Dialog('/res/user/user.dlg').show();
+  });
+
+  js.dom.addActionListener('user-logout', function (action) {
+    var loc = new js.http.Location();
+    js.document.location.href = '/res/login/logout.html?location=' + loc.getHref();
+  });
+
+[#:end js]
+
+<ol id="lsd-umenu">
+  <li>
+    <a id="lsd-dn" class="cell" href="[#/sys/server/uri]" target="_blank" title="[#tooltips/dn]">
+      <span class="cell">[#/sys/request/scheme]:[#/sys/server/uri]</span>
+    </a>
+  </li>
+  <li>
+    <a id="lsd-udlg" class="cell" href="#action:user-show-properties" title="[#tooltips/usermod]">
+      <span class="cell">[#/sys/user/real_name || /sys/user/id]</span>
+    </a>
+  </li>
+  <li>
+    <a class="cell" href="#action:user-logout" title="[#tooltips/signout]">
+      <span class="cell">(Sign out)</span>
+    </a>
+  </li>
+</ol>
+
+__DATA__
+tooltips => %{
+  dn => Opens in a blank tab
+  usermod => Update your user information
+  signout => This will end your authenticated session
+}

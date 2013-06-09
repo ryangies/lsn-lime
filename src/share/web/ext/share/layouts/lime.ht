@@ -1,0 +1,5 @@
+[#:into ./layout.ht]
+[#:set config=../pm/lime.pm/get_config]
+[#:for (screen) in config/screens]
+  [#[#screen]]
+[#:end for]

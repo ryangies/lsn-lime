@@ -1,0 +1,5 @@
+# HashFile 2.1
+addr => /ext/editors/live/
+name => Live editor
+icon => /res/icons/16x16/apps/internet-web-browser.png
+elem => ext-editors-live-screen

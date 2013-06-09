@@ -1,0 +1,4 @@
+# HashFile 2.1
+on_saved => <b>Saved</b>
+on_notsaved => <b>Changes could not be saved!</b><br><br>It is likely that the file has been modified on the other end.
+on_conflict => <b>Conflict detected.</b><br><br>The file has been modified outside of this editor.

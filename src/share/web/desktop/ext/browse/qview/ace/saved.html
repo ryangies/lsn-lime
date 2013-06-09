@@ -1,0 +1,134 @@
+[#:head 'menu']
+  [#/desktop/share/halist.html _list=menu]
+[#:end head]
+
+[#:js src='/res/js/ace/ace.js']
+[#:js src='/res/js/ace/theme-twilight.js']
+[#:js src='/res/js/ace/mode-javascript.js']
+
+<pre id="pre[#UID]" class="w2 h4"></pre>
+
+[#:css]
+#pre[#UID] {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  border:none;
+  margin-left:8px;
+}
+[#:end css]
+
+[#:js]
+var w[#UID];
+function save[#UID] (event) {
+  w[#UID].props.isSaving = true;
+  var a = w[#UID].params.dnode.getAddress();
+  var v = js.dom.getValue('pre[#UID]');
+  js.hubb.getInstance().store(a, v, function (dnode, xcmd) {
+    w[#UID].props.isSaving = false;
+    if (dnode) {
+      w[#UID].doEvent('updatectrl');
+      w[#UID].doEvent('enable');
+      js.local.notify('Saved!');
+    } else {
+      alert('The file has been modified since you began editing. ' +
+      'To save your work, copy the entire contents, refresh the page, ' +
+      'paste your contents back in, and save again.');
+    }
+  });
+  js.dom.stopEvent(event);
+}
+[#:end js]
+
+[#:js event='widget, load']
+w[#UID] = this;
+[#:end js]
+
+[#:js event='widget,updatectrl']
+this.props.isDirty = false;
+js.dom.setValue('pre[#UID]', this.params.dnode.getContent());
+this.props.origContent = js.dom.getValue('pre[#UID]');
+[#:end js]
+
+[#:js event='widget,refresh']
+this.doEvent('updatectrl');
+w[#UID].props.addr = this.params.dnode.getAddress();
+w[#UID].props.type = this.params.dnode.getType();
+js.dom.addClassName('pre[#UID]', 'class', w[#UID].props.type);
+[#:end js]
+
+[#:js event='widget, show']
+if (this.params.disabled) {
+  js.dom.setAttribute('pre[#UID]', 'disabled', 'disabled');
+}
+[#:end js]
+
+[#:js event='widget, ready']
+if (!w[#UID].props.kp) {
+  w[#UID].props.kp = new js.dom.KeyPress();
+  w[#UID].props.kp.setHandler('ctrl+s', save[#UID]);
+  w[#UID].props.kp.setHandler('tab', function (event) {js.dom.stopEvent(event);});
+  w[#UID].props.kp.attach('pre[#UID]');
+  var editor = ace.edit("pre[#UID]");
+  editor.setTheme("ace/theme/twilight");
+  var JavaScriptMode = require("ace/mode/javascript").Mode;
+  editor.getSession().setMode(new JavaScriptMode());
+}
+this.doEvent('refresh');
+[#:end js]
+
+[#:js event='widget, enable']
+  js.dom.removeAttribute('pre[#UID]', 'disabled');
+[#:end js]
+
+[#:js event='widget, hide']
+js.dom.setAttribute('pre[#UID]', 'value', '');
+js.dom.removeClassName('pre[#UID]', this.props.type);
+this.props.origContent = null;
+this.props.addr = null;
+[#:end js]
+
+[#:js event='widget, checkmodified']
+var dnode = js.hubb.getInstance().getNodeByAddress(this.props.addr); // It may have been deleted
+this.props.isDirty = dnode && js.dom.getValue('pre[#UID]') != this.props.origContent;
+[#:end js]
+
+[#:js event='widget, save']
+save[#UID]()
+js.dom.setAttribute('pre[#UID]', 'disabled', 'disabled');
+[#:end js]
+
+[#:js event='widget, dodde']
+var uri = '/desktop/ext/dde/index.html?doc=' + this.props.addr;
+try {
+  var props = {
+    'id': js.util.randomId('editor'),
+    'src': uri,
+    'icon': '/res/icons/16x16/apps/accessories-text-editor.png',
+    'name': 'Editor',
+    'side': 'right',
+    'canClose': true
+  };
+  js.window.top.js.lsn.desktop.createTab(props);
+} catch (ex) {
+  js.console.log(ex);
+  js.window.open(uri);
+}
+[#:end js]
+
+__DATA__
+
+menu => @{
+  %{
+    js => w[#UID].doEvent('save');
+    icon => /res/icons/16x16/actions/document-save.png
+    desc.txt => Save
+  }
+  %{
+    js => w[#UID].doEvent('dodde');
+    icon => /res/icons/16x16/apps/accessories-text-editor.png
+    desc.txt => Edit Live
+  }
+}

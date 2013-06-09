@@ -1,0 +1,55 @@
+# HashFile 2.1
+fieldsets => @{
+  %{
+    heading => Local Settings
+    fields => %{
+      local_root => %{
+        label => Local root
+        type => text
+        value => /
+      }
+      query_all => %{
+        label => Files Query
+        type => text
+        value => **/{-f}
+        maxlength => 128
+      }
+      ignore => %{
+        label => Ignore Patterns (one per line)
+        type => textarea
+        value => 
+      }
+      excludes => %{
+        label => Exclude Patterns (one per line)
+        type => textarea
+        value => web/admin
+      }
+      includes => %{
+        label => Additional Paths (one per line)
+        type => textarea
+        value => 
+      }
+      compile => %{
+        label => Compile (wget) Pattern
+        type => text
+        value => \.(html|css|js)$
+        maxlength => 128
+      }
+      local_out_path => %{
+        label => Output path (absolute filesystem path)
+        type => text
+        value => 
+      }
+    }
+  }
+  %{
+    heading => Remote Settings
+    fields => %{
+      remote_root => %{
+        label => Remote root
+        type => text
+        value => user@example.com:/var/www/htdocs
+      }
+    }
+  }
+}

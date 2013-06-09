@@ -1,0 +1,10 @@
+# HashFile 2.1
+copyright => Livesite (c) Livesite Networks, LLC.
+target => ../local.js
+name => LIME Extension: Desktop
+version => .001
+files => @{
+  Panel.js
+  Screen.js
+  global.js
+}

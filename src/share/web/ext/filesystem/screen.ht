@@ -1,0 +1,19 @@
+[#:css src=`./local.css`]
+[#:js src=`../share/js/ext-filesystem.js`]
+[#:js]
+var screen = new js.ext.filesystem.Screen([#:json ./desktop.hf]);
+env.screens.add(screen);
+[#:end js]
+<div id="ext-filesystem-screen" class="screen-area screen-hidden">
+  [#/ext/share/var/bg-layout1.ht]
+  <div id="fs-location" class="layout1-area1"></div>
+  <div id="fs-menu-view" class="layout1-area2"></div>
+  <div id="fs-crumb-view" class="layout1-area3"></div>
+  <div id="fs-list-view" class="layout1-area4"></div>
+</div>
+<div class="dn">
+  [#./inc/rename/handler.ht]
+  [#./inc/chmod/handler.ht]
+  [#./inc/winopen/handler.ht]
+  [#./inc/unzip/handler.ht]
+</div>

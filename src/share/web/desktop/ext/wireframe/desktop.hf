@@ -1,0 +1,9 @@
+# HashFile 2.1
+category => experimental
+name => Wireframe
+title => Wireframe
+desc => Create and edit web-page templates
+icon => /res/icons/16x16/status/weather-storm.png
+side => right
+canClose => true
+loadInBackground => false

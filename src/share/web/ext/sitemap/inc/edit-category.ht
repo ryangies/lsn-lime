@@ -1,0 +1,60 @@
+[#:js]
+
+  function onDialogShow (action, dnode) {
+    this.form.deserializeValues({
+      'addr': dnode.getAddress(),
+      'name': dnode.getString('.name'),
+      'pathname': dnode.getKey()
+    });
+  }
+
+  function onOk (action) {
+    var values = this.form.getValues();
+    this.submit('update_category', values);
+    this.hide();
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.DialogForm, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.form.loadSchema([#:json schema]);
+    this.form.attachUI(this.getElementById('inputs'));
+    this.setModuleURL('/ext/sitemap/module.pm');
+    this.addActionListener('onDialogShow', onDialogShow, this);
+    this.addActionListener('onOk', onOk, this);
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="ok">Update</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-sitemap-edit-category
+_title => Category properties
+_icon => /res/icons/16x16/sitemap/category.png
+schema => %{
+  fields => @{
+    %{
+      type => hidden
+      name => addr
+    }
+    %{
+      type => text
+      name => name
+      label => Name
+      description => A short common-name for this category.
+    }
+    %{
+      type => text
+      name => pathname
+      label => Directory name
+      description => The name of the corresponding directory on the file system (which is part of the URL).
+    }
+  }
+}

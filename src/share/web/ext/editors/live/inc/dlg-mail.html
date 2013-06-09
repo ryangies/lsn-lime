@@ -1,0 +1,129 @@
+[#:into ./dlg-base.html]
+
+[#:if !(/sys/user/prefs/smtp || /sys/conf/modules/smtp)]
+
+  <h3>No send-mail configuration defined for this user.</h3>
+
+[#:else]
+
+  <div id="[#UID2]area">
+    <form id="[#UID2]form">
+      [#:for (field) in fields]
+      <div>
+        [#:if field eq 'separator']
+        <hr/>
+        [#:else]
+        <label for="[#field/id]">[#field/label]:</label>
+        <input type="text" id="[#field/id]" name="[#field/id]" value="[#field/default]"/>
+        [#:end if]
+      </div>
+      [#:end for]
+      <div>
+        HTML
+        <textarea id="[#UID2]mail-html" name="HTML"></textarea><br/>
+        TEXT
+        <textarea id="[#UID2]mail-text" name="Body"></textarea><br/>
+      </div>
+    </form>
+    <label for="baseuri">Base URL:</label>
+    <input type="text" id="baseuri" value=""/>
+    <button type="button" onclick="[#UID2]refresh();">Refresh</button>
+  </div>
+
+  [#:css]
+  #[#UID2]area {}
+  #[#UID2]area * {font-family:sans-serif;font-size:10pt;}
+  #[#UID2]area form div {margin:1px 0;}
+  #[#UID2]area form label {display:block;width:100px;float:left;}
+  #[#UID2]area form input {width:500px;}
+  #[#UID2]area form textarea {width:600px;height:20em;}
+  #[#UID2]area form textarea {font-family:monospace;font-size:8pt;}
+  #[#UID2]area form hr {visibility:hidden;}
+  [#:end css]
+
+  [#:js event='widget, ready']
+    [#UID2]dlg = this;
+    var loc = new js.http.Location(this.params.href);
+    js.dom.setValue('baseuri', loc.getOrigin());
+    [#UID2]refresh();
+  [#:end js]
+
+  [#:js]
+  function [#UID2]refresh() {
+
+    // Fetch HTML part
+    js.dom.setAttribute('btn_[#UID]_ok', 'disabled', 'disabled');
+    var loc = new js.http.Location([#UID2]dlg.params.href);
+    loc.addParameter('X-Response-Type', 'text/plain');
+    loc.addParameter('X-Auth', 'disable');
+    loc.addParameter('X-Base-Uri', js.dom.getValue('baseuri'));
+    //js.console.log('Email request:', loc.getHref());
+    var req = new js.http.Request(loc.getHref());
+    req.addEventListener('onSuccess', function (req) {
+      [#UID2]dlg.params.html = req.xhr.responseText;
+      js.dom.removeAttribute('btn_[#UID]_ok', 'disabled');
+      js.dom.setValue('[#UID2]mail-html', req.xhr.responseText);
+    });
+    req.submit();
+
+    // Fetch TEXT part
+    loc.pathname = loc.pathname + '.txt';
+    req = new js.http.Request(loc.getHref());
+    req.addEventListener('onSuccess', function (req) {
+      [#UID2]dlg.params.text = req.xhr.responseText;
+      js.dom.setValue('[#UID2]mail-text', req.xhr.responseText);
+    });
+    req.submit();
+
+  }
+  [#:end js]
+
+  [#:js event='widget, ok']
+  var req = new js.lsn.Request('[#`./module.pm`]/sendmail');
+  req.addEventListener('onFailure', function (req) {
+    var msg = 'An error occurred: ' + req.xhr.responseText;
+    alert(msg);
+  });
+  req.addEventListener('onSuccess', function (req) {
+    this.doEvent('mail-sent');
+  }, this);
+  var values = js.dom.getValues('[#UID2]form');
+  /*
+  for (var name in values) {
+    js.console.log(name, values[name]);
+  }
+  */
+  //values['mail-html'] = this.params.html;
+  req.submit(values);
+  [#:end js]
+
+[#:end if]
+
+__DATA__
+
+_title => Send Mail
+
+fields => @{
+  %{
+    id => From
+    label => From
+    default => noreply@[#/sys/server/name]
+  }
+  %{
+    id => To
+    label => To
+    default => 
+  }
+  %{
+    id => CC
+    label => CC
+    default => 
+  }
+  separator
+  %{
+    id => Subject
+    label => Subject
+    default => HTML Email
+  }
+  separator
+}

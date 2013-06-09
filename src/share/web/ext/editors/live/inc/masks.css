@@ -1,0 +1,68 @@
+#dde-mask-layer div {
+  background-image:url([#:html:url `../images/mask-bg1.gif`]);
+}
+
+#dde-mask-layer.block div {
+  background-image:url([#:html:url `../images/mask-bg2.gif`]);
+}
+
+#dde-mask-layer.shaded div {
+  background-color:#fff;
+}
+
+#dde-mask-layer.block #dde-mask-5 {
+  display:block;
+  background-color:transparent;
+  background-image:none;
+}
+
+#dde-marker-layer img.dde-marker {
+}
+
+#dde-mask-layer .dde-mask {
+  position:absolute;
+}
+
+#dde-mask-1 {
+  background-position:bottom right;
+  background-repeat:no-repeat;
+}
+
+#dde-mask-2 {
+  background-position:bottom;
+  background-repeat:repeat-x;
+}
+
+#dde-mask-3 {
+  background-position:bottom left;
+  background-repeat:no-repeat;
+}
+
+#dde-mask-4 {
+  background-position:right;
+  background-repeat:repeat-y;
+}
+
+#dde-mask-5 {
+  display:none;
+}
+
+#dde-mask-6 {
+  background-position:left;
+  background-repeat:repeat-y;
+}
+
+#dde-mask-7 {
+  background-position:top right;
+  background-repeat:no-repeat;
+}
+
+#dde-mask-8 {
+  background-position:top;
+  background-repeat:repeat-x;
+}
+
+#dde-mask-9 {
+  background-position:top left;
+  background-repeat:no-repeat;
+}

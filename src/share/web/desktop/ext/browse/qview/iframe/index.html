@@ -1,0 +1,14 @@
+<iframe id="iframe[#UID]" frameborder="0" class="w1b h4" allowtransparency="true"></iframe>
+
+[#:css]
+#iframe[#UID] {background:url(/desktop/share/images/xbkg.png);}
+[#:end css]
+
+[#:js event='widget, ready']
+var addr = this.params.dnode.getAddress();
+js.dom.setAttribute('iframe[#UID]', 'src', addr);
+[#:end js]
+
+[#:js event='widget, hide']
+js.dom.setAttribute('iframe[#UID]', 'src', 'about:blank');
+[#:end js]

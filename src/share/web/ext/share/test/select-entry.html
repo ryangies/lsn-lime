@@ -1,0 +1,31 @@
+[#:into /ext/share/layouts/layout.ht]
+[#:js src='/ext/share/js/ext-sitemap.js']
+[#:js src='/ext/editors/hash/local.js']
+[#:css src='/ext/editors/hash/local.css']
+
+[#:js event='document,load']
+
+/*
+  var form = new js.ext.share.input.Form();
+  form.loadSchema(schema);
+  form.attachUI(js.dom.getElement('area-editor'));
+*/
+
+  var selector = js.ext.share.input.factory.createObject('select-sitemap-entry');
+//selector.deserialize('/data');
+  selector.deserialize('uuid:92350C2A-49D5-11E1-A071-BDC09518CD61');
+
+  selector.addActionListener('onSelect', function (action, sel) {
+    var entry = sel.getDataNode();
+    js.console.log('selected', entry.getAddress());
+  });
+
+  js.dom.replaceChildren('area-select', selector.getElements());
+
+[#:end js]
+
+<div class="screen-area">
+  [#/ext/share/var/bg-layout1.ht]
+  <div id="area-select" class="layout1-area2"></div>
+  <div id="area-input" class="layout1-area4">Hi</div>
+</div>

@@ -1,0 +1,41 @@
+[#:into ../../share/master.ht]
+[#:js src=`./js/ListView.js`]
+[#:js src=`./js/Browser.js`]
+[#:css src=`./browse.css`]
+
+<div id="workspace" class="w1 h1">
+  <div id="tree" class="w1a h1"></div>
+  <div id="hsplit" class="w1b h1"></div>
+  <div id="editarea" class="w1c h1"></div>
+</div>
+
+[#:js event='window, load']
+  new js.lsn.DragHandle('hsplit', {
+    'onMouseMove': function (event, dh) {
+      js.local.layout.dims.ratio = ((dh.o_hsplit + dh.delta_x) / dh.pg_w).toFixed(2);
+      js.local.layout.resize();
+      js.dom.stopEvent(event);
+    },
+    'onMouseDown': function (event, dh) {
+      dh.pg_w = js.dom.getViewportPosition().width;
+      dh.o_hsplit = js.local.layout.dims.hsplit;
+      js.lsn.showMask({opacity:0,cursor:'n-resize'});
+      js.dom.stopEvent(event);
+    },
+    'onMouseUp': function (event, dh) {
+      js.lsn.hideMask();
+      js.dom.stopEvent(event);
+    }
+  });
+  var loc = new js.http.Location();
+  var addr = loc.getParameters()['a'];
+  js.dom.getElement('tree').appendChild(js.local.tview.getElement());
+  js.local.tview.setRootAddress(addr);
+  js.local.tview.addActionListener('select', js.local.onSelect);
+  js.local.tview.addActionListener('deselect', js.local.onDeselect);
+  js.local.tview.select(addr);
+[#:end js]
+
+[#:js event='window, unload']
+  js.local.tview.destroy();
+[#:end js]

@@ -1,0 +1,62 @@
+[#:into ./dlg-base.html]
+
+<table id="[#UID2]area">
+  <tbody>
+    <tr>
+      <th><label for="[#UID2]find">Find</label></th>
+      <td><input id="[#UID2]find" type="text" value=""/></td>
+    </tr>
+    <tr>
+      <th><label for="[#UID2]replace">Replace</label></th>
+      <td><input id="[#UID2]replace" type="text" value=""/></td>
+    </tr>
+    <tr>
+      <th><label for="[#UID2]scope">Scope</label></th>
+      <td>
+        <select id="[#UID2]scope">
+          <option value="text" selected="selected">Visible text only</option>
+          <option value="both">Visible text and URLs</option>
+          <option value="urls">URLs only</option>
+        </select>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+[#:css]
+#[#UID2]area {}
+#[#UID2]source {width:60em;height:40em;border:1px inset black;}
+[#:end css]
+
+[#:js event='widget, load']
+var dlg=this;
+[#:end js]
+
+[#:js event='widget, ready']
+var src = this.params.js.dom.getAttribute(this.params.target, 'innerHTML');
+this.params.origHTML = src;
+[#:end js]
+
+[#:js event='widget, apply']
+var djs = this.params.js;
+var nodes = this.params
+var substr = js.dom.getValue('[#UID2]find');
+var newSubstr = js.dom.getValue('[#UID2]replace');
+var scope = js.dom.getValue('[#UID2]scope');
+var rt = new js.lsn.ext.dde.ReplaceText(substr, newSubstr);
+rt.perform(this.params.target, scope);
+this.params.applied = true;
+[#:end js]
+
+[#:js event='widget, ok']
+if (!this.params.applied) this.doEvent('apply');
+[#:end js]
+
+[#:js event='widget, cancel']
+this.params.js.dom.setAttribute(this.params.target, 'innerHTML', this.params.origHTML);
+[#:end js]
+
+__DATA__
+
+_title => Replace Text
+_btn_apply => 1

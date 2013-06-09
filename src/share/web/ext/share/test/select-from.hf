@@ -1,0 +1,15 @@
+# HashFile 2.1
+list => @{
+  %{
+    name => Alpha Soup
+  }
+  %{
+    name => Be all you can B
+  }
+  %{
+    name => Call W
+  }
+  %{
+    name => Clean Room
+  }
+}

@@ -1,0 +1,39 @@
+# HashFile 2.1
+
+collection-list => %{
+  label => List of Collections
+  icon => /res/icons/16x16/emblems/database.png
+  fields => @{
+    %{
+      name => name
+      type => text
+    }
+  }
+  children => %{
+    name => items
+    type => array
+    schema => collection-definition
+  }
+}
+
+collection-definition => %{
+  label => Collection Definition
+  icon => /res/icons/16x16/emblems/library.png
+  fields => @{
+    %{
+      name => name
+      label => Name
+      type => text
+    }
+    %{
+      name => storage
+      label => Storage
+      type => text
+    }
+    %{
+      name => schema
+      label => Schema
+      type => text
+    }
+  }
+}

@@ -1,0 +1,5 @@
+[#:into /res/hub/dlg/frame.ht _title='Data Editor' _subtitle='your file here']
+<div id="[#UID2]">[#./main.ht]</div>
+[#:css]
+  #[#UID2] {width:600px;height:300px;overflow:auto;}
+[#:end css]

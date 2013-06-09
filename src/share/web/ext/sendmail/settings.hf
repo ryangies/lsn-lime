@@ -1,0 +1,8 @@
+# HashFile 2.1
+smtp => %{
+  host => smtp.googlemail.com
+  port => 465
+  timeout => 5
+  ssl => 1
+  sasl_username => somebody@gmail.com
+}

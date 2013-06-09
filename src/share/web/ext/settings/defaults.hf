@@ -1,0 +1,9 @@
+# HashFile 2.1
+version => 1.0
+ext_path => @{
+  /web/admin
+  /ext/panels
+  /desktop/ext
+}
+modules => @{
+}

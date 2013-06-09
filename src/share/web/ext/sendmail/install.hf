@@ -1,0 +1,32 @@
+# HashFile 2.1
+depends => @{
+  %{
+    mod => Net::SMTP
+  }
+  %{
+    mod => Net::SMTP::SSL
+  }
+  %{
+    mod => Net::SMTP::TLS
+  }
+  %{
+    mod => Email::Date::Format
+  }
+  %{
+    mod => MIME::Base64
+  }
+  %{
+    mod => Authen::SASL
+  }
+  %{
+    mod => Email::Send
+  }
+  %{
+    mod => Email::MIME
+  }
+}
+manifest => @{
+  Mailer.pm
+  module.pm
+  schemas/*
+}

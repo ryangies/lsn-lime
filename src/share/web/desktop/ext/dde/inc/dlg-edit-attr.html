@@ -1,0 +1,40 @@
+[#:into ./dlg-base.html]
+[#:use /res/palettes/lsn.hf]
+
+<table><tbody id="[#UID2]"></tbody></table>
+
+[#:css]
+#[#UID2] {}
+#[#UID2] input {width:250px;padding:2px;}
+#[#UID2] dl {margin:0 0 5px 0;clear:both;}
+#[#UID2] dt {margin:0;color:[#blue1];float:left;width:150px;line-height:1.8em;}
+#[#UID2] dd {margin-left:150px;}
+.dlgframe div.help {
+  font-size:.8em;
+  margin:10px 0 0 0;
+  padding:2px;
+  width:425px;
+  color:[#green1];
+  max-height:100px;
+  overflow:auto;
+  border:1px solid [#gray2];
+  background-color:[#gray4];
+}
+.dlgframe div.help span.eg {
+  color:[#blue1];
+}
+#btn_remove {
+  margin-right:.5em;
+  color:[#red1];
+}
+[#:end css]
+
+[#:js event='widget, load']
+this.params.container = js.dom.getElement('[#UID2]');
+[#:end js]
+
+__DATA__
+
+_title => Edit Attributes
+_btn_apply => 1
+_subtitle => 

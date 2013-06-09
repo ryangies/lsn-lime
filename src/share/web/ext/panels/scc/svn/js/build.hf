@@ -1,0 +1,12 @@
+# HashFile 2.1
+working_dir => ../
+target => local.js
+files => @{
+  ./js/view/View.js
+  ./js/view/StatusView.js
+  ./js/view/OutputView.js
+  ./js/view/DiffView.js
+  ./js/app/Application.js
+  ./js/Subversion.js
+  ./js/package.js
+}

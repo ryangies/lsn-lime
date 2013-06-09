@@ -1,0 +1,19 @@
+[#:js]
+
+app.addActionListener('onSelectNode', function (action, node) {
+  var xpath = [];
+  while (node) {
+    xpath.unshift(node.tagName);
+    node = node.parentNode;
+  }
+  var str = xpath.join(' &raquo; ');
+  js.dom.setValue('[#UID2]', str);
+});
+
+app.addActionListener('onDeselectNode', function (action) {
+  js.dom.setValue('[#UID2]', '');
+});
+
+[#:end js]
+
+<div id="[#UID2]"></div>

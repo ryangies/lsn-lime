@@ -1,0 +1,67 @@
+[#:into /res/layouts/xhtml]
+[#:css src=`./inc/screen.css`]
+[#:js src='/res/js/livesite.js']
+[#:js src='/res/js/hub.js']
+[#:js src=`./inc/dde.js`]
+
+<div id="menubg" class="w1 h1">
+  <div id="menubar"></div>
+</div>
+
+<iframe name="docframe" id="docframe" class="w1 h2" frameborder="0" 
+  scrolling="yes" src="about:blank"></iframe>
+
+<div id="statusbg" class="w1 h3">
+  <div id="statusbar"></div>
+</div>
+
+<div id="currdoc">
+  <input id="docaddr"/>
+</div>
+
+[#:js]
+  DDE = null;
+  var pg = new js.lsn.ui.Page();
+  pg.onPageResize = function (event) {
+    var vp = this.pgViewport;
+    this.pgStyleSheet.updateRule('.w1', {'width': vp.width + 'px'});
+    this.pgStyleSheet.updateRule('.h2', {'height': (vp.height - [#menubar/height] - [#statusbar/height]) + 'px'});
+  };
+  pg.onPageLoad = function (event) {
+    var vp = this.pgViewport;
+    this.pgStyleSheet.updateRule('.w1', {'width': vp.width + 'px'});
+    this.pgStyleSheet.updateRule('.h2', {'height': (vp.height - [#menubar/height] - [#statusbar/height]) + 'px'});
+    this.pgStyleSheet.updateRule('.h1', {'height': [#menubar/height] + 'px'});
+    this.pgStyleSheet.updateRule('.h3', {'height': [#statusbar/height] + 'px'});
+  };
+[#:end js]
+
+[#:js event='document,load']
+  DDE = new js.lsn.ext.dde.Application('menubar', 'statusbar', 'docframe');
+  var loc = new js.http.Location();
+  var addr = loc.getParameters()['doc'] || loc.getHash() || DDE.getLastDocument() || '/';
+  DDE.load(addr);
+  js.dom.setValue('docaddr', addr);
+  var chooser = new js.hubb.ui.ComboBox();
+  chooser.attach('docaddr');
+  chooser.expand('/');
+  chooser.addActionListener('userselect', function (action, tnode) {
+    DDE.load(tnode.getAddress());
+  });
+  new js.dom.KeyListener('docaddr', 'enter', function () {
+    DDE.load(js.dom.getValue('docaddr'));
+  });
+  DDE.addActionListener('open', function (action, dde) {
+    js.dom.setValue('docaddr', dde.getDocumentAddress());
+  });
+[#:end js]
+
+__DATA__
+
+menubar => %{
+  height => 40
+}
+
+statusbar => %{
+  height => 25
+}

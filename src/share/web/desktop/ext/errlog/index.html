@@ -1,0 +1,87 @@
+[#:http:no-cache]
+[#:into ../../share/standard.ht]
+
+<div id="out"></div>
+
+<div id="preamble">
+  <h1>Web-server Error Log</h1>
+  <div>
+    <p>
+      Colors: <span class="error">[error]</span>
+      <span class="debug">[debug]</span>
+      <span class="warn">[warn]</span>
+      <span class="info">[info]</span>
+      <span>[other]</span>
+    </p>
+  </div>
+  <div class="vspc">
+    <button id="btnRefresh">Refresh</button>
+    [#./module.pm/get_logfile_path]
+  </div>
+</div>
+
+[#:use ../../share/colors.hf]
+[#:css]
+  div#preamble {position:fixed;top:0;left:0;background:[#gray4];width:100%;padding:10px;;}
+  div#out {margin-top:130px;position:relative;padding:0 0 10px;}
+  div.vspc {margin:5px 0;}
+  pre {border-left:1px solid [#black];padding:1px 2px;margin:1px 0;}
+  .info {color:[#gray2];}
+  .warn {color:[#orange1];}
+  .error {color:[#red3];}
+  .debug {color:[#brown1];}
+  pre.info {border-left-color:[#gray2];}
+  pre.warn {border-left-color:[#orange1];}
+  pre.error {border-left-color:[#red3];}
+  pre.debug {border-left-color:[#brown1];}
+[#:end css]
+
+[#:js]
+  js.extend('lsn.ext.errlog', function (js) {
+
+    var _proto = {}
+
+    this.Main = function () {
+      js.dom.addEventListener('btnRefresh', 'click', this.run, this);
+      this.run();
+    };
+
+    this.Main.prototype = _proto;
+
+    _proto.run = function (event) {
+      var req = new js.lsn.Request('[#`./module.pm/get_log_entries`]');
+      req.addEventListener('onSuccess', this.showResults, this);
+      req.submit();
+    };
+
+    _proto.showResults = function (req) {
+      var out = js.dom.getElement('out');
+      var result = req.responseHash.get('body').values();
+      js.dom.removeChildren(out);
+      for (var i = 0, entry; entry = result[i]; i++) {
+        var info = entry.get('info').toObject();
+        var infoMessage = info.join(' - ');
+        var message = entry.get('message');
+        var pre = js.dom.createElement('pre.entry', {innerHTML: message});
+        if (info[1]) {
+          js.dom.addClassName(pre, info[1]);
+        }
+        out.appendChild(pre);
+      }
+      this.scrollBottom();
+    };
+
+    _proto.scrollBottom = function () {
+      var e = js.dom.getBody();
+      var h = js.dom.getHeight(e);
+      e.scrollTop = h;
+    };
+
+  });
+
+  js.dom.addEventListener(document, 'load', function (event) {
+
+    new js.lsn.ext.errlog.Main();
+
+  });
+[#:end js]

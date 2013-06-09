@@ -1,0 +1,36 @@
+[#:into ./template.ht as TABLE]
+
+<table border="1" cellspacing="2" cellpadding="0">
+  <thead>
+    <tr>
+      <th>Group Name</th>
+      <th>Product</th>
+      <th>SKU</th>
+      <th>Description</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Shipping</th>
+      <th>PayPal ID</th>
+    </tr>
+  </thead>
+  <tbody>
+  [#:for (data) in ./module.pm/list]
+    [#:for (idx,item) in data/items]
+    <tr>
+      [#:if idx == 0]
+      <td><input id="[#data/path]/name" type="text" class="al" value="[#data/name]"/></td>
+      [#:else]
+      <td></td>
+      [#:end if]
+      <td><input id="[#data/path]/items/[#idx]/heading" type="text" class="al" value="[#item/heading]"/></td>
+      <td><input id="[#data/path]/items/[#idx]/sku" type="text" class="al" value="[#item/sku || '']"/></td>
+      <td><textarea id="[#data/path]/items/[#idx]/description">[#item/description]</textarea></td>
+      <td class="num"><input id="[#data/path]/items/[#idx]/quantity" type="text" value="[#item/quantity || '0']"/></td>
+      <td class="num"><input id="[#data/path]/items/[#idx]/price" type="text" value="[#item/price || '0']"/></td>
+      <td class="num"><input id="[#data/path]/items/[#idx]/shipping" type="text" value="[#item/shipping || '0']"/></td>
+      <td class="sb"><input id="[#data/path]/items/[#idx]/button_id" type="text" class="ar" value="[#item/button_id]"/></td>
+    </tr>
+    [#:end for]
+  [#:end for]
+  </tbody>
+</table>

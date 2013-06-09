@@ -1,0 +1,43 @@
+[#:use ../build.hf]
+[#:set _content_id => '[#screen/id]-create']
+[#:js]
+
+  function onCreate (action) {
+    this.invokeCallback();
+    this.hide();
+  }
+
+  env.dialogs.register('[#_content_id]', js.[#namespace].view.CreateView, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.addActionListener('onCreate', onCreate, this);
+  });
+
+[#:end js]
+[#:css]
+
+  #[#_content_id] #buttons {
+    position:absolute;
+    right:10px;
+    bottom:10px;
+  }
+  #[#_content_id] #content {
+    position:relative;
+    min-width:600px;
+    min-height:200px;
+  }
+
+[#:end css]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="content" class="popup-content"></div>
+  <div class="popup-footer">
+    <div id="buttons">
+      <button type="button" name="action" value="close">Cancel</button>
+      <button type="button" name="action" value="create">Create</button>
+    </div>
+  </div>
+[#:end into]
+
+__DATA__
+_title => Create
+_icon => 

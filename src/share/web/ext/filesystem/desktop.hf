@@ -1,0 +1,5 @@
+# HashFile 2.1
+addr => /ext/filesystem/
+name => File system
+icon => /res/icons/16x16/places/folder-remote.png
+elem => ext-filesystem-screen

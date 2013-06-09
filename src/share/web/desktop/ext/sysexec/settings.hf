@@ -1,0 +1,22 @@
+# HashFile 2.1
+input => %{
+  fieldsets => @{
+    %{
+      heading => Command
+      fields => %{
+        commands => %{
+          label => 
+          type => text
+          value => ps -fe
+        }
+      }
+    }
+  }
+}
+buttons => @{
+  %{
+    text => Run
+#   confirm => This is a confirmation, continue?
+    action => exec
+  }
+}

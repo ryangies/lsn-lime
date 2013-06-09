@@ -1,0 +1,56 @@
+[#:js src=`./local.js`]
+[#:js src=`./inc/dde.js`]
+[#:css src=`./inc/dde.css`]
+
+[#:js]
+
+  var area4 = env.layout.getArea('layout1-area4');
+  var ddeLayout = area4.addLayout({'structure':'nested'});
+  ddeLayout.addRow('dde-layout-toolbar', 35, [0,5,0]);
+  ddeLayout.addRow('dde-layout-doc', null, [0, 5, 0]);
+  ddeLayout.addRow('dde-layout-statusbar', 20, [0,5,0]);
+
+  var config = [#:json ./desktop.hf];
+  var screen = new js.ext.editors.live.Screen(config);
+  env.screens.add(screen);
+
+  var initiator = new js.ext.share.Initiator({
+    'type': 'file-action',
+    'action': 'edit-html-live',
+    'text': 'Edit live',
+    'target': 'selection',
+    'tooltip': 'Open in the live webpage editor',
+    'icon': '/res/icons/16x16/apps/ext-editors-live.png',
+    'sortValue': 2,
+    'matchTypes': [/file-text-ht/, /file-multipart-ht/] // note that re includes ht,htm,html,...
+  });
+
+  var handler = function (action, target) {
+    var screen = env.screens.get(config.addr);
+    var params = {};
+    if (js.util.isString(target)) {
+      params['addr'] = target;
+    } else if (js.util.isa(target.data, js.hubb.Node)) {
+      params['dnode'] = target.data;
+    }
+    env.screens.select(screen, params);
+  };
+
+  env.registerHandler('edit-html-live', handler, initiator);
+
+[#:end js]
+
+<div id="ext-editors-live-screen" class="screen-hidden screen-area">
+  [#/ext/share/var/bg-layout1.ht]
+  <div id="ext-editors-live-area1" class="layout1-area1"></div>
+  <div id="ext-editors-live-area2" class="layout1-area2"></div>
+  <div id="ext-editors-live-area3" class="layout1-area3"></div>
+  <div id="ext-editors-live-area4" class="layout1-area4"></div>
+  <div class="dn">
+    [#./inc/dlg-edit-html.html]
+    [#./inc/dlg-edit-input.html]
+    [#./inc/dlg-block-of.html]
+    [#./inc/dlg-block-from.html]
+    [#./inc/dlg-select-webpage.html]
+  </div>
+</div>

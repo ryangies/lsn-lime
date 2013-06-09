@@ -1,0 +1,9 @@
+# HashFile 2.1
+category => site
+title => Offers
+name => Offers
+desc => Manage available Offers
+icon => /res/icons/16x16/devices/drive-harddisk.png
+side => right
+canClose => true
+loadInBackground => false

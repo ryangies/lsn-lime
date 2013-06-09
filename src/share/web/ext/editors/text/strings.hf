@@ -1,0 +1,7 @@
+# HashFile 2.1
+on_abandon => Your changes to will be lost
+on_saved => <b>Saved</b>
+on_notsaved => <b>Changes could not be saved!</b><br><br>It is likely that the file has been modified on the other end.
+on_conflict => <b>Conflict detected.</b><br><br>The file has been modified outside of this editor.<br><br>Discard changes and reload?
+on_overwrite => <b>overwrite this modified file</b>?
+on_discard => <b>Discard changes</b>?

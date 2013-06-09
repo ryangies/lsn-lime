@@ -1,0 +1,32 @@
+/* lsn.ui.Prompt */
+.statusPopup {
+  text-align:left;
+}
+.statusPopup .footerButtons {
+  text-align:right;
+}
+.statusPopup.statusNotify {
+  border:1px outset [#green1];
+  background-color:[#green2];
+  color:[#white];
+}
+.statusPopup.statusAlert {
+  border:1px outset [#orange1];
+  background-color:[#orange2];
+  color:[#white];
+}
+.statusPopup.statusConfirm {
+  border:1px outset [#orange1];
+  background-color:[#orange2];
+  color:[#white];
+}
+.statusPopup.statusLoading {
+  border:1px outset [#blue1];
+  background-color:[#blue2];
+  color:[#white];
+}
+.statusPopup.statusLoading img.indicator {
+  margin-right:1em;
+  padding:4px;
+  background:[#gray40];
+}

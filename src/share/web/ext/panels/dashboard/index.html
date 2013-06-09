@@ -1,0 +1,37 @@
+[#:into /ext/share/layouts/contained.ht]
+
+[#:for (section) in ./data.hf/sections]
+<div id="section" class="fl">
+  <b>[#section/heading]</b>
+  <dl id="shortcuts">
+    [#:for (item) in section/shortcuts]
+    <dt><a href="[#item/href]">[#item/name]</a></dt>
+    <dd>[#item/desc || '']</dd>
+    [#:end for]
+  </dl>
+</div>
+[#:end for]
+
+[#:css]
+
+  div#section {
+    margin:10px;
+    width:300px;
+  }
+
+  dl#shortcuts {
+    margin:0;
+    padding:0;
+  }
+
+  dl#shortcuts dt {
+    margin:.5em 0;
+  }
+
+  dl#shortcuts dd {
+    margin:0 1em;
+    font-style:italic;
+    font-size:smaller;
+  }
+
+[#:end css]

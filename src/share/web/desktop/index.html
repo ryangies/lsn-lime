@@ -1,0 +1,75 @@
+[#:http:no-cache]
+[#:into /res/tabset/main.html _show_auth=1]
+[#:js src=`./share/desktop.js`]
+[#:js src=`/res/js/hub.js`]
+[#:js event='document,load']
+js.lsn.desktop.init([#:js:var tabs -compile]);
+[#:end js]
+
+<div class="aaa">
+  <div class="aab">
+    Desktop (<a target ="_blank" href="//[#/sys/server/name]/">[#/sys/server/name]</a>)
+    <span class="aac">&copy; Livesite Networks, LLC</span>
+  </div>
+</div>
+
+[#:use /res/palettes/lsn.hf]
+[#:css]
+  div.aaa {margin:4px;}
+  div.aaa .aab {color:[#black];font-weight:bold;}
+  div.aaa .aac {font-size:.8em;color:[#gray1];padding-left:.3em;font-weight:normal;}
+  html, html body {height:100%;margin:0;padding:0;}
+  html body {font-family:sans-serif;font-size:10pt;color:[#gray1];}
+  h1, h2, h3, h4, h5, h6 {margin:.5em 0;}
+  a {color:[#blue2];}
+  a:hover {color:[#orange1];}
+[#:end css]
+
+__DATA__
+browser_title => Desktop ([#/sys/server/name])
+browser_icon => /res/icons/lsn/favicon.ico
+tabs => @{
+
+  %{
+    id => desktop
+    src => [#`./ext/index.html`]
+    name => Desktop
+    icon => /res/icons/16x16/apps/livesite.png
+    side => left
+    canClose => false
+  }
+
+  %{
+    id => folders
+    src => [#`./ext/browse/home.html`]
+    name => Folders
+    icon => /res/icons/16x16/nodes/folders.png
+    side => left
+    canClose => false
+    loadInBackground => true
+  }
+
+#{
+  %{
+    id => dde
+    src => [#`./ext/dde/index.html`]?doc=/index.html
+    name => Editor
+    icon => /res/icons/16x16/apps/accessories-text-editor.png
+    side => right
+    canClose => true
+  }
+#}
+
+#{
+  %{
+    id => liveview
+    src => /
+    name => Live View
+    icon => /res/icons/16x16/apps/internet-web-browser.png
+    side => right
+    canClose => true
+    loadInBackground => true
+  }
+#}
+
+}

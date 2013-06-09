@@ -1,0 +1,15 @@
+/** 
+ *  Custom styles for shared tree-view widgets.
+ *  See /ext/share/css/ui/tree-views.css
+ */
+[#:use ../../share/data/colors.hf]
+[#:use ../build.hf]
+
+div.[#screen/id].crumb-view {
+}
+
+table.[#screen/id].tree-list-view {
+}
+
+div.[#screen/id].tree-view {
+}

@@ -1,0 +1,47 @@
+[#:http:no-cache]
+[#:into ../../share/standard.ht]
+
+<h1>Debug Information</h1>
+<div>[#intro]</div>
+<div class="vspc"><button id="btnRefresh">Refresh</button></div>
+<pre id="out"></pre>
+
+[#:css]
+  div.vspc {margin:5px 0;}
+[#:end css]
+
+[#:js]
+  js.extend('lsn.ext.debug', function (js) {
+
+    var _proto = {}
+
+    this.Main = function () {
+      js.dom.addEventListener('btnRefresh', 'click', this.run, this);
+      this.run();
+    };
+
+    this.Main.prototype = _proto;
+
+    _proto.run = function (event) {
+      var req = new js.lsn.Request('[#`./module.pm/sysinfo`]?key=val');
+      req.addEventListener('onSuccess', this.showResults, this);
+      req.submit();
+    };
+
+    _proto.showResults = function (req) {
+      var result = req.responseHash.get('body');
+      js.dom.setValue('out', result);
+    };
+
+  });
+
+  js.dom.addEventListener(document, 'load', function (event) {
+
+    new js.lsn.ext.debug.Main();
+
+  });
+[#:end js]
+
+__DATA__
+
+intro => <p>A work in progress...</p>

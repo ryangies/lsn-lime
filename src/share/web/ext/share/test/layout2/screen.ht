@@ -1,0 +1,12 @@
+[#:js]
+  var config = [#:json ./desktop.hf];
+  var screen = new js.ext.share.Screen(config);
+  env.screens.add(screen);
+[#:end js]
+<div id="ext-share-test-layout2" class="screen-area screen-hidden">
+  [#/ext/share/var/bg-layout2.ht]
+  <div class="layout2-area1">layout2-area1</div>
+  <div class="layout2-area2">layout2-area2</div>
+  <div class="layout2-area3">layout2-area3</div>
+  <div class="layout2-area4">layout2-area4</div>
+</div>

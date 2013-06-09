@@ -1,0 +1,19 @@
+[#:into /ext/share/layouts/master.ht]
+
+[#:js event='document,load']
+
+  env.hub.startAutoRefresh();
+
+  var input = js.ext.share.input.factory.createObject('select-from', {
+    'dataSource': '[#`./select-from.hf/list`]'
+  });
+
+  js.dom.appendChildren('list', input.getElements());
+
+[#:end js]
+
+<div class="layout-body">
+
+  <div id="list"></div>
+
+</div>

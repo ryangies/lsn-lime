@@ -1,0 +1,123 @@
+[#:into /ext/share/layouts/contained.ht]
+
+[#:css]
+#settings-area {display:none;}
+#settings-area {background:gray;}
+#sendmail-panel * {font-family:sans-serif;font-size:10pt;}
+#sendmail-panel form div {margin:1px 0;}
+#sendmail-panel form label {display:block;width:100px;float:left;}
+#sendmail-panel form input {width:500px;}
+#sendmail-panel form textarea {width:600px;height:16em;}
+#sendmail-panel form textarea {font-family:monospace;font-size:8pt;}
+#sendmail-panel form hr {visibility:hidden;}
+body > div {margin:1em;}
+[#:end css]
+
+[#:js event='document,load']
+
+  var config = [#:json ./settings.conf];
+  var settingsForm = new js.ext.share.input.Form();
+  settingsForm.loadSchema(config.schema);
+  settingsForm.attachUI(js.dom.getElement('settings-area'));
+
+  js.dom.addActionListener('toggleBox', function (action, id) {
+    js.dom.toggleDisplay(id);
+  });
+
+[#:end js]
+
+<div id="settings-panel">
+
+  <a href="#ux:toggleBox:settings-area">Settings</a>
+
+  <div id="settings-area">
+    <p>Settings go here</p>
+  </div>
+
+</div>
+
+<div id="sendmail-panel">
+
+  <form id="sendmail-form">
+    [#:for (field) in fields]
+    <div>
+      [#:if field eq 'separator']
+      <hr/>
+      [#:else]
+      <label for="[#field/id]">[#field/label]:</label>
+      <input type="text" id="[#field/id]" name="[#field/id]" value="[#field/default]"/>
+      [#:end if]
+    </div>
+    [#:end for]
+    <div>
+      <h3>Text Part</h3>
+      <textarea name="Body"></textarea><br/>
+    </div>
+    <div>
+      <h3>HTML Part</h3>
+      <textarea name="HTML"></textarea><br/>
+    </div>
+    <div>
+      <button id="doSendMail" type="button">Send</button>
+    </div>
+  </form>
+
+</div>
+
+[#:js event='document,load']
+
+  function doSendMail () {
+    var mask = new js.lsn.Mask();
+    var req = new js.lsn.Request('[#`/ext/sendmail/module.pm`]/send_mail');
+    req.addEventListener('onFailure', function (req) {
+      var msg = 'An error occurred: ' + req.xhr.responseText;
+      alert(msg);
+    });
+    req.addEventListener('onSuccess', function (req) {
+      alert('Mail sent!');
+    });
+    req.addEventListener('onComplete', function (req) {
+      mask.hide();
+    });
+    var values = js.dom.getValues('sendmail-form');
+    mask.show();
+    req.submit(values);
+  }
+
+  js.dom.addEventListener('doSendMail', 'click', doSendMail);
+
+[#:end js]
+
+__DATA__
+title => Send an Email
+fields => @{
+  %{
+    id => From
+    label => From
+    default => noreply@[#/sys/server/name]
+  }
+  %{
+    id => To
+    label => To
+    default => 
+  }
+  %{
+    id => CC
+    label => CC
+    default => 
+  }
+#{
+  %{
+    id => BCC
+    label => BCC
+    default => 
+  }
+#}
+  separator
+  %{
+    id => Subject
+    label => Subject
+    default => 
+  }
+  separator
+}

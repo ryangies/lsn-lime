@@ -1,0 +1,61 @@
+[#:into ./base.html]
+
+<dl>
+  <dt><label for="email">Email Address:</label></dt>
+  <dd><input type="text" id="email" name="email" readonly="readonly"/></dd>
+  <dt><label for="name">Full Name:</label></dt>
+  <dd><input type="text" name="name" id="name"/></dd>
+  <dt>
+  <a id="btn_[#UID]_chpw" name="chpw" href="javascript:void(0)">Reset Password</a>
+  </dt>
+  <dd>
+    <dl id="[#UID]_passwords">
+      <dt><label for="passwd">New Password:</label></dt>
+      <dd><input type="password" name="passwd" id="passwd"/></dd>
+      <dt><label for="passwd2">New Password (again):</label></dt>
+      <dd><input type="password" name="passwd2" id="passwd2"/></dd>
+    </dl>
+  </dd>
+</dl>
+
+[#:css]
+#area[#UID] > dl {margin:0 .5em 0 .5em;}
+#area[#UID] dt {margin:.5em 0 0 0;}
+#area[#UID] dd {margin:0 0 .5em 0;}
+#email, #name {width:20em;}
+#passwd, #passwd2 {width:10em;}
+#[#UID]_passwords {display:none;margin:0;}
+[#:end css]
+
+[#:js event='dialog, load']
+js.dom.addEventListener('btn_[#UID]_chpw', 'click', function (event) {
+  js.dom.setStyle('[#UID]_passwords', 'display', 'block');
+  js.dom.setStyle('btn_[#UID]_chpw', 'display', 'none');
+});
+[#:end js]
+
+[#:js event='dialog, ready']
+js.dom.setStyle('[#UID]_passwords', 'display', 'none');
+js.dom.setStyle('btn_[#UID]_chpw', 'display', 'block');
+var email = dlg[#UID].params.email;
+js.dom.getElement('email').value = email;
+js.dom.getElement('name').value = '';
+js.dom.getElement('passwd').value = '';
+js.dom.getElement('passwd2').value = '';
+new js.lsn.Request('[#`../module.pm/query`]', {
+  onSuccess: function (resp) {
+    var account = resp.responseHash.get('body');
+    js.dom.getElement('name').value = account.get('name');
+  }
+}).submit({type: 'get_account', email: email});
+[#:end js]
+
+[#:js event='dialog, ok']
+var params = {type: 'update_vmail'};
+js.util.overlay(params, js.dom.getValues('area[#UID]'));
+doMailCommand(params);
+[#:end js]
+
+__DATA__
+
+title => Edit Email Account 

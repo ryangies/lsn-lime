@@ -1,0 +1,43 @@
+[#:http:no-cache]
+[#:into ../../share/master.ht]
+<div id="[#UID]"></div>
+[#:end into]
+
+[#:css]
+#[#UID] {padding:2px;}
+[#:end css]
+
+[#:js]
+js.extend('lsn.ext.browse', function () {
+
+  var CTreeView = js.hubb.ui.TreeView;
+
+  this.FolderList = function () {
+    CTreeView.apply(this, arguments);
+  };
+
+  var proto = this.FolderList.prototype = js.lang.createMethods(CTreeView);
+
+  proto.canDisplay = function (dnode) {
+    return dnode.isDirectory();
+  };
+
+  proto.onClick = function (event, tnode) {
+    this.deselect();
+    this.selectNode(tnode);
+    js.dom.stopEvent(event);
+  };
+
+});
+[#:end js]
+
+[#:js event='window, load']
+var folders = new js.lsn.ext.browse.FolderList();
+folders.addActionListener('select', function (action, tnode) {
+  var tabId = tnode.data.getAddress();
+  parent.js.lsn.desktop.browse(tnode, tabId);
+});
+var elem = js.dom.getElement('[#UID]');
+elem.appendChild(folders.getElement());
+folders.expand('/');
+[#:end js]

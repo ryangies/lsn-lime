@@ -1,0 +1,7 @@
+# HashFile 2.1
+category => experimental
+name => sysexec
+title => System Execute
+desc => Execute system commands
+icon => /res/icons/16x16/mimetypes/application-x-executable.png
+canClose => true

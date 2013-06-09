@@ -1,0 +1,9 @@
+# HashFile 2.1
+category => advanced
+name => Execd Log
+title => Execution Deamon Log
+desc => View the execd log.
+icon => /res/icons/16x16/status/dialog-warning.png
+side => right
+canClose => true
+loadInBackground => false

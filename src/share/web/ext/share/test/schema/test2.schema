@@ -1,0 +1,25 @@
+# HashFile 2.1
+#
+# Rercursion tests
+#
+fields => @{
+
+  %{
+    type => hash
+    name => text
+    label => Hash
+    description => A collection of values
+    fields => @{
+    }
+  }
+
+  %{
+    type => hash
+    name => text
+    label => Hash
+    description => A collection of values with a remote schema
+    schema => /res/schemas/desktop.ext.mainmenu.hf
+  }
+
+}
+

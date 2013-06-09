@@ -1,0 +1,13 @@
+/** 
+ *  Custom styles for shared panel-menu widgets.
+ *  See /ext/share/css/ui/panel-menu.css
+ */
+[#:use ../build.hf]
+#[#screen/id]-area3 dl.panel-menu dt,
+#[#screen/id]-area3 dl.panel-menu dd,
+#[#screen/id]-area3 dl.panel-menu ol,
+#[#screen/id]-area3 dl.panel-menu li
+#[#screen/id]-area3 dl.panel-menu dd
+{
+  float:left;
+}

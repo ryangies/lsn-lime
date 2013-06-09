@@ -1,0 +1,103 @@
+[#:into /ext/share/layouts/master.ht]
+[#:js src='/res/js/livesite.js']
+[#:js src='/ext/share/js/ext-filesystem.js']
+[#:js src='/ext/share/js/ext-sitemap.js']
+
+[#:js extend='local']
+
+  var pup = new js.ext.share.ui.menu.PopupMenu();
+  pup.setContent(js.dom.createElements('OL.action-menu', [
+    'LI', ['A=Sample',   {'href':'#action:showSample:sample-popup'}],
+    'LI', ['A=Sitemap',  {'href':'#action:showSample:sample-sitemap'}],
+    'LI', ['A=Filesystem',  {'href':'#action:showSample:sample-filesystem'}]
+  ]));
+
+  js.dom.addActionListener('showSample', function (action, name) {
+    env.dialogs.get(name).show();
+  });
+
+  js.dom.addActionListener('showMenu', function (action, name) {
+    pup.show(action.event);
+  });
+
+  js.dom.addActionListener('showLoading', function (action) {
+    env.showLoading();
+  });
+
+  env.dialogs.register('sample-popup', js.lsn.ui.Dialog, function () {
+    this.setContent(js.dom.getElement('sample'));
+    this.makeModal();
+  });
+
+  env.dialogs.register('sample-sitemap', js.ext.share.ui.DialogForm, function () {
+    this.form.loadSchema([#:json forms/sitemap]);
+    this.setContent(js.dom.getElement('sample-sitemap'));
+    this.makeModal();
+    this.form.attachUI(this.getElementById('dialog-contents'));
+  });
+
+  env.dialogs.register('sample-filesystem', js.ext.share.ui.DialogForm, function () {
+    this.form.loadSchema([#:json forms/filesystem]);
+    this.setContent(js.dom.getElement('sample-filesystem'));
+    this.makeModal();
+    this.form.attachUI(this.getElementById('dialog-contents'));
+  });
+
+[#:end js]
+
+<div class="layout-body">
+
+  <button value="action:showSample:sample-popup">Show Sample Popup</button>
+  <button value="action:showSample:sample-sitemap">Show Sample Sitemap Popup</button>
+  <button value="action:showSample:sample-filesystem">Show Sample Filesystem Popup</button>
+  <button value="action:showMenu">Show Sample Popup Menu</button>
+  <button value="action:showLoading">Show Loading</button>
+
+  <div class="dn">
+
+    [#:into /ext/share/dialog/layout-popup.ht _content_id='sample']
+    <div style="width:400px;height:200px;overflow:auto;">
+      [#/res/var/lorem-ipsum.html]
+    </div>
+    [#:end into]
+
+    [#:into /ext/share/dialog/layout-popup.ht _content_id='sample-sitemap' _title='Select a sitemap entry']
+    <div style="width:400px;height:200px;overflow:auto;">
+      <div id="dialog-contents"></div>
+    </div>
+    [#:end into]
+
+    [#:into /ext/share/dialog/layout-popup.ht _content_id='sample-filesystem' _title='Select a node']
+    <div style="width:400px;height:200px;overflow:auto;">
+      <div id="dialog-contents"></div>
+    </div>
+    [#:end into]
+
+  </div>
+
+</div>
+
+__DATA__
+
+forms => %{
+  sitemap => %{
+    fields => @{
+      %{
+        name => foo
+        type => select-sitemap-entry
+      }
+    }
+  }
+  filesystem => %{
+    fields => @{
+      %{
+        name => bar
+        type => select-filesystem-entry
+        input => %{
+          rootAddress => /images
+          showThumbnails => 1
+        }
+      }
+    }
+  }
+}

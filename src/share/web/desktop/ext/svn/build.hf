@@ -1,0 +1,9 @@
+# HashFile 2.1
+copyright => Livesite (c) Livesite Networks, LLC 2006-2010.
+target => ./local.js
+doc_target => 
+name => Livesite Desktop Extenstion: Subversion
+version => .001
+files => @{
+  js/{\.js$}
+}

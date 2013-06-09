@@ -1,0 +1,8 @@
+# HashFile 2.1
+category => site
+name => Root
+title => Go to the root folder
+desc => Opens a file browser to the document root directory.
+icon => /res/icons/16x16/places/user-home.png
+pos => 0
+canClose => true

@@ -1,0 +1,121 @@
+[#:into /desktop/share/master.ht]
+[#:js src=`./editor.js`]
+[#:js src=`./js/ace/ace.js`]
+[#:use /res/palettes/lsn.hf]
+[#:css]
+  #menubg {
+    background-image:url(/desktop/share/images/bb.png);
+    background-position:bottom;
+    background-repeat:repeat-x;
+    background-color:[#white];
+    z-index:1;
+    height:40px;
+  }
+  #menubar1 {
+    position:absolute;
+    top:5px;
+    left:5px;
+  }
+  #menubar2 {
+    position:absolute;
+    top:5px;
+    right:5px;
+  }
+  #workarea { 
+    margin: 0;
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  #statusbar {
+    position:absolute;
+    height:0;
+    bottom:0;
+  }
+  .statusPopup {
+    z-index:1001;
+    text-align:left;
+  }
+  .statusNotify {
+    border:1px outset [#green1];
+    background-color:[#green2];
+    color:[#white];
+  }
+  .statusAlert {
+    border:1px outset [#orange1];
+    background-color:[#orange2];
+    color:[#white];
+  }
+  .statusPopup .footerButtons {
+    text-align:right;
+  }
+[#:end css]
+
+<div id="menubg">
+  <div id="menubar1"></div>
+  <div id="menubar2"></div>
+</div>
+<pre id="workarea"></pre>
+<div id="statusbar"></div>
+
+[#:js extend='local']
+
+  var _recursion = 0;
+  var _editor = null;
+
+  this.beginEditing = function (dnode) {
+    if (!_editor) {
+      if (_recursion > 8) {
+        _recursion = 0;
+        throw 'Failed to initialize in a timely manner';
+      }
+      js.dom.setTimeout(js.local.beginEditing, 250, this, arguments);
+      _recursion++;
+      return;
+    }
+    _recursion = 0;
+    _editor.edit(dnode);
+  };
+
+  this.endEditing = function () {
+    _editor.clear();
+  };
+
+  this.init = function () {
+    var strings = [#:json:var ./strings.hf];
+    _editor = new js.lsn.desktop.ext.edit.ace.Editor('workarea');
+    var menu1 = new js.lsn.desktop.ext.edit.ace.MenuMain('menubar1', _editor);
+    var menu2 = new js.lsn.desktop.ext.edit.ace.MenuOptions('menubar2', _editor);
+    var statusBar = new js.lsn.desktop.ext.edit.ace.StatusBar('statusbar');
+    _editor.addActionListener('saved', function (action, dnode, sb) {
+      sb.notify(strings.on_saved);
+    }, null, [statusBar]);
+    _editor.addActionListener('notsaved', function (action, dnode, sb) {
+      sb.alert(strings.on_notsaved);
+    }, null, [statusBar]);
+    _editor.addActionListener('conflict', function (action, dnode, sb) {
+      sb.alert(strings.on_conflict);
+    }, null, [statusBar]);
+
+    var kp = new js.dom.KeyPress();
+    kp.addHandler('ctrl+s', js.local.onCtrlS);
+    kp.attach(js.window);
+
+  };
+
+  this.onCtrlS = function (event) {
+    js.dom.stopEvent(event);
+    _editor.saveContent();
+  };
+
+  this.checkModified = function () {
+    return _editor.hasChanged();
+  };
+
+[#:end js]
+
+[#:js event='document, load']
+  js.local.init();
+[#:end js]

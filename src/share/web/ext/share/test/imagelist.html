@@ -1,0 +1,37 @@
+[#:into /ext/share/layouts/master.ht]
+
+[#:js event='document,load']
+
+  env.hub.get('/ext/share/test/imagelist.html/images', function (dnode) {
+
+    var editor = new js.ext.share.filesystem.input.editors.ImageList();
+    editor.load(dnode);
+    js.dom.replaceChildren('imagelist', editor.getElements());
+    js.dom.replaceChildren('menu',      editor.getMenuElements());
+
+/*
+    var view = new js.ext.share.data.view.ListView();
+    view.setLayerName('my-layer');
+    view.load(dnode);
+    js.dom.appendChildren('imagelist', view.getElements());
+*/
+
+  });
+
+[#:end js]
+
+<div class="layout-body">
+
+  <div id="imagelist"></div>
+  <div id="menu"></div>
+
+</div>
+
+__DATA__
+images => @{
+  /res/images/dropdown.png
+  /res/images/dropup.png
+  /res/images/busy.gif
+  /res/images/mountain.jpg
+  /res/images/plasma.png
+}

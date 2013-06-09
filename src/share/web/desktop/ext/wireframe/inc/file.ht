@@ -1,0 +1,68 @@
+[#:use /res/palettes/lsn.hf]
+[#:css]
+  #fileName {width:40%;}
+[#:end css]
+<div id="FileMenu">
+  <input id="fileName" value="/data/wireframes/test-001.hf"/>
+  <button value="action:onLoadFile">Load</button>
+  <button value="action:onSaveFile">Save</button>
+</div>
+[#:js]
+
+  js.extend('lsn.ext.wireframe.ui', function (js) {
+
+    this.Storage = function (app) {
+      this.app = app;
+      this.db = js.hubb.getInstance();
+      this.dnode = null;
+      app.addActionListener('onLoadFile', this.onLoadFile, this);
+      app.addActionListener('onSaveFile', this.onSaveFile, this);
+    };
+
+    var Storage = this.Storage.prototype = js.lang.createMethods();
+
+    Storage.onLoadFile = function (action) {
+      var addr = js.dom.getValue(this.app.ui.fileName);
+      this.db.fetch(addr, [this.onFetch, this]);
+    };
+
+    Storage.onSaveFile = function (action) {
+      var addr = js.dom.getValue(this.app.ui.fileName);
+      var data = this.app.root.toObject();
+      this.db.fetch(addr, [function (dnode) {
+        if (dnode) {
+          this.db.store(addr, data, [this.onStore, this]);
+        } else {
+          this.app.confirm('File does not exist, create it? ' + addr, [function (bResult) {
+            var name = js.data.addr_name(addr);
+            var path = js.data.addr_parent(addr);
+            this.db.create(path, name, 'file-text', [function (dnode) {
+              if (dnode) {
+                this.db.store(addr, data, [this.onStore, this]);
+              } else {
+                this.app.alert('Could not create the file');
+              }
+            }, this]);
+          }, this]);
+        }
+      }, this]);
+    };
+
+    Storage.onFetch = function (dnode) {
+      if (dnode) {
+        this.app.root.fromObject(dnode.toObject());
+        this.app.notify('Loaded');
+      } else {
+        this.app.alert('Could not load the file');
+      }
+    };
+
+    Storage.onStore = function (dnode) {
+      this.app.notify(dnode ? 'Saved' : 'An error occurred while saving!');
+    };
+
+  });
+
+  new js.lsn.ext.wireframe.ui.Storage(app);
+
+[#:end js]

@@ -1,0 +1,74 @@
+[#:http:no-cache]
+[#:into ../../share/standard.ht]
+
+<h1>Execution Daemon Error Log</h1>
+<div>
+  <p>
+    Most recent entries are at top.
+  </p>
+  [#:comment]
+  <p>
+    Colors: <span class="error">[error]</span>
+    <span class="warn">[warn]</span>
+    <span class="info">[info]</span>
+    <span>[other]</span>
+  </p>
+  [#:end comment]
+</div>
+<div class="vspc"><button id="btnRefresh">Refresh</button></div>
+<div id="out"></div>
+
+[#:use ../../share/colors.hf]
+[#:css]
+  div.vspc {margin:5px 0;}
+  pre {border-left:1px solid [#black];padding:1px 2px;margin:1px 0;}
+  .info {color:[#gray2];}
+  .warn {color:[#orange1];}
+  .error {color:[#red3];}
+  pre.info {border-left-color:[#gray2];}
+  pre.warn {border-left-color:[#orange1];}
+  pre.error {border-left-color:[#red3];}
+[#:end css]
+
+[#:js]
+  js.extend('lsn.ext.errlog', function (js) {
+
+    var _proto = {}
+
+    this.Main = function () {
+      js.dom.addEventListener('btnRefresh', 'click', this.run, this);
+      this.run();
+    };
+
+    this.Main.prototype = _proto;
+
+    _proto.run = function (event) {
+      var req = new js.lsn.Request('[#`./module.pm/tail_log`]');
+      req.addEventListener('onSuccess', this.showResults, this);
+      req.submit();
+    };
+
+    _proto.showResults = function (req) {
+      var out = js.dom.getElement('out');
+      var result = req.responseHash.get('body').values().reverse();
+      js.dom.removeChildren(out);
+      for (var i = 0, entry; entry = result[i]; i++) {
+        var info = entry.get('info').toObject();
+        var infoMessage = info.join(' - ');
+        var message = entry.get('message');
+        var pre = js.dom.createElement('pre.entry', {innerHTML: message});
+        if (info[1]) {
+          js.dom.addClassName(pre, info[1]);
+        }
+        out.appendChild(pre);
+      }
+    };
+
+  });
+
+  js.dom.addEventListener(document, 'load', function (event) {
+
+    new js.lsn.ext.errlog.Main();
+
+  });
+[#:end js]

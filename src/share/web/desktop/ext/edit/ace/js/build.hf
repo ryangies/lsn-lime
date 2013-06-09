@@ -1,0 +1,12 @@
+# HashFile 2.1
+copyright => Livesite (c) Livesite Networks, LLC.
+target => ../editor.js
+name => Livesite Desktop Extension Edit using ACE
+version => .001
+files => @{
+  metadata.js
+  MenuMain.js
+  MenuOptions.js
+  StatusBar.js
+  Editor.js
+}

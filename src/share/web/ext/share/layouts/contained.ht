@@ -1,0 +1,20 @@
+<!doctype html>
+[#:exec ../pm/lime.pm/authorize]
+[#:http:no-cache]
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="origin" content="[#/sys/server/name]">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    [#:css src=`/res/css/normalize.css`]
+    [#:css src=`../css/contained.css`]
+    [#:js src=`/res/js/livesite.js`]
+    [#:js src=`/res/js/hub.js`]
+    [#:js src=`../js/common.js`]
+    [#:js src=`../js/ext-share.js`]
+    [#:js src=`./inc/contained.js`]
+  </head>
+  <body>
+    [#CONTENT]
+  </body>
+</html>

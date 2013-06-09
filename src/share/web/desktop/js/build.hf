@@ -1,0 +1,10 @@
+# HashFile 2.1
+
+copyright => Livesite (c) Livesite Networks, LLC 2006-2009.
+target => ../share/desktop.js
+doc_target => 
+name => Livesite Desktop
+version => .002
+files => @{
+  lsn/{\.js$}
+}

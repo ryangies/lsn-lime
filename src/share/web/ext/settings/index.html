@@ -1,0 +1,52 @@
+[#:into ../share/layouts/contained.ht]
+[#:js src=`./local.js`]
+
+<h1>[#:ce heading]</h1>
+<div>[#:ce intro.txt]</div>
+
+[#:use ../share/data/colors.hf]
+[#:css]
+  body {
+    padding:10px;
+  }
+  h3 {
+    font-weight:normal;
+  }
+  div#extlist {
+    padding:0 10px;
+  }
+  h2 {
+    padding:5px;
+    background-color:[#gray90];
+    border-top:2px solid [#gray60];
+  }
+  div#extlist div.btns {
+    text-align:right;
+    padding:5px;
+    background-color:[#gray90];
+    border-bottom:1px solid [#gray60];
+  }
+  div.mm_item {
+    margin:2px 20px;
+    padding:2px;
+    color:[#gray60];
+  }
+  div.enabled {
+    color:[#green1];
+  }
+  div.mm_item * {
+    margin-right:5px;
+  }
+  span.title {
+    font-weight:bold;
+  }
+[#:end css]
+
+[#:js event='document,load']
+  new js.lsn.ext.settings.Main();
+[#:end js]
+
+__DATA__
+# HashFile 2.1
+heading => Desktop Settings
+intro.txt => <p>These settings apply to all Desktop users.</p>

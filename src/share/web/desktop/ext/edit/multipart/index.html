@@ -1,0 +1,86 @@
+[#:head 'menu']
+  [#/desktop/share/halist.html _list=menu]
+[#:end head]
+
+<div id="data[#UID]" class="w1 h4 vp"></div>
+<textarea id="content[#UID]" class="w1 h4 vp" wrap="off"></textarea>
+
+[#:use /desktop/share/colors.hf]
+[#:css]
+.vp {overflow:auto;position:absolute;top:0;left:0;}
+#data[#UID], #data[#UID] div {position:relative;}
+#data[#UID] .lbl {color:[#green1];padding:2px 0;}
+#data[#UID] .lbl {float:left;margin-right:4px;}
+#data[#UID] .wrap {padding-left:20px;margin:4px 0;}
+#data[#UID] .wrap {background:repeat-y url(/res/icons/16x16/nodes/mpe-bg.png);}
+#data[#UID] .wrap img {position:absolute;left:0;}
+#data[#UID] .wrap img.beg {top:0;}
+#data[#UID] .wrap img.end {bottom:0;}
+#data[#UID] .ctrl input,
+#data[#UID] .ctrl textarea,
+#data[#UID] .ctrl iframe {
+  width:100%;padding:0 2px;border:1px solid #ddd;
+}
+#data[#UID] .ctrl iframe {background:#fff;}
+#data[#UID] .clear {clear:both;}
+#content[#UID] {border:none;font-family:monospace;font-size:.9em;}
+
+#data[#UID] .ctrl .tb {width:100%;padding:0 2px;}
+#data[#UID] .ctrl .tb {background-color:#efd;border-style:solid;border-color: #ddd;}
+#data[#UID] .ctrl .tb {border-width:1px 1px 0 1px;}
+/*
+#data[#UID] .lbl {background-color:#fed;}
+#data[#UID] .wrap {background-color:#def;}
+#data[#UID] .ctrl {border:1px solid red;}
+*/
+
+[#:end css]
+
+[#:js src=`./MPEditor.js`]
+
+[#:comment]
+[#:js src=`../nice/nicEdit.js`]
+[#:js src=`../fckeditor/fckeditor.js`]
+[#:end comment]
+
+[#:js]
+var Editor[#UID] = undefined; // declare in global scope
+[#:end js]
+
+[#:js event='widget, ready']
+Editor[#UID] = new js.lsn.ext.edit.MPEditor(this, {
+  data: js.dom.getElement('data[#UID]'),
+  content: js.dom.getElement('content[#UID]')
+});
+Editor[#UID].editData();
+[#:end js]
+
+[#:js event='widget, hide']
+Editor[#UID].clear();
+[#:end js]
+
+__DATA__
+
+lbl.rgb => #083
+
+menu => @{
+  %{
+    js => Editor[#UID].save()
+    icon => /res/icons/16x16/actions/document-save.png
+    desc.txt => Save
+  }
+  %{
+    type => space
+  }
+  %{
+    js => Editor[#UID].editData()
+    icon => /res/icons/16x16/nodes/data-hash.png
+    desc.txt => Edit Data
+  }
+  %{
+    js => Editor[#UID].editContent()
+    icon => /res/icons/16x16/mimetypes/text-x-paragraph.png
+    #icon => /res/icons/16x16/mimetypes/text-x-script.png
+    desc.txt => Edit Content
+  }
+}

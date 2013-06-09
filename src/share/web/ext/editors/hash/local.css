@@ -1,0 +1,64 @@
+[#:use /ext/share/data/colors.hf]
+[#:use /res/css/snippets.hf]
+
+#ext-editors-hash-screen #ext-editors-hash-Editor {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+}
+#ext-editors-hash-Editor dl.form {
+  margin:0;
+}
+#ext-editors-hash-Editor dl.form dt.form-field {
+}
+#ext-editors-hash-Editor dl.form dd.form-field {
+  margin:0;
+}
+#ext-editors-hash-Editor dl.form dd.form-field input.text {
+  width:280px;
+}
+#ext-editors-hash-Editor p.description {
+  font-size:smaller;
+  font-style:italic;
+  color:[#gray30];
+  margin:5px 0;
+}
+
+#ext-editors-hash-Editor table.EditView {
+  background-color:whitesmoke;
+  width:100%;
+}
+#ext-editors-hash-Editor tr.FieldView {
+  border-bottom:1px solid [#gray90];
+}
+#ext-editors-hash-Editor tr.FieldView > th {
+  border-right:1px solid [#gray90];
+  width:200px;
+}
+#ext-editors-hash-Editor tr.FieldView > th,
+#ext-editors-hash-Editor tr.FieldView > td {
+  text-align:left;
+  vertical-align:top;
+  padding:5px 10px;
+}
+#ext-editors-hash-Editor tr.FieldView > td > input[type=text],
+#ext-editors-hash-Editor tr.FieldView > td > #input-textarea > textarea,
+#ext-editors-hash-Editor tr.FieldView > td > textarea,
+#ext-editors-hash-Editor tr.FieldView > td > input.text {
+  background-color:white;
+  border:2px inset whitesmoke;
+  border-radius:5px;
+  padding:5px;
+}
+
+#ext-editors-hash-Editor table.EditView div.input > #input-textarea,
+#ext-editors-hash-Editor table.EditView div.input > #input-textarea > textarea,
+#ext-editors-hash-Editor table.EditView div.input > div.CodeMirror,
+#ext-editors-hash-Editor table.EditView div.input > input.text {
+  width:100%;
+}
+
+#ext-editors-hash-Editor table.EditView div.input > #input-textarea > textarea {
+  height:60px;
+}

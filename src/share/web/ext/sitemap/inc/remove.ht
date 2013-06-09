@@ -1,0 +1,94 @@
+[#:js]
+
+  var form = new js.ext.share.input.Form();
+  var dnode = null;
+
+  function onDialogLoad () {
+    form.loadSchema([#:json schema]);
+    var fields = form.getFields();
+    var rows = [];
+    for (var i = 0, field; field = fields[i]; i++) {
+      if (field.data.type == 'hidden') continue;
+      rows = rows.concat(js.dom.createElements(
+        'DT.form-field=' + field.data.label,
+        'DD.form-field', [
+          'P.summary=' + field.data.description,
+          'DIV.input', field.input.getElements()
+        ]
+      ));
+    }
+    var div = this.getElementById('inputs');
+    js.dom.appendChildren(div, js.dom.createElements('DL.form', rows));
+  }
+
+  function onOk () {
+    var values = form.serializeValues();
+    var req = new js.lsn.Request('/ext/sitemap/module.pm/remove');
+    env.showLoading();
+    req.submit(values, [function (req) {
+      if (req && req.responseHash) {
+        var db = dnode.getDataBridge();
+        var result = req.responseHash.getObject('/body');
+        db.batch(result.commands, [function () {
+          env.hideLoading();
+          this.hide();
+        }, this]);
+      } else {
+        env.hideLoading();
+        alert(req.xhr.responseText || 'An unknown error occurred');
+      }
+    }, this]);
+  };
+
+  function onDialogShow (action, params) {
+    dnode = params.dnode;
+    form.getField('addr').input.setValue(dnode.getAddress());
+    // TODO Dislay the addr in the yesno field
+    form.focus();
+  };
+
+  env.dialogs.register('ext-sitemap-remove', js.ext.share.ui.Dialog, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.addActionListener('onDialogLoad', onDialogLoad, this);
+    this.addActionListener('onDialogShow', onDialogShow, this);
+    this.addActionListener('onOk', onOk, this);
+    this.makeModal();
+  });
+
+  env.registerHandler('ext-sitemap-show-remove', function (action, node) {
+    env.dialogs.get('ext-sitemap-remove').show({'dnode':node.data});
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="ok">[#ok.txt]</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-sitemap-remove-dialog
+_title => Remove sitemap entry
+_icon => /res/icons/16x16/actions/edit-delete2.png
+ok.txt => Delete now
+schema => %{
+  fields => @{
+    %{
+      name => addr
+      type => hidden
+    }
+    %{
+      name => remove-data
+      type => yesno
+      label => Also remove data
+      description => Remove any associated files and folders (in addition to this entry in the sitemap).
+      input => %{
+        value => 0
+      }
+    }
+  }
+}

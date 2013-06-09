@@ -1,0 +1,12 @@
+# HashFile 2.1
+copyright => Livesite (c) Livesite Networks, LLC 2010.
+target => ../local.js
+name => Livesite Desktop Extension Edit Data
+version => .001
+files => @{
+  Main.js
+  InputText.js
+  InputTextarea.js
+  ResizeTextarea.js
+  StatusIcon.js
+}

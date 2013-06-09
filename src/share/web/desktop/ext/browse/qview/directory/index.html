@@ -1,0 +1,30 @@
+<div id="editor[#UID]">
+  <div style="width:150px;">
+  [#/desktop/share/valist.html _list=cmds]
+  </div>
+</div>
+
+__DATA__
+
+cmds => @{
+  %{
+    js => js.local.newdir();
+    icon => /res/icons/16x16/actions/folder-new.png
+    desc.txt => New folder
+  }
+  %{
+    js => js.local.newtxt();
+    icon => /res/icons/16x16/actions/document-new.png
+    desc.txt => New text file
+  }
+  %{
+    js => js.local.upload();
+    icon => /res/icons/16x16/status/mail-attachment.png
+    desc.txt => Upload a file
+  }
+  %{
+    js => js.local.download();
+    icon => /res/icons/16x16/apps/internet-web-browser.png
+    desc.txt => Fetch a file
+  }
+}

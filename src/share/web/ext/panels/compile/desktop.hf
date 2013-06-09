@@ -1,0 +1,9 @@
+# HashFile 2.1
+category => domain
+name => Compile
+title => Compile
+desc => Compile website to a local output folder
+icon => /res/icons/16x16/status/software-update-available.png
+side => right
+canClose => true
+loadInBackground => false

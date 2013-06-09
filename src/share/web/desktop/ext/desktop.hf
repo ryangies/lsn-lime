@@ -1,0 +1,13 @@
+# HashFile 2.1
+.schema => /res/schemas/desktop.ext.mainmenu.hf
+modules => %{
+  extlist => %{
+    category => desktop
+    name => Site Extensions
+    title => Extensions
+    desc => Manage desktop extensions available for this site
+    icon => /res/icons/16x16/emblems/emblem-system.png
+    src => /desktop/ext/edit/hashtable/?target=/web/admin/desktop.hf
+    canClose => true
+  }
+}

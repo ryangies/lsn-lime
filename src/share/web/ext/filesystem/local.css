@@ -1,0 +1,20 @@
+[#:use /ext/share/data/colors.hf]
+table.tree-list-view td.detail {
+}
+table.tree-list-view th.detail.size { width:8em; }
+table.tree-list-view th.detail.date { width:8em; }
+table.tree-list-view th.detail.time { width:6em; }
+table.tree-list-view th.detail.type { width:12em; }
+table.tree-list-view td.detail.size {
+}
+table.tree-list-view td.detail.date {
+  color:[#gray50];
+}
+table.tree-list-view td.detail.time {
+  color:[#gray50];
+}
+table.tree-list-view td.detail.type {
+  color:[#gray50];
+  text-align:left;
+  font-style:italic;
+}

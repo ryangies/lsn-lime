@@ -1,0 +1,60 @@
+# HashFile 2.1
+items => @{
+
+  %{
+    type => category
+    heading => File
+    items => @{
+
+      %{
+        type => item
+        text => Open
+        tooltip => Open a file
+        action => ext-editors-hash-show-file-open
+        icon => /res/icons/16x16/actions/document-open.png
+      }
+
+      %{
+        type => item
+        target => selection
+        text => Close
+        tooltip => Close the file
+        action => ext-editors-hash-file-close
+        icon => /res/icons/16x16/actions/document-close.png
+      }
+
+      %{
+        type => item
+        target => selection
+        text => Reload
+        tooltip => Reload the contents of this file
+        action => ext-editors-hash-file-reload
+        icon => /res/icons/16x16/actions/view-refresh.png
+      }
+
+      %{
+        type => item
+        target => selection
+        text => Save
+        tooltip => Save the current file
+        action => ext-editors-hash-file-save
+        icon => /res/icons/16x16/actions/document-save.png
+      }
+
+#{
+
+      %{
+        type => item
+        target => selection
+        text => Save As...
+        tooltip => Save this file under a different name
+        action => ext-editors-hash-show-file-save-as
+        icon => /res/icons/16x16/actions/document-save.png
+      }
+
+#}
+
+    }
+  }
+
+}

@@ -1,0 +1,9 @@
+<form id="ListButtons">
+  <select id="typeName" name="typeName"></select>
+  <button value="createAfter">After</button>
+  <button value="createChild">Child</button>
+  <button value="createParent">Parent</button>
+  <button value="createBefore">Before</button>
+  <button value="deleteCurrent">Delete</button>
+  <button value="deleteRecursive">Delete Recursive</button>
+</form>

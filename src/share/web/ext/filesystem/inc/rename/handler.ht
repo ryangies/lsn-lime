@@ -1,0 +1,72 @@
+[#:js]
+
+  var handler = function (action, node) {
+    var dnode = node.getDataNode();
+    var dlg = env.dialogs.get('[#_content_id]');
+    dlg.run(dnode, function (action, values) {
+      env.hub.rename(values, function (dnode) {
+        if (!dnode) {
+          env.status.alert('An error occurred while trying to rename');
+        }
+      });
+    });
+  };
+
+/*
+  var initiator = new js.ext.share.Initiator({
+    'text': 'Rename',
+    'type': 'file-action',
+    'target': 'selection',
+    'tooltip': 'Change the file\'s name',
+    'action': 'do-file-rename',
+    'icon': '/res/icons/16x16/emblems/emblem-system.png',
+    'sortValue': 3,
+    'matchTypes': [/file-/]
+  });
+
+  env.registerHandler('do-file-rename', handler, initiator);
+*/
+
+  env.registerHandler('do-file-rename', handler);
+
+  function onDialogShow (action, dnode) {
+    this.form.getInput('target').setValue(dnode.getAddress());
+    this.form.getInput('name').setValue(dnode.getKey());
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.DialogForm, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.form.loadSchema([#:json schema]);
+    this.form.attachUI(this.getElementById('inputs'));
+    this.addActionListener('onDialogShow', onDialogShow, this);
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="cancel">Cancel</button>
+    <button type="button" name="action" value="ok">Update</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-filesystem-rename
+_title => Rename
+_icon => /res/icons/16x16/emblems/emblem-system.png
+schema => %{
+  fields => @{
+    %{
+      type => hidden
+      name => target
+    }
+    %{
+      type => text
+      name => name
+      label => New name
+    }
+  }
+}

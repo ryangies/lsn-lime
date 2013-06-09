@@ -1,0 +1,17 @@
+[#:use /res/palettes/lsn.hf]
+html body {font-family:sans-serif;font-size:10pt;color:[#gray1]}
+a {color:[#gray1];}
+a:hover {color:[#black];}
+div#inputArea,
+div#buttonsArea {margin:1em 0;padding:1em;border:1px solid [#gray2];}
+div#inputArea td {text-align:left;}
+div#inputArea th {text-align:left;font-weight:normal;}
+div#inputArea th h4 {color:[#brown1];font-weight:bold;margin:0;}
+div#inputArea input.text,
+div#inputArea input.password,
+div#inputArea textarea {width:350px;padding:3px;}
+div#outputArea {position:relative;}
+div#outputArea pre {margin:0;}
+div#outputArea .status {color: [#green1];}
+div#outputArea .result {color: [#black];}
+div#outputArea .error {color: [#red1];}

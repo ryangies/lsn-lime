@@ -1,0 +1,9 @@
+# HashFile 2.1
+category => domain
+name => FTP
+title => FTP
+desc => Send and receive files via FTP
+icon => /res/icons/16x16/status/software-update-available.png
+side => right
+canClose => true
+loadInBackground => false

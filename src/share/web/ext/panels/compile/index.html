@@ -1,0 +1,68 @@
+[#:into /res/layouts/xhtml+lsn]
+[#:js src=`./local.js`]
+[#:js event='document,load']
+
+  var main = new js.local.Main();
+  main.attachSettings(js.dom.getElement('settingsArea'));
+  main.attachOutput(js.dom.getElement('outputArea'));
+  main.attachSimpleButtons(js.dom.getElement('simpleArea'));
+  main.attachAdvancedButtons(js.dom.getElement('advancedArea'));
+
+  js.dom.addEventListener('tglsettings', 'click', function (event) {
+    js.dom.stopEvent(event);
+    var style = js.dom.getStyle('settingsArea', 'display');
+    js.dom.setStyle('settingsArea', 'display', style == 'none' ? 'block' : 'none');
+  });
+
+  js.dom.addEventListener('showadvanced', 'click', function (event) {
+    js.dom.stopEvent(event);
+    var style = js.dom.getStyle('advancedArea', 'display');
+    js.dom.setStyle('advancedArea', 'display', style == 'none' ? 'block' : 'none');
+  });
+
+[#:end js]
+
+<h1>Compile</h1>
+<p>This utility will compile web pages producing static HTML and resources.</p>
+
+<div><a id="tglsettings" href="">Show Settings</a></div>
+<div id="settingsArea"></div>
+
+<div><a id="showadvanced" href="">Show Advanced Controls</a></div>
+<div id="advancedArea"></div>
+
+<div id="simpleArea"></div>
+<div id="outputArea"></div>
+
+[#:use /res/palettes/lsn.hf]
+[#:css]
+html body {font-family:sans-serif;font-size:10pt;color:[#gray1]}
+a {color:[#gray1];}
+a:hover {color:[#black];}
+
+div#settingsArea,
+div#advancedArea {display:none;}
+
+div#settingsArea,
+div#simpleArea,
+div#advancedArea {margin:1em 0;padding:1em;border:1px solid [#gray2];}
+
+div#settingsArea td {text-align:left;}
+div#settingsArea th {text-align:left;font-weight:normal;}
+div#settingsArea th h4 {color:[#brown1];font-weight:bold;margin:0;}
+div#settingsArea input.text,
+div#settingsArea input.password,
+div#settingsArea textarea {width:350px;}
+div#settingsArea textarea {height:150px;}
+
+div#outputArea tr.Exclude   {color:[#gray2];}
+div#outputArea tr.Ignore   {color:[#gray2];}
+div#outputArea tr.Include   {color:[#black];}
+div#outputArea tr.No.Change   {color:[#gray2];}
+div#outputArea tr.D   {color:[#red1];}
+div#outputArea tr.M   {color:[#blue1];}
+div#outputArea tr.A   {color:[#green1];}
+div#outputArea .autohide tr.Exclude   {display:none;}
+div#outputArea .autohide tr.Ignore   {display:none;}
+div#outputArea .autohide tr.No.Change   {display:none;}
+[#:end css]

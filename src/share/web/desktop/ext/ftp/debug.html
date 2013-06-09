@@ -1,0 +1,9 @@
+[#:into /res/layouts/xhtml+lsn]
+[#:js src=`./ftp.ext.js`]
+
+<div id="[#UID]"></div>
+
+[#:js event='document,load']
+  var main = new js.ext.ftp.Main();
+  main.attach(js.dom.getElement('[#UID]'));
+[#:end js]

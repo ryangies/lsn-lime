@@ -1,0 +1,54 @@
+[#:js src=`./local.js`]
+[#:js]
+
+  var menu = new js.ext.share.ui.menu.PanelMenu(env);
+  var screen = new js.ext.desktop.Screen([#:json ./desktop.hf]);
+  env.screens.add(screen);
+
+  // Add highlight of current menu item
+  var selectedMenuItem = null;
+  menu.addActionListener('onItemClick', function (action, item) {
+    var elem = item.getElements()[0];
+    js.dom.removeClassName(selectedMenuItem, 'selected');
+    js.dom.addClassName(elem, 'selected');
+    selectedMenuItem = elem;
+  });
+
+  function loadMenu (data) {
+    menu.removeAllChildren();
+    menu.load(data);
+    return menu;
+  }
+
+  // Respond to reload event
+  env.registerHandler('ext-desktop-menu-reload', function () {
+    var req = new js.http.JSONRequest('[#`./module.pm/get_menu_config`]');
+    req.submit(null, function (req) {
+      selectedMenuItem = null;
+      loadMenu(req.responseJSON.body);
+    });
+  });
+
+  js.dom.addEventListener(js.document, 'load', function (event) {
+    var menu = loadMenu([#:json ./module.pm/get_menu_config]);
+    js.dom.replaceChildren('ext-desktop-area2', menu.getElements());
+  });
+
+[#:end js]
+[#:css]
+
+  #ext-desktop-area2 li.selected a,
+  #ext-desktop-area2 li.selected a:hover {
+    background:[#/ext/share/data/colors.hf/white];
+  }
+
+[#:end css]
+<div id="ext-desktop-screen" class="screen-area screen-hidden">
+
+  [#/ext/share/var/bg-layout1.ht]
+  <div id="ext-desktop-area1" class="layout1-area1"></div>
+  <div id="ext-desktop-area2" class="layout1-area2"></div>
+  <div id="ext-desktop-area3" class="layout1-area3"></div>
+  <div id="ext-desktop-area4" class="layout1-area4"></div>
+
+</div>

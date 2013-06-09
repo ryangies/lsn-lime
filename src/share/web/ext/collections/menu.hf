@@ -1,0 +1,112 @@
+# HashFile 2.1
+items => @{
+
+  %{
+    type => category
+    heading => Collections
+    target => cwd
+    items => @{
+      %{
+        type => item
+        text => New Collection
+        tooltip => Create a new collection
+        action => {#screen/id}-new-collection
+        icon => /res/icons/16x16/emblems/library.png
+        matchTypes => @{
+          ^collection-list$
+        }
+      }
+    }
+  }
+
+  %{
+    type => category
+    heading => Current Collection
+    target => cwd
+    items => @{
+      %{
+        type => item
+        text => New Item
+        tooltip => Create a new item
+        action => {#screen/id}-new-child
+        icon => /res/icons/16x16/categories/book-marks.png
+        matchTypes => @{
+          ^collection-definition$
+          ^collection$
+        }
+      }
+      %{
+        type => item
+        text => Properties&hellip;
+        tooltip => Properties
+        action => {#screen/id}-item-properties
+        icon => /res/icons/16x16/di/settings.png
+        matchTypes => @{
+          ^collection-definition$
+          ^collection$
+        }
+      }
+    }
+  }
+
+  %{
+    type => category
+    heading => Current Category
+    target => cwd
+    items => @{
+      %{
+        type => item
+        text => New Item
+        tooltip => Create a new item
+        action => {#screen/id}-new-child
+        icon => /res/icons/16x16/categories/book-marks.png
+        matchTypes => @{
+          ^category$
+        }
+      }
+      %{
+        type => item
+        text => Properties&hellip;
+        tooltip => View and update properties of this sitemap item
+        action => {#screen/id}-item-properties
+        icon => /res/icons/16x16/di/settings.png
+        matchTypes => @{
+          ^category$
+        }
+      }
+      %{
+        type => item
+        text => Delete Entire Category
+        target => selection
+        tooltip => Remove the currently selected category and all its items
+        action => {#screen/id}-delete-item
+        icon => /res/icons/16x16/actions/edit-delete2.png
+        matchTypes => @{
+          ^category$
+        }
+      }
+    }
+  }
+
+#{
+  %{
+    type => category
+    heading => Selected Item
+    target => selection
+    items => @{
+      %{
+        type => item
+        text => Delete
+        target => selection
+        tooltip => Remove the currently selected item
+        action => {#screen/id}-delete-item
+        icon => /res/icons/16x16/actions/edit-delete2.png
+        matchTypes => @{
+          ^(?!collection|category)$
+        }
+      }
+    }
+  }
+#}
+
+}

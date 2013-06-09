@@ -1,0 +1,19 @@
+[#:js src=`./local.js`]
+[#:css src=`./local.css`]
+[#:js]
+  var screen = new js.ext.editors.hash.Screen([#:json ./desktop.hf]);
+  env.screens.add(screen);
+[#:end js]
+[#:css]
+[#:end css]
+<div id="ext-editors-hash-screen" class="screen-area screen-hidden">
+  [#/ext/share/var/bg-layout1.ht]
+  <div id="ext-editors-hash-area1" class="layout1-area1"></div>
+  <div id="ext-editors-hash-area2" class="layout1-area2"></div>
+  <div id="ext-editors-hash-area3" class="layout1-area3"></div>
+  <div id="ext-editors-hash-area4" class="layout1-area4"></div>
+  <div class="dn">
+    [#/ext/share/dialog/filesystem-open.ht]
+    [#/ext/share/dialog/filesystem-select.ht]
+  </div>
+</div>

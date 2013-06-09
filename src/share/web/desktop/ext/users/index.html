@@ -1,0 +1,42 @@
+[#:into ../../share/master.ht]
+
+[#:js src=`./users.js`]
+
+[#:js event='window, load']
+um = new js.lsn.desktop.ext.users.UserManager();
+um.list();
+[#:end js]
+
+[#:css]
+html body {padding:1em;}
+#[#UID] th {font-weight:normal;font-size:.9em;}
+#[#UID] tbody th {text-align:left;vertical-align:top;}
+#[#UID] td {vertical-align:top;margin:0;padding:2px;}
+#[#UID] td {border:1px inset black;}
+#[#UID] td.edit {border:1px solid blue;}
+#[#UID] td.save {border:1px solid red;}
+#[#UID] td input {border:0;text-align:inherit;cursor:pointer;}
+#[#UID] td textarea {border:0;font-family:sans-serif;font-size:10pt;cursor:pointer;}
+#[#UID] a img {border:0;}
+#[#UID] .ar {text-align:right;}
+#[#UID] a {cursor:pointer;}
+#[#UID] div.tb {margin-bottom:.5em;}
+[#:end css]
+
+<form id="[#UID]" autocomplete="off">
+  <div class="tb">
+    <a href="javascript:void(0);" onclick="um.add()">Create a new user</a>
+  </div>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <thead>
+      <tr>
+        [#:for (field_id) in ./module.pm/fields]
+        <th>[#field_id]</th>
+        [#:end for]
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="summary">
+    </tbody>
+  </table>
+</form>

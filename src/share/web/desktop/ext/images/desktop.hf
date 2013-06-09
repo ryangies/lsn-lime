@@ -1,0 +1,7 @@
+# HashFile 2.1
+category => site
+name => Images
+title => Images
+desc => Preview images from this site
+icon => /res/icons/16x16/mimetypes/image-x-generic.png
+canClose => true

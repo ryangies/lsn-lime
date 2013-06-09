@@ -1,0 +1,82 @@
+# HashFile 2.1
+
+src => %{
+  label => Image source
+  summary => The image source is the image file, i.e., the image itself.
+  example => /images/photo.jpg
+}
+
+alt => %{
+  label => Alternate text
+  example => Photograph of me
+  summary => ${
+The alternate text of the image is seen by search engines, displayed to 
+visitors who cannot view images, and used when the image is missing.
+  }
+}
+
+href => %{
+  label => Link target
+  summary => Where to go when this link is clicked
+  example => http://www.example.com
+}
+
+resize => %{
+  label => Resize
+  example => 200x200
+  summary => ${
+When the image is not a remote URL this property resizes the image to 
+fit within the specified dimensions.  The aspect ratio of the image 
+will be maintained.
+  }
+}
+
+align => %{
+  label => Alignment
+  summary => ${
+The element may be aligned such that text will flow around it.  If for 
+example the element is aligned right, the text will flow to the left of it.
+  }
+  options => @{
+    %{
+      value =>
+      text => (None)
+    }
+    %{
+      value => left
+      text => Left
+    }
+    %{
+      value => right
+      text => Right
+    }
+    %{
+      value => center
+      text => Center
+    }
+  }
+}
+
+border => %{
+  label => Border
+  summary => ${
+When an image is linked a border may be displayed which differentiates it 
+from images which are not linked.
+  }
+  options => @{
+    %{
+      value => 0
+      text => Off
+    }
+    %{
+      value => 1
+      text => On
+    }
+  }
+}
+
+rel => %{
+  label => Relationship
+  example => thumb
+  summary => The relationship of the link target to this webpage.
+}

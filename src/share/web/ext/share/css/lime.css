@@ -1,0 +1,111 @@
+[#:use ../data/colors.hf]
+
+/* lsn.layouts.ViewportLayout */
+html, html body {
+  overflow:hidden;
+  background-color:[#white];
+}
+
+/* Page Styles */
+h1, h2, h3, h4, h5, h6, p {
+  margin-top:0;
+}
+a:focus {
+  outline-style:none;
+}
+div {
+  position:relative;
+}
+.nofloat {
+  clear:both;
+}
+
+#lsd-head {
+  background:[#gray30];
+  line-height:24px;
+  padding:0;
+}
+#lsd-head li *,
+#lsd-head a * {
+  vertical-align:text-bottom;
+}
+#lsd-head a {
+  display:inline;
+  text-decoration:none;
+}
+#lsd-head, #lsd-head a, #lsd-head a:visited {
+  color:[#white];
+}
+#lsd-head a:hover {
+  background-color:[#gray40];
+}
+#lsd-head a {
+  padding:0px 6px;
+  display:block;
+}
+#lsd-head .cell {
+  display:block;
+  float:left;
+}
+#lsd-head .icon {
+  display:none;
+  padding-right:4px;
+}
+#lsd-head a span {
+  padding:3px 0;
+}
+#lsd-head a.sel span.mark {
+  color:[#orange3];
+  background-image:url(/ext/share/images/var/menu_selected.png);
+  background-repeat:no-repeat;
+  background-position:center bottom;
+}
+#lsd-screens .screen-hidden {
+  display:none;
+}
+
+/** Top menus */
+#lsd-umenu,
+#lsd-mmenu {
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+#lsd-umenu li,
+#lsd-mmenu li {
+  float:left;
+  margin:0;
+  padding:0;
+}
+#lsd-mmenu {
+  float:left;
+}
+#lsd-umenu {
+  float:right;
+}
+
+#lsd-body {
+  background-color:[#white];
+  color:[#gray10];
+  overflow:auto;
+}
+#lsd-foot {
+  background-color:[#gray30];
+  color:[#white];
+  font-size:11px;
+  line-height:20px;
+}
+#lsd-foot .about {
+  float:right;
+  margin-right:6px;
+}
+
+[#./fonts.css]
+[#./quick.css]
+[#./ui/dialogs.css]
+[#./ui/switchlist.css]
+[#./ui/tablist.css]
+[#./ui/prompt.css]
+[#./ui/panel-menu.css]
+[#./ui/tree-views.css]
+[#./ui/inputs.css]

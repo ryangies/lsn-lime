@@ -1,0 +1,39 @@
+[#:js]
+
+  function onDialogShow (action, params) {
+    var value = params ? params.value : '';
+    js.dom.setValue(this.getElementById('output'), params.value);
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.Dialog, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.setParentElement(js.dom.getBody());
+    this.addActionListener('onDialogShow', onDialogShow, this);
+  });
+
+[#:end js]
+
+[#:css]
+
+  #[#_content_id] #output {
+    min-width:500px;
+    height:400px;
+    overflow:auto;
+  }
+
+[#:end css]
+
+<div style="display:none;">
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <pre id="output"></pre>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="close">Close</button>
+  </div>
+[#:end into]
+</div>
+
+__DATA__
+_content_id => web-admin-deploy-diff
+_title => Differences

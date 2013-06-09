@@ -1,0 +1,32 @@
+# HashFile 2.1
+
+editors => @{
+  %{
+    type-equals => file-text-test
+    widget.url => /desktop/ext/edit/test/index.html
+  }
+  %{
+    type-match => ^(file-data|data-|file-multipart)
+    widget.url => /desktop/ext/edit/multipart/index.html
+  }
+  %{
+    type-equals => directory
+    widget.url => /desktop/ext/edit/directory/index.html
+  }
+  %{
+    type-match => file-(jpe?g|gif|bmp|png|tiff?)$
+    widget.url => /desktop/ext/edit/iframe/index.html
+  }
+  %{
+    type-equals => file-flv
+    widget.url => /desktop/ext/edit/flash/index.html
+  }
+  %{
+    type-equals => file-mp3
+    widget.url => /desktop/ext/edit/audio/index.html
+  }
+  %{
+    type-match => ^(file-(text|data)|data-scalar)
+    widget.url => /desktop/ext/edit/text/index.html
+  }
+}

@@ -1,0 +1,52 @@
+[#:into ../../share/master.ht]
+[#:js src=`./layout.js`]
+[#:js src=`./browse.js`]
+[#:js src=`./qview.js`]
+[#:css src=`./browse.css`]
+
+[#:use ./browse.hf]
+<div id="workspace" class="w1 h1b">
+  <div id="treetop" class="w1b h2a">
+    <div id="action1" class="na">[#/desktop/share/halist.html _list=action1]</div>
+    <div id="action2" class="na">[#/desktop/share/halist.html _list=action2]</div>
+  </div>
+  <div id="tree" class="w2 h2b"></div>
+  <div id="vsplit" class="w1 h3"></div>
+  <div id="title" class="w1 h1a">
+    <div id="titleleft" class="hidden">
+      <img id="title-icon"/><a id="title-name" target="_new"></a>
+    </div>
+    <div id="editmenu" class=""></div>
+  </div>
+  <div id="editarea" class="w1 h4"></div>
+</div>
+
+[#:js event='window, load']
+  new js.lsn.DragHandle('vsplit', {
+    'onMouseMove': function (event, dh) {
+      js.local.layout.dims.ratio = ((dh.o_h1 + dh.delta_y) / dh.pg_h).toFixed(2);
+      js.local.layout.resize();
+      js.dom.stopEvent(event);
+    },
+    'onMouseDown': function (event, dh) {
+      dh.pg_h = js.dom.getViewportPosition().height;
+      dh.o_h1 = js.local.layout.dims.htop;
+      js.lsn.showMask({opacity:0,cursor:'n-resize'});
+      js.dom.stopEvent(event);
+    },
+    'onMouseUp': function (event, dh) {
+      js.lsn.hideMask();
+      js.dom.stopEvent(event);
+    }
+  });
+  var addr = [#:js:var /sys/request/cgi/a];
+  js.dom.getElement('tree').appendChild(js.local.tview.getElement());
+  js.local.tview.setRootAddress(addr);
+  js.local.tview.addActionListener('select', js.local.onSelect);
+  js.local.tview.addActionListener('deselect', js.local.onDeselect);
+  js.local.tview.select(addr);
+[#:end js]
+
+[#:js event='window, unload']
+  js.local.tview.destroy();
+[#:end js]

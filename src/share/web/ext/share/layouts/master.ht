@@ -1,0 +1,36 @@
+<!doctype html>
+[#:exec ../pm/lime.pm/authorize]
+[#:http:no-cache]
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="origin" content="[#/sys/server/name]">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link rel="shortcut icon" href="/res/icons/lsn/favicon.ico" type="image/ico"/>
+    [#:css src=`/res/css/normalize.css`]
+    [#:css src=`../css/lime.css`]
+    [#:js src=`/res/js/livesite.js`]
+    [#:js src=`/res/js/hub.js`]
+    [#:js src=`../js/common.js`]
+    [#:js src=`../js/ext-share.js`]
+    [#:js src=`./inc/lime.js`]
+  </head>
+  <body>
+    <div id="lsd-head" class="layout-head">
+      [#./inc/screen-menu.ht]
+      [#./inc/user-menu.ht]
+      <div class="nofloat"></div>
+    </div>
+    <div id="lsd-body" class="layout-body"></div>
+      <div id="lsd-screens">
+      [#CONTENT]
+      </div>
+    <div id="lsd-foot" class="layout-foot">
+      [#./inc/footer.ht]
+    </div>
+    <div class="dn">
+      [#../dialog/status-loading.ht]
+      [#../dialog/select.ht]
+    </div>
+  </body>
+</html>

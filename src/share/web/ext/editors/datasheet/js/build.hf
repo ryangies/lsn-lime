@@ -1,0 +1,9 @@
+# HashFile 2.1
+copyright => Livesite (c) Livesite Networks, LLC 2010.
+target => ../worksheet.js
+name => Livesite Administrative Worksheets
+version => .001
+files => @{
+  Worksheet.js
+  EditCell.js
+}

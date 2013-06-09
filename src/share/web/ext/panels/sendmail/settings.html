@@ -1,0 +1,13 @@
+[#:into /ext/share/layouts/contained.ht]
+
+[#:js]
+  js.dom.addActionListener('toggleBox', function (action, id) {
+    js.dom.toggleDisplay(id);
+  });
+[#:end js]
+
+<a href="#ux:toggleBox:settings">Settings</a>
+
+<div id="settings">
+  <p>Settings go here</p>
+</div>

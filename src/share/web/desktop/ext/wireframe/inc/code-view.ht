@@ -1,0 +1,58 @@
+[#:use /res/palettes/lsn.hf]
+[#:css]
+  .codeMenu {background-color:[#gray2];}
+  .codeViewText {
+    visibility:hidden;
+    margin:0;
+    padding:4px;
+    border:none;
+    position:absolute;
+    top:0;
+  }
+  .codeMenu a {
+    cursor:pointer;
+  }
+  .codeMenu a.selected {
+    background-color:[#white];
+  }
+[#:end css]
+
+<div class="codeMenu">
+  <a id="showDebugView">Debug</a> 
+  <a id="showInspectView">Inspect</a> 
+  <a id="showXFRView">XFR</a>
+</div>
+<div class="codeView">
+  <textarea id="DebugView" class="codeViewText" autocomplete="off"></textarea>
+  <textarea id="DebugInspect" class="codeViewText" autocomplete="off"></textarea>
+  <textarea id="DebugXFR" class="codeViewText" autocomplete="off"></textarea>
+</div>
+
+[#:js]
+  // Set layout
+  var workArea = layout.getArea('workArea');
+  var codeMenu = workArea.addRow('codeMenu', 20);
+  var codeView = workArea.addRow('codeView');
+  // Text area widths must subtract their padding
+  codeView.addActionListener('onUpdate', function (action, area) {
+    var region = area.getRegion();
+    var w = region.width - 8;
+    var h = region.height - 8;
+    area.getStyleSheet().updateRule('.codeViewText', {'width': w, 'height': h});
+  });
+  // Switch views from menu links
+  var switcher = new js.lsn.ext.wireframe.ui.Switcher(app);
+  switcher.addView('DebugView', 'showDebugView');
+  switcher.addView('DebugInspect', 'showInspectView');
+  switcher.addView('DebugXFR', 'showXFRView');
+  // Integrate with application
+  function myRefresh (action) {
+    var inspect = js.data.inspect(app.root.toObject());
+    var xfr = app.root.serialize();
+    js.dom.setValue('DebugInspect', inspect);
+    js.dom.setValue('DebugXFR', xfr);
+  }
+  app.addActionListener('onCreateNode', myRefresh);
+  app.addActionListener('onDeleteNode', myRefresh);
+  new js.lsn.ext.wireframe.ui.DebugView(app);
+[#:end js]

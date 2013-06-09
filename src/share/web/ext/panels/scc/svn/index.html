@@ -1,0 +1,28 @@
+[#:http:no-cache]
+[#:into /desktop/share/standard.ht]
+[#:css src=`./local.css`]
+[#:js src=`/res/js/app.js`]
+[#:js src=`./local.js`]
+<h1>[#heading]</h1>
+<div>
+  [#:comment]
+  <a href="#action:doToggle:settingsArea">Settings</a> |
+  <a href="#action:doExec:status">Raw Status</a> |
+  [#:end comment]
+  <a href="#action:doToggle:helpText">Help</a> |
+  <a href="#action:doExec:info">Repository Information</a> |
+  <a href="#action:doExec:update">Update from Repository</a> |
+  <a href="#action:doRefresh">Refresh Status</a>
+</div>
+<div id="helpText">[#help.txt]</div>
+<div id="settingsArea"></div>
+<div id="statusArea"></div>
+<div id="buttonsArea"></div>
+<div id="outputArea"></div>
+__DATA__
+heading => Version Control with Subversion
+help.txt => ${
+<p>This module allows you to check in changed files to, and update from, a
+central repository. You should first <tt>ssh</tt> to the remote server to
+add it to your list of known hosts (an interactive process).</p>
+}

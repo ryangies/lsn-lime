@@ -1,0 +1,52 @@
+[#:js]
+
+  var initiator = new js.ext.share.Initiator({
+    'text': 'Download',
+    'type': 'file-action',
+    'target': 'selection',
+    'tooltip': 'Request the file as an attachment',
+    'action': 'do-file-download',
+    'icon': '/res/icons/16x16/actions/download.png',
+    'sortValue': 3,
+    'matchTypes': [/file-/]
+  });
+
+  var handler = function (action, node) {
+    var dnode = node.data;
+    var loc = new js.http.Location(dnode.getAddress());
+    loc.addParameter('X-Return-Disposition', 'attachment');
+    js.dom.getBody().appendChild(js.dom.createElement('IFRAME', {
+      'src': loc.getHref(),
+      'style': {
+        'z-index': -1,
+        'width': 0,
+        'height': 0,
+      }
+    }));
+  };
+
+  env.registerHandler('do-file-download', handler, initiator);
+
+[#:end js]
+[#:js]
+
+  var initiator = new js.ext.share.Initiator({
+    'text': 'View in web browser',
+    'type': 'file-action',
+    'target': 'selection',
+    'tooltip': 'Show in a new browser tab',
+    'action': 'do-file-show-in-browser',
+    'icon': '/res/icons/16x16/actions/open-new-window.png',
+    'sortValue': 3,
+    'matchTypes': [/file-/]
+  });
+
+  var handler = function (action, node) {
+    var dnode = node.data;
+    var loc = new js.http.Location(dnode.getAddress());
+    js.window.open(loc.getHref());
+  };
+
+  env.registerHandler('do-file-show-in-browser', handler, initiator);
+
+[#:end js]

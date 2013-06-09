@@ -1,0 +1,86 @@
+/** ext.share.ui.TabList */
+[#:use /ext/share/data/colors.hf]
+
+ol.tablist {
+  background-color:transparent;
+  line-height:24px;
+  padding:0;
+}
+ol.tablist li *,
+ol.tablist a * {
+  vertical-align:text-bottom;
+}
+ol.tablist a {
+  display:inline;
+  text-decoration:none;
+}
+ol.tablist,
+ol.tablist a,
+ol.tablist a:visited {
+  color:[#gray60];
+}
+ol.tablist a:hover {
+  background-color:[#gray40];
+}
+ol.tablist {
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+ol.tablist li {
+  position:relative;
+  float:left;
+  margin:0;
+  padding:0;
+}
+ol.tablist a {
+  padding:0px 6px;
+  padding-right:16px;
+  display:block;
+}
+ol.tablist .cell {
+  display:block;
+  float:left;
+}
+ol.tablist .icon {
+  padding-right:4px;
+}
+ol.tablist a.close-tab {
+  cursor:pointer;
+  background:url(/res/icons/lsn/tab-close.png) no-repeat;
+  width:14px;
+  height:14px;
+  position:absolute;
+  padding:0;
+  top:0px;
+  right:0px;
+}
+ol.tablist a.close-tab:hover {
+  background:url(/res/icons/lsn/tab-close-hover.png);
+}
+ol.tablist a.close-tab img {
+  display:block;
+}
+ol.tablist a span {
+  padding:3px 0;
+}
+ol.tablist a.sel {
+  background-image:url(/ext/share/images/var/menu_selected.png);
+  background-repeat:no-repeat;
+  background-position:center bottom;
+}
+ol.tablist a.sel span.mark {
+  color:[#black];
+}
+ol.tablist a.sel,
+ol.tablist a:hover.sel {
+  background-color:[#gray80];
+}
+ol.tablist,
+ol.tablist a,
+ol.tablist a:visited {
+  color:[#black];
+}
+ol.tablist a:hover {
+  background-color:transparent;
+}

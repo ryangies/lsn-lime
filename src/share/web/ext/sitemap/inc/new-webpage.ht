@@ -1,0 +1,115 @@
+[#:js]
+
+  var form = new js.ext.share.input.Form();
+  var dnode = null;
+
+  function onDialogLoad () {
+
+    form.loadSchema([#:json schema]);
+
+    form.getInput('name').addActionListener('onChange', function (action) {
+      var newValue = form.getInput('name').getValue().toLowerCase();
+      newValue = newValue.replace(/[^A-Za-z0-9\s_-]/g, '');
+      newValue = newValue.replace(/[\s-]+/g, '-');
+      newValue = newValue + '.html';
+      form.getInput('pathname').setValue(newValue);
+    });
+
+    var fields = form.getFields();
+    var rows = [];
+    for (var i = 0, field; field = fields[i]; i++) {
+      if (field.data.type == 'hidden') continue;
+      rows = rows.concat(js.dom.createElements(
+        'DT.form-field=' + field.data.label,
+        'DD.form-field', field.input.getElements()
+      ));
+    }
+    var div = this.getElementById('inputs');
+    js.dom.appendChildren(div, js.dom.createElements('DL.form', rows));
+
+  }
+
+  function onOk () {
+    var values = form.serializeValues();
+    var req = new js.lsn.Request('/ext/sitemap/module.pm/new_webpage');
+    req.submit(values, [function (req) {
+      if (req && req.responseHash) {
+        var db = dnode.getDataBridge();
+        var result = req.responseHash.getObject('/body');
+        db.batch(result.commands);
+        if (js.dom.getValue(this.getElementById('close-after-create'))) {
+          this.hide();
+        } else {
+          var elem = form.getField('name').input.elem;
+          if (elem) elem.select();
+        }
+      } else {
+        alert(req.xhr.responseText);
+      }
+    }, this]);
+  };
+
+  function onDialogShow (action, params) {
+    dnode = params.dnode;
+    form.getField('paddr').input.setValue(dnode.getAddress());
+    form.getField('name').input.focus();
+  };
+
+  env.dialogs.register('new-webpage', js.ext.share.ui.Dialog, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.addActionListener('onDialogLoad', onDialogLoad, this);
+    this.addActionListener('onDialogShow', onDialogShow, this);
+    this.addActionListener('onOk', onOk, this);
+    this.makeModal();
+  });
+
+  env.registerHandler('ext-sitemap-show-new-webpage', function (action, node) {
+    env.dialogs.get('new-webpage').show({'dnode':node.data});
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+  </div>
+  <div id="dialog-buttons">
+    <label for="close-after-create">Close dialog after create</label>
+    <input id="close-after-create" type="checkbox" checked="checked"/>
+    <button type="button" name="action" value="ok">Create</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-sitemap-new-webpage-dialog
+_title => New webpage
+_icon => /res/icons/16x16/sitemap/webpage.png
+schema => %{
+  fields => @{
+    %{
+      type => hidden
+      name => paddr
+    }
+    %{
+      type => select
+      name => skel
+      label => Skeleton
+      description => This webpage will be created as a clone of this skeleton webpage.
+      input => %{
+        options => /web/data/site.hf/skel/pages
+      }
+    }
+    %{
+      type => text
+      name => name
+      label => Name
+      description => A short common-name for this webpage.
+    }
+    %{
+      type => text
+      name => pathname
+      label => HTML Filename
+      description => The name of the target HTML file. For overview pages, this should almost always be <tt>index.html</tt>.
+    }
+  }
+}

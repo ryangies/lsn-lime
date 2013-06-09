@@ -1,0 +1,154 @@
+[#:http:no-cache]
+[#:into /ext/share/layouts/contained.ht]
+[#:exec ./module.pm/init_config]
+[#:css src=`./local.css`]
+
+<h1>[#heading]</h1>
+<div id="helpText">[#help.txt]</div>
+
+<div id="buttons">
+  [#:join '&nbsp;']
+  <button value="action:settings">Settings</button>
+  <button value="action:itemize">Refresh</button>
+  <button value="action:deploy">Deploy ALL</button>
+  [#:end join]
+</div>
+
+<table width="100%" class="mytbl">
+  <thead>
+    <tr>
+      <th width="40" class="center"><input id="toggle-all" type="checkbox"/></th>
+      <th width="160">Modified Date</th>
+      <th width="160">Modified By</th>
+      <th>Path</th>
+      <th width="80">Changes</th>
+    </tr>
+  </thead>
+  <tbody id="output"></tbody>
+  <tfoot>
+    <tr>
+      <th colspan="5"><button value="action:deploy_items">Deploy selected</button></th>
+    </tr>
+  </tfoot>
+</table>
+
+<a class="toggle" href="#action:toggleDisplay:output-raw">raw output</a>
+<pre id="output-raw"></pre>
+
+[#./dlg-diff.ht]
+
+[#:js]
+
+  var _pm = new js.http.PerlModule('[#`./module.pm`]');
+  var _items = [];
+
+  function showChanges (result) {
+    env.hideLoading();
+    js.dom.removeChildren('output');
+    js.dom.setValue('output-raw', result.getString('output'));
+    _items = [];
+    result.get('items').iterate(function (idx, info) {
+      var item = info.toObject();
+      item.cbox = js.dom.createElement('INPUT', {
+        'type': 'checkbox'
+      });
+      var links = [];
+      if (item.mtime
+          && (item.changed.size || item.changed.content)
+          && item.nodetype.match(/^file-(text|data)/)) {
+        links.push(js.dom.createElement('#text= ('));
+        links.push(js.dom.createElement('A.clickable', {
+          'onclick': [function (event, item) {
+            env.showLoading();
+            _pm.submit('diff', {'path': item.path}, function (result) {
+              env.hideLoading();
+              env.dialogs.get('web-admin-deploy-diff').show({'value': result.toString()});
+            });
+          }, this, [item]],
+          'innerHTML': 'diff'
+        }));
+        links.push(js.dom.createElement('#text=)'));
+      }
+      var dateString = '';
+      if (item.mtime) {
+        var mDate = new Date(1000 * item.mtime);
+        dateString = js.date.format(mDate, 'mediumDate');
+        dateString += ' ';
+        dateString += js.date.format(mDate, 'mediumTime');
+      }
+      item.tr = js.dom.appendChild('output', js.dom.createElement('TR#trx' + item.trxid, [
+        'TD.center.middle', [item.cbox],
+        'TD', ['#text', {'nodeValue': dateString}],
+        'TD', ['#text', {'nodeValue': item.muser}],
+        'TD', ['#text', {'nodeValue': item.path}].concat(links),
+        'TD', ['#text', {'nodeValue': item.cryptic}]
+      ]));
+      _items.push(item);
+    });
+  }
+
+  function showResults (result) {
+    env.hideLoading();
+    if (!result) return;
+    var items = result.get('items');
+    items.iterate(function (idx, info) {
+      var item = info.toObject();
+      js.dom.addClassName('trx' + item.trxid, 'deployed');
+    });
+    env.status.notify(items.length + " items deployed.");
+  }
+
+  js.dom.addActionListener('itemize', function (action) {
+    env.showLoading();
+    _pm.submit(action.name, {}, showChanges);
+  });
+
+  js.dom.addActionListener('deploy', function (action) {
+    env.showLoading();
+    _pm.submit(action.name, {}, showResults);
+  });
+
+  js.dom.addActionListener('deploy_items', function (action) {
+    var trxids = [];
+    for (var i = 0, item; item = _items[i]; i++) {
+      if (js.dom.getValue(item.cbox)) {
+        trxids.push(item.trxid);
+        js.console.log('deploy item', item.trxid, item.path);
+      }
+    }
+    env.showLoading();
+    _pm.submit(action.name, {'trxids': trxids}, showResults);
+  });
+
+  js.dom.addActionListener('settings', function (action) {
+    env.invokeHandler(
+      'edit-modeled-data',
+      '[#./desktop.hf/config]',
+      '[#`./config.schema.hf`]'
+    );
+  });
+
+  js.dom.addEventListener(js.document, 'load', function (onLoadEvent) {
+    js.dom.addElementListener('INPUT#toggle-all', 'change', function (event, elem) {
+      var state = js.dom.getValue(elem) ? true : false;
+      for (var i = 0, item; item = _items[i]; i++) {
+        js.dom.setValue(item.cbox, state);
+      }
+    });
+    js.dom.executeAction('itemize');
+  });
+
+  js.dom.addActionListener('toggleDisplay', function (action, id) {
+    var isVisible = js.dom.toggleClassName(id, 'visible');
+    js.dom.toggleClassName(action.element, 'showing', isVisible);
+  });
+
+[#:end js]
+__DATA__
+heading => Deploy Changes via RSYNC
+help.txt => ${
+<p>This module uses RSYNC to transfer files from the source folder to the
+destination folder. Normally the source folder is the file system you are
+currently signed in to, and the destination is that of the production 
+website.</p>
+}

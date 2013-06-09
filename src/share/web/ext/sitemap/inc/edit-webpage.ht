@@ -1,0 +1,86 @@
+[#:js]
+
+  function onDialogShow (action, dnode) {
+    this.form.deserializeValues({
+      'addr': dnode.getString('.addr'),
+      'name': dnode.getString('.name'),
+      'pathname': dnode.getKey()
+    });
+  }
+
+  function onOk (action) {
+    var dnode = this.args[0];
+    var values = this.form.getValues();
+    var db = dnode.getDataBridge();
+    var commands = [];
+    var curSMAddr = dnode.getAddress();
+    var curFSAddr = dnode.getString('.addr');
+    if (values['pathname'] != dnode.getKey()) {
+      var newFSAddr = js.data.addr_parent(curFSAddr) + '/' + values['pathname'];
+      var newSMAddr = js.data.addr_parent(curSMAddr) + '/' + values['pathname'];
+      if (db.getNodeByAddress(newSMAddr)) {
+        alert ('Resource exists: ' + newSMAddr);
+        return;
+      }
+      // TODO - Prevent overwrite of existing newFSAddr
+      commands.push(['move', curSMAddr, newSMAddr]);
+      commands.push(['move', curFSAddr, newFSAddr]);
+      commands.push(['store', newSMAddr + '/.addr', newFSAddr]);
+      commands.push(['store', newSMAddr + '/.name', values['name']]);
+      commands.push(['store', newFSAddr + '/page/title', values['name']]);
+    } else {
+      commands.push(['store', curSMAddr + '/.name', values['name']]);
+      commands.push(['store', curFSAddr + '/page/title', values['name']]);
+    }
+    this.hide();
+    env.showLoading();
+    db.batch(commands, function (result) {
+      env.hideLoading();
+    });
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.DialogForm, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.form.loadSchema([#:json schema]);
+    this.form.attachUI(this.getElementById('inputs'));
+    this.setModuleURL('/ext/sitemap/module.pm');
+    this.addActionListener('onDialogShow', onDialogShow, this);
+    this.addActionListener('onOk', onOk, this);
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="ok">Update</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-sitemap-edit-webpage
+_title => Webpage properties
+_icon => /res/icons/16x16/sitemap/webpage.png
+schema => %{
+  fields => @{
+    %{
+      type => hidden
+      name => addr
+    }
+    %{
+      type => text
+      name => name
+      label => Name
+      description => A short common-name for this webpage.
+    }
+    %{
+      type => text
+      name => pathname
+      label => File name
+      description => The name of the corresponding file (which is part of the URL).
+    }
+  }
+}
+

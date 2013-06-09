@@ -1,0 +1,73 @@
+[#:head 'menu']
+  [#/desktop/share/halist.html _list=menu]
+[#:end head]
+
+<textarea id="textarea[#UID]" class="w2 h4"></textarea>
+
+[#:css]
+#textarea[#UID] {border:none;margin-left:8px;}
+[#:end css]
+
+[#:js]
+var w[#UID];
+function save[#UID] () {
+  var a = w[#UID].params.node.addr;
+  var v = js.dom.getValue('textarea[#UID]');
+  w[#UID].params.hub.store(a, v);
+}
+function devt[#UID] (action, node) {
+  if (action == 'stored' && node.addr == w[#UID].params.node.addr) {
+    alert('Saved: ' + js.data.addr_name(node.addr));
+  }
+}
+var ff[#UID] = [#:js:var efonts];
+[#:end js]
+
+[#:js event='widget, load']
+w[#UID] = this;
+w[#UID].params.hub.addListener(devt[#UID]);
+[#:end js]
+
+[#:js event='widget, ready']
+js.dom.setValue('textarea[#UID]', this.params.node.content);
+var ff = ff[#UID].get(this.params.node.type);
+if (!ff) ff = ff[#UID].get('default');
+js.dom.setStyle('textarea[#UID]', 'font-family', ff);
+if (!w[#UID].props.kp) {
+  w[#UID].props.kp = new js.dom.KeyPress();
+  w[#UID].props.kp.setHandler('ctrl+s', save[#UID]);
+  w[#UID].props.kp.setHandler('tab', function (event) {js.dom.stopEvent(event);});
+  w[#UID].props.kp.attach('textarea[#UID]');
+}
+[#:end js]
+
+[#:js event='widget, hide']
+js.dom.setAttribute('textarea[#UID]', 'value', '');
+[#:end js]
+
+[#:js event='widget, save']
+w[#UID].props.kp.detatch();
+js.dom.setAttribute('textarea[#UID]', 'value', '');
+[#:end js]
+
+__DATA__
+
+efonts => %{
+  file-text-html => monospace
+  file-text-pm => monospace
+  file-text-php => monospace
+  file-text-css => monospace
+  file-text-js => monospace
+  file-text-pm => monospace
+  file-data-hash => monospace
+  file-text-txt => inherit
+  default => inherit
+}
+
+menu => @{
+  %{
+    js => save[#UID]()
+    icon => /res/icons/16x16/actions/document-save.png
+    desc.txt => Save
+  }
+}

@@ -1,0 +1,5 @@
+[#:into ./layout-status.ht]
+<p>[#:html:image '/res/icons/16x16/status/loading.gif'] Working...</p>
+__DATA__
+name => status-loading
+id => status-dialog-loading

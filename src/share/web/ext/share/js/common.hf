@@ -1,0 +1,21 @@
+# HashFile 2.1
+builder => ecma
+copyright => Livesite (c) Livesite Networks, LLC.
+working_dir => ${LSN_SRC_ROOT}/lsn-javascript/src/lib/ecma/
+target => ./common.js
+name => Scripts for Livesite IME
+version => .001
+files => @{
+  # like /res/js/lsn-adaptors.js
+  lsn/dom/sizzle.js
+  lsn/dom/ElementListener.js
+  lsn/dom/ElementAdaptor.js
+  lsn/dom/ActionAdaptor.js
+  lsn/dom/adaptors.js
+  # things not included in the hurking /res/js/livesite.js
+  action/HandlerPool.js
+  action/Handler.js
+  lsn/ui/Fragment.js
+  # other
+  platform/history.js
+}

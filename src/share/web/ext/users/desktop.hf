@@ -1,0 +1,5 @@
+# HashFile 2.1
+addr => /ext/users/
+name => User Accounts
+icon => /res/icons/16x16/apps/system-users.png
+elem => ext-users-screen

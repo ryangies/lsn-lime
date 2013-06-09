@@ -1,0 +1,78 @@
+[#:use /res/palettes/lsn.hf]
+[#:use ../index.html]
+html, body {overflow:hidden;font-family:sans-serif;font-size:10pt;}
+a {cursor:pointer;}
+a img {border:none;}
+a.disabled {color:#a0a0a0;cursor:default;}
+#menubg {
+  position:absolute;top:0;left:0;
+  background-image:url(/desktop/share/images/bb.png);
+  background-position:bottom;
+  background-repeat:repeat-x;
+  background-color:[#white];
+  z-index:1;
+}
+#menubar {
+  margin-top:7px;
+  margin-left:4px;
+  vertical-align:middle;
+}
+#menubar * {
+  vertical-align:middle;
+}
+#menubar img.nobg,
+#menubar img.button {
+  display:inline;
+  background-repeat:no-repeat;
+}
+#menubar img.button {
+  background-image:url([#`../images/sq1.png`]);
+  padding:4px;
+}
+#menubar img.on {
+  background-image:url([#`../images/sq3.png`]);
+}
+#menubar .static {
+  margin:0 3px;
+}
+#menubar input {
+  height:16px;
+  font-size:12px;
+  margin:0;
+}
+#currdoc {
+  display:inline;
+}
+#docaddr {
+  width:30em;
+}
+#statusbg {
+  position:absolute;bottom:0;left:0;
+  background-image:url(/desktop/share/images/bb.png);
+  background-position:top;
+  background-repeat:repeat-x;
+  background-color:[#white];
+  z-index:1;
+}
+#statusbar {
+  font-size:12px;
+  margin:4px;
+}
+.statusNotify {
+  border:1px outset [#orange1];
+  background-color:[#orange2];
+  color:[#white];
+  text-align:center;
+}
+#docframe {position:absolute;top:[#menubar/height]px;left:0px;}
+.popupmenu {
+  border:1px outset [#gray1];
+  background-color:[#gray3];
+  position:absolute;
+}
+.popupmenu a {
+  color:[#gray1];
+}
+.popupmenu a:hover {
+  color:[#black];
+}

@@ -1,0 +1,5 @@
+# HashFile 2.1
+addr => /ext/desktop/
+name => Desktop
+icon => /res/icons/16x16/actions/go-home.png
+elem => ext-desktop-screen

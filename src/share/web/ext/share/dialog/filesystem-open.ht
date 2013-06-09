@@ -1,0 +1,52 @@
+[#:js]
+
+  function onDialogLoad (action) {
+  }
+
+  function onDialogShow (action, params) {
+    if (params && params.value) {
+      // Select item from the list
+      this.form.getInput('dnode').deserialize(params.value);
+    }
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.DialogForm, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.form.loadSchema([#:json schema]);
+    this.form.attachUI(this.getElementById('inputs'));
+    this.addActionListener('onDialogLoad', onDialogLoad, this);
+    this.addActionListener('onDialogShow', onDialogShow, this);
+  });
+
+[#:end js]
+
+[#:into ./layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="close">Cancel</button>
+    <button type="button" name="action" value="ok">Select</button>
+  </div>
+[#:end into]
+
+[#:css]
+  #[#_content_id] #inputs {
+    width:500px;
+    height:400px;
+    overflow:auto;
+  }
+[#:end css]
+
+__DATA__
+_content_id => ext-share-dialog-filesystem-open
+_title => Open
+_icon => /res/icons/16x16/actions/document-open.png
+schema => %{
+  fields => @{
+    %{
+      type => select-filesystem-entry
+      name => dnode
+    }
+  }
+}

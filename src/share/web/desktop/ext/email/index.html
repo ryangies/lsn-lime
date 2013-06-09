@@ -1,0 +1,124 @@
+[#:http:no-cache]
+[#:into /desktop/share/master.ht]
+
+<div id="main">
+[#:if !./module.pm/is_allowed]
+  <h1>Not Allowed</h1>
+  <p><tt>[#/sys/server/name]</tt> is not allowed to update mail records for <tt>[#domain]</tt></p>
+[#:else]
+  [#:set results=./module.pm/list]
+  [#:set mailurl=./module.pm/get_mailurl]
+  [#:set domain=./module.pm/get_domain_root]
+  <h1>Mail Server</h1>
+  <div id="serverinfo">
+    <dl>
+      <dt>Domain:</dt><dd>[#domain]</dd>
+      <dt>IMAP Server:</dt><dd>mail.[#domain]</dd>
+      <dt>POP3 Server:</dt><dd>mail.[#domain]</dd>
+      <dt>SMTP Server:</dt><dd>mail.[#domain]</dd>
+      <dt>Web mail url:</dt><dd><a target="_blank" href="[#mailurl]">[#mailurl]</a></dd>
+    </dl>
+    <div id="mmenu">
+      <a href="" onclick="js.dom.stopEvent(event); dlgNewAccount.show()">
+        Create a new Email Account
+      </a><br/>
+      <a href="" onclick="js.dom.stopEvent(event); dlgNewForward.show()">
+        Create a new Forwarder
+      </a><br/>
+    </div>
+  </div>
+  [#:if results/error]
+  <div class="errmsg">[#results/error]</div>
+  [#:end if]
+  <h1>Email Accounts</h1>
+  <table id="accountlist">
+    <thead>
+      <tr>
+       <th width="300">Email Address</th>
+       <th width="300">Full Name</th>
+       <th></th>
+      </tr>
+    </thead>
+    [#:for (email, full_name) in results/users]
+    <tr onmouseover="this.style.backgroundColor = '#eee';" onmouseout="this.style.backgroundColor = '';">
+      <td>[#email]</td>
+      <td>[#full_name]</td>
+      <td class="nowrap">
+        <a href="" onclick="js.dom.stopEvent(event); dlgEditAccount.show({email: '[#email]'})">Edit</a>
+        | <a href="" onclick="js.dom.stopEvent(event); dlgDelete.show({email: '[#email]', type: 'vmail'})">Delete</a>
+      </td>
+    </tr>
+    [#:end for]
+  </table>
+  <h1>Forwarders</h1>
+  <table id="forwardlist">
+    <thead>
+      <tr>
+       <th width="300">This email address...</th>
+       <th width="300">forwards to this address</th>
+       <th></th>
+      </tr>
+    </thead>
+    [#:for (email, destination) in results/forwards]
+    <tr onmouseover="this.style.backgroundColor = '#eee';" onmouseout="this.style.backgroundColor = '';">
+      <td>[#email]</td>
+      <td>[#destination]</td>
+      <td class="nowrap">
+        <a href="" onclick="js.dom.stopEvent(event); dlgEditForwarder.show({email: '[#email]'})">Edit</a> |
+        <a href="" onclick="js.dom.stopEvent(event); dlgDelete.show({email: '[#email]', type: 'forwarder'})">Delete</a>
+      </td>
+    </tr>
+    [#:end for]
+  </table>
+[#:end if]
+</div>
+[#:end into]
+
+[#:css]
+#main {margin:1em;}
+#main h1 {clear:both;}
+#main th {padding:0 .5em 0 .5em;font-weight:bold;text-decoration:underline;}
+#main td {padding:0 .5em 0 .5em;}
+#mmenu {margin:.5em 0 0 0;}
+#serverinfo {padding-left:.5em;margin-bottom:1em;}
+#serverinfo dt {float:left;width:10em;}
+#accountlist {margin-bottom:1em;}
+#forwardlist {margin-bottom:1em;}
+.nowrap {white-space:nowrap;}
+.errmsg {margin:.5em 0;padding:.5em;color:red;border:1px solid red;}
+h1 {margin:.5em 0;font-weight:bold;font-size:1.4em;}
+[#:end css]
+
+[#:js -global]
+var dlgNewAccount;
+var dlgEditAccount;
+var dlgNewForward;
+var dlgEditForwarder;
+var dlgDelete;
+function doMailCommand (params) {
+  new js.lsn.Request('[#`./module.pm/query`]', {
+    onSuccess: function (resp) {
+      if (resp.responseHash.get('body/error')) {
+        alert(resp.responseHash.get('body/error'));
+      } else {
+        document.location.reload();
+      }
+    },
+    onFailure: function (resp) {
+      alert('An error occured');
+    }
+  }).submit(params);
+}
+[#:end js]
+
+[#:js event='window, load']
+dlgNewAccount = new js.lsn.Dialog('[#`./dialogs/email.html`]', {refetch: false});
+dlgEditAccount = new js.lsn.Dialog('[#`./dialogs/edit_account.html`]', {refetch: false});
+dlgNewForward = new js.lsn.Dialog('[#`./dialogs/forwarder.html`]', {refetch: false});
+dlgEditForwarder = new js.lsn.Dialog('[#`./dialogs/edit_forwarder.html`]', {refetch: false});
+dlgDelete = new js.lsn.Dialog('[#`./dialogs/delete.html`]', {refetch: false});
+[#:end js]
+
+__DATA__
+
+browser_title => Email Administration

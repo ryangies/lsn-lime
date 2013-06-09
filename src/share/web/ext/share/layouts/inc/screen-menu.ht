@@ -1,0 +1,63 @@
+[#:js]
+
+  env.screens.addActionListener('onAdd', function (action, screen) {
+    new MenuItem(screen);
+  });
+
+  var MenuItem = function (screen) {
+    this.screen = screen;
+    this.createUI();
+    this.hook();
+  };
+
+  var _proto = MenuItem.prototype = {};
+
+  _proto.attach = function () {
+    js.dom.appendChildren('lsd-mmenu', this.getElements());
+  };
+
+  _proto.hook = function () {
+    js.dom.addEventListener(js.document, 'load', this.attach, this);
+    this.screen.addActionListener('onShow', function (action) {
+      js.dom.addClassName(this.a, 'sel');
+    }, this);
+    this.screen.addActionListener('onHide', function (action) {
+      js.dom.removeClassName(this.a, 'sel');
+    }, this);
+  };
+
+  _proto.createUI = function () {
+    this.a = js.dom.createElement('A.cell', {
+      'href': this.screen.addr,
+      'onClick': [this.onClick, this]
+    }, [
+      'SPAN.icon.cell', ['IMG', {'src': this.screen.icon}],
+      'SPAN.mark.cell=' + this.screen.name
+    ]);
+    this.li = js.dom.createElement('LI', [this.a]);
+  };
+
+  _proto.getElements = function () {
+    return [this.li];
+  };
+
+  _proto.onClick = function (event) {
+    js.dom.stopEvent(event);
+    env.screens.select(this.screen);
+  };
+
+[#:end js]
+
+<ol id="lsd-mmenu">
+[#:comment]
+  <li><a class="cell" title="[#lime-icon/title]"><span class="cell">[#:html:image lime-icon/img]</span></a></li>
+[#:end comment]
+</ol>
+__DATA__
+lime-icon => %{
+  title => Livesite Integrated Management Environment (LIME)
+  img => %{
+    src => /ext/share/images/src/lime-icon.png
+    alt => LIME
+  }
+}

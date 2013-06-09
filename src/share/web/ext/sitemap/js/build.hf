@@ -1,0 +1,15 @@
+# HashFile 2.1
+copyright => Livesite (c) Livesite Networks, LLC.
+target => ../../share/js/ext-sitemap.js
+name => Webpage management
+version => .001
+files => @{
+  menu/WebpageActionNode.js
+  Node.js
+  view/ListView.js
+  view/CrumbView.js
+  view/SelectView.js
+  input/Select.js
+  Screen.js
+  handlers.js
+}

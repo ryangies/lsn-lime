@@ -1,0 +1,20 @@
+[#:http:no-cache]
+[#:into /res/layouts/xhtml+lsn]
+[#:css src=`./local.css`]
+[#:js src=`./local.js`]
+[#:js event='document,load']
+  var main = new js.local.Main();
+  main.attachInput(js.dom.getElement('inputArea'));
+  main.attachButtons(js.dom.getElement('buttonsArea'));
+  main.attachOutput(js.dom.getElement('outputArea'));
+[#:end js]
+<h1>[#heading]</h1>
+<div>[#intro.txt]</div>
+<div id="inputArea"></div>
+<div id="buttonsArea"></div>
+<div id="outputArea"></div>
+__DATA__
+heading => Execute system commands
+intro.txt => ${
+<p><i>Standard error still goes to the web-server log.</i></p>
+}

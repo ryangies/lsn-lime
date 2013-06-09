@@ -1,0 +1,4 @@
+[#:into /res/layouts/xhtml+lsn]
+[#:js src=`/res/js/hub.js`]
+[#:css src=`./master.css`]
+[#CONTENT]

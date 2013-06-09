@@ -1,0 +1,52 @@
+# HashFile 2.1
+namespace => ext.collections
+target => local.js
+doc_target => local.js.doc
+files => @{
+
+  js/model/Node.js
+  js/model/CollectionList.js
+  js/model/CollectionDefinition.js
+  js/model/ItemNode.js
+  js/model/model.js
+
+  js/target/DataListener.js
+  js/target/Node.js
+  js/target/Item.js
+  js/target/Collection.js
+
+  js/view/TreeView.js
+  js/view/CrumbView.js
+  js/view/EditView.js
+  js/view/PropertiesView.js
+  js/view/CreateView.js
+  js/view/SummaryView.js
+  js/view/SummaryViewItem.js
+
+  js/Editor.js
+  js/Screen.js
+  js/handlers.js
+
+}
+screen => %{
+  id => ext-collections
+  addr => /ext/collections/
+  elem => ext-collections-screen
+  name => Collections
+  icon => /res/icons/16x16/nodes/data-hash.png
+  layout => layout3
+  include => @{
+    /ext/share/contrib/codemirror/include.ht
+    ./inc/dlg-properties.ht
+    ./inc/dlg-create.ht
+  }
+}
+strings => %{
+  missing_collections => Collections list not found
+  on_abandon => Your changes to will be lost
+  on_saved => <b>Saved</b>
+  on_notsaved => <b>Changes could not be saved!</b><br><br>It is likely that the file has been modified on the other end.
+  on_conflict => <b>Conflict detected.</b><br><br>The file has been modified outside of this editor.<br><br>Discard changes and reload?
+  on_overwrite => <b>overwrite this modified file</b>?
+  on_discard => <b>Discard changes</b>?
+}

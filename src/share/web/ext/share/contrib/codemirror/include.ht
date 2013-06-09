@@ -1,0 +1,22 @@
+[#:css src=`./lib/codemirror.css`]
+[#:css src=`./addon/dialog/dialog.css`]
+[#:js src=`./lib/package.js`]
+[#:comment]
+#
+# codeMirror hacking
+#
+[#:for (file) in "./mode/**/*.js"]
+[#:js src='[#:finfo:addr file]']
+[#:end for]
+[#:js]
+var mimes = CodeMirror.listMIMEs();
+var msg = [];
+for (var i = 0, props; props = mimes[i]; i++) {
+  var mimeType = props.mime;
+  var mode = js.util.isAssociative(props.mode) ? props.mode.name : props.mode;
+  msg.push("'" + mimeType + "': '" + mode + "',");
+  js.console.log(props.mime, js.util.isAssociative(props.mode) ? props.mode.name : props.mode);
+}
+js.console.log(msg.join("\n"));
+[#:end js]
+[#:end comment]

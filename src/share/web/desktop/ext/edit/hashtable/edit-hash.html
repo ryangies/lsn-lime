@@ -1,0 +1,56 @@
+[#:into /desktop/share/standard.ht]
+[#:js src=`/res/js/app.js`]
+[#:js src=`../hashtable/hashtable.js`]
+[#:css src=`../hashtable/styles.css`]
+
+<div class="mainArea"></div>
+<div class="editArea"></div>
+<div class="editMenuArea">
+  <div id="editMenu" class="hidden">
+    <button value="action:doEditSave">[#:html:image '/res/icons/16x16/status/checkmark.png'] Save</button>
+    <button value="action:doEditCancel">[#:html:image '/res/icons/16x16/actions/media-playback-stop.png'] Cancel</button>
+  </div>
+</div>
+<div class="editViewArea">
+  <div id="editView" class="hidden"></div>
+</div>
+<div class="gapA"></div>
+<div class="gapB"></div>
+
+[#:js extend='global']
+
+  // Application configuration
+  var config = [#:json:var ./module.pm/get_config];
+
+  // Application controller
+  var app = new js.lsn.hashtable.app.Application(config);
+
+  // Page layout areas
+  var layout = new js.lsn.layout.ViewportLayout(10);
+  layout.addRow('mainMenuArea', 40);
+  layout.addRow('gapA', 1);
+  layout.addRow('editArea');
+  layout.addRow('gapB', 1);
+
+  var editArea  = layout.getArea('editArea');
+  editArea.addRow('editMenuArea', 40);
+  editArea.addRow('editViewArea');
+
+  var editViewArea  = layout.getArea('editViewArea');
+  var fieldLabelArea = editViewArea.addColumn('fieldLabelArea', .25);
+  var fieldInputArea = editViewArea.addColumn('fieldInputArea');
+
+  fieldLabelArea.addActionListener('onUpdate', function (action, area) {
+    var w = area.getRegion().width;
+    area.getStyleSheet().updateRule('#label', {'width': w});
+    area.getStyleSheet().updateRule('#input', {'margin-left': w});
+  });
+
+  fieldInputArea.addActionListener('onUpdate', function (action, area) {
+    var w = area.getRegion().width - 40;
+    area.getStyleSheet().updateRule('#input textarea.textarea', {'width': w});
+    area.getStyleSheet().updateRule('#input input.text', {'width': w});
+    area.getStyleSheet().updateRule('#input p', {'width': w});
+  });
+
+[#:end js]

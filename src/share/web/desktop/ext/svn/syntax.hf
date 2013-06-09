@@ -1,0 +1,30 @@
+# HashFile 2.1
+# Simple syntax highlighting for diffs
+diff => @{
+  %{
+    match => /^([\+\-]{3}|Index:|={8,})/
+    name => hi-comment
+    style => background-color:[#gray3];
+    final => 1
+  }
+  %{
+    match => /^@@|^\\/
+    name => hi-context
+    style => color:[#gray2];
+  }
+  %{
+    match => /^\+/
+    name => hi-added
+    style => color:[#blue1];
+  }
+  %{
+    match => /^\-/
+    name => hi-removed
+    style => color:[#green1];text-decoration:line-through;
+  }
+  %{
+    match => /^\\/
+    name => hi-error
+    style => color:[#red2];
+  }
+}

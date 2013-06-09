@@ -1,0 +1,216 @@
+[#:js]
+
+  var CRunDialog = js.ext.share.ui.RunDialog;
+
+  function Dialog () {
+    CRunDialog.apply(this, arguments);
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.addActionListener('onMoveUp', this.onMoveUp, this);
+    this.addActionListener('onMoveDown', this.onMoveDown, this);
+    this.addActionListener('onAssign', this.onAssign, this);
+    this.addActionListener('onUnassign', this.onUnassign, this);
+    this.assignedItems = this.getElementById('block-items-assigned');
+    this.availableItems = this.getElementById('block-items-available');
+    this.keyPress = new js.dom.KeyPress();
+    this.keyPress.addHandler('enter', this.onKeyEnter, this);
+    this.keyPress.attach(this.assignedItems);
+    this.keyPress.attach(this.availableItems);
+  }
+
+  env.dialogs.register('[#_content_id]', Dialog);
+
+  var _proto = Dialog.prototype = js.lang.createMethods(CRunDialog);
+
+  _proto.onDialogShow = function (context) {
+    CRunDialog.prototype.onDialogShow.apply(this, arguments);
+    js.dom.removeChildren(this.assignedItems);
+    js.dom.removeChildren(this.availableItems);
+    this.populateLists(context);
+    context.assignedItems = this.assignedItems; // Result
+  };
+
+  _proto.populateLists = function (context) {
+    var query = [
+      ['fetch', context.ds],
+      ['fetch', context.addr]
+    ];
+    env.hub.batch(query, [function (result) {
+      if (!result) return;
+      var indexes = result[0].result.values();
+      var items = result[1].result;
+      var keys = items.keys();
+      var available = {};
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        var value = items.getObject(key);
+        var labelText = js.util.isAssociative(value) ? value.name : value;
+        var option = this.createOption(key, labelText);
+        this.availableItems.appendChild(option);
+        available[key] = option;
+      }
+      // Assing items in their proper order
+      for (var i = 0; i < indexes.length; i++) {
+        var key = indexes[i];
+        var option = available[key];
+        this.assignOption(option, this.assignedItems);
+      }
+    }, this]);
+  };
+
+  _proto.onMoveUp = function (action) {
+    var selected = this.getSelected(this.assignedItems);
+    if (selected && selected.previousSibling) {
+      js.dom.insertBefore(selected, selected.previousSibling);
+    }
+  };
+
+  _proto.onMoveDown = function (action) {
+    var selected = this.getSelected(this.assignedItems);
+    if (selected && selected.nextSibling) {
+      js.dom.insertAfter(selected, selected.nextSibling);
+    }
+  };
+
+  _proto.onAssign = function (action) {
+    var option = this.getSelected(this.availableItems);
+    this.assignOption(option, this.assignedItems);
+  };
+
+  _proto.assignOption = function (option, list) {
+    if (!option) return;
+    var nextSelected = option.nextSibling || option.previousSibling;
+    var selected = this.getSelected(list);
+    if (selected) {
+      js.dom.insertAfter(option, selected);
+    } else {
+      js.dom.appendChild(list, option);
+    }
+    if (nextSelected) this.selectOption(nextSelected);
+  };
+
+  _proto.onUnassign = function (action) {
+    var option = this.getSelected(this.assignedItems);
+    this.assignOption(option, this.availableItems);
+  };
+
+  _proto.createOption = function (value, text) {
+    var option = js.dom.createElement('OPTION', {
+      'value': value,
+      'innerHTML': text,
+      'onDblClick': [this.onDoubleClick, this]
+    });
+    return option;
+  };
+
+  _proto.onDoubleClick = function (event) {
+    var option = js.dom.getEventTarget(event);
+    var target = option.parentNode === this.assignedItems
+      ? this.availableItems
+      : this.assignedItems;
+    this.assignOption(option, target);
+  };
+
+  _proto.onKeyEnter = function (event) {
+    js.dom.stopEvent(event);
+    var list = js.dom.getEventTarget(event);
+    var target = list === this.assignedItems
+      ? this.availableItems
+      : this.assignedItems;
+    var option = this.getSelected(list);
+    this.assignOption(option, target);
+  };
+
+  _proto.getSelected = function (list) {
+    var index = list.selectedIndex;
+    return js.util.defined(index) && index > -1
+      ? list.childNodes[index]
+      : undefined;
+  };
+
+  _proto.selectOption = function (option) {
+    var list = option.parentNode;
+    var node = option.previousSibling;
+    var index = 0;
+    while (node) {
+      index++;
+      node = node.previousSibling;
+    }
+    js.dom.setAttribute(option, 'selected', 'selected');
+    list.selectedIndex = index;
+    list.focus();
+  };
+
+[#:end js]
+
+[#:css]
+
+  #[#_content_id] .dlg-width {width:800px;}
+  #[#_content_id] .dlg-width {width:800px;}
+  #[#_content_id] .col-width {width:400px;}
+  #[#_content_id] .list-width {width:390px;}
+  #[#_content_id] h4 {margin:.2em 0;}
+  #[#_content_id] #dialog-buttons {margin-top:.5em;}
+
+[#:end css]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs" class="pr dlg-width">
+      <div class="fr col-width">
+        <h4>Assigned</h4>
+        <div>
+          [#:for (button) in buttons/assigned]
+          <a rel="action" href="#[#button/action]" title="[#button/text]">[#:html:image button/icon alt=button/text]</a>
+          [#:end for]
+        </div>
+        <select size="10" id="block-items-assigned" class="list-width"></select>
+      </div>
+      <div class="fl col-width">
+        <h4>Available</h4>
+        <div>
+          [#:for (button) in buttons/available]
+          <a rel="action" href="#[#button/action]" title="[#button/text]">[#:html:image button/icon alt=button/text]</a>
+          [#:end for]
+        </div>
+        <select size="10" id="block-items-available" class="list-width"></select>
+      </div>
+      <div class="fn"></div>
+    </div>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="cancel">Cancel</button>
+    <button type="button" name="action" value="ok">Save</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-editors-live-select-key
+_title => Assign items from a predefined list
+_icon => /res/icons/16x16/status/checkmark.png
+
+buttons => %{
+  assigned => @{
+    %{
+      text => Move up
+      icon => /ext/editors/live/images/icons/arrowUp.png
+      action => onMoveUp
+    }
+    %{
+      text => Move down
+      icon => /ext/editors/live/images/icons/arrowDown.png
+      action => onMoveDown
+    }
+    %{
+      text => Unassign
+      icon => /ext/editors/live/images/icons/blockRemove.png
+      action => onUnassign
+    }
+  }
+  available => @{
+    %{
+      text => Assign
+      icon => /res/icons/16x16/di/add.png
+      action => onAssign
+    }
+  }
+}

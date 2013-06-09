@@ -1,0 +1,68 @@
+[#:use /ext/share/data/colors.hf]
+div#ext-editors-live-area4 {
+  background-color:[#gray60];
+}
+div.dde-layout-toolbar {
+  vertical-align:middle;
+  line-height:31px;
+}
+div.dde-layout-toolbar * {
+  vertical-align:middle;
+}
+div.dde-layout-toolbar img.nobg,
+div.dde-layout-toolbar img.button {
+  display:inline;
+}
+div.dde-layout-toolbar img.button {
+  border:1px solid black;
+  background-color:white;
+  padding:2px;
+  margin:0 1px;
+}
+div.dde-layout-toolbar img.on {
+  background-color:[#orange3];
+  border-color:[#orange1];
+}
+div.dde-layout-toolbar .static {
+  margin:0 3px;
+}
+
+iframe.dde-layout-doc {
+  background-color:[#white];
+}
+
+div.dde-layout-statusbar {
+}
+div.dde-layout-statusbar span {
+  background-color:[#lightgoldenrod1];
+  color:[#black];
+  vertical-align:middle;
+  line-height:20px;
+  font-size:12px;
+}
+div.dde-layout-statusbar span.msg {
+  display:block;
+  padding-left:5px;
+}
+
+/*
+.statusNotify {
+  border:1px outset [#orange1];
+  background-color:[#orange2];
+  color:[#white];
+  text-align:center;
+}
+*/
+
+.popupmenu {
+  border:1px outset [#gray10];
+  background-color:[#gray90];
+  position:absolute;
+}
+.popupmenu a {
+  color:[#gray30];
+  cursor:pointer;
+}
+.popupmenu a:hover {
+  color:[#black];
+}

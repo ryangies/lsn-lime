@@ -1,0 +1,133 @@
+CodeMirror.defineMode("lsn-html", function(config, parserConfig) {
+
+  // JavaScript setup
+  var jsConfig = js.util.overlay({}, config, {
+    'smartIndent':false,
+    'matchBrackets':true
+  });
+  var jsBegin = new RegExp('\\[' + '#:js');
+  var jsEnd = new RegExp('\\[' + '#:end js');
+
+  // CSS setup
+  var cssConfig = js.util.overlay({}, config, {
+    'smartIndent':false,
+    'matchBrackets':true
+  });
+  var cssBegin = new RegExp('\\[' + '#:css');
+  var cssEnd = new RegExp('\\[' + '#:end css');
+
+  // Both CSS and JavaScript beginnings are inline if they specify a src 
+  // parameter.
+  var reInline = new RegExp('src');
+
+  // Implementing modes
+  var htmlMode = CodeMirror.getMode(config, {name: "xml", htmlMode: true});
+  var jsMode = CodeMirror.getMode(jsConfig, "javascript");
+  var cssMode = CodeMirror.getMode(cssConfig, "css");
+
+  function html (stream, state) {
+
+    var currentIndent = 0; // TODO
+
+    if (stream.match(cssBegin) && !stream.match(reInline)) {
+
+      state.token = css;
+      state.localState = cssMode.startState(currentIndent);
+      state.mode = "css";
+      return null;
+
+    } else if (stream.match(jsBegin) && !stream.match(reInline)) {
+
+      state.token = javascript;
+      state.localState = jsMode.startState(currentIndent);
+      state.mode = "javascript";
+      return null;
+
+    }
+
+    var style = htmlMode.token(stream, state.htmlState);
+
+    if (style == "tag" && stream.current() == ">" && state.htmlState.context) {
+
+      if (/^script$/i.test(state.htmlState.context.tagName)) {
+        state.token = javascript;
+        state.localState = jsMode.startState(htmlMode.indent(state.htmlState, ""));
+        state.mode = "javascript";
+
+      } else if (/^style$/i.test(state.htmlState.context.tagName)) {
+
+        state.token = css;
+        state.localState = cssMode.startState(htmlMode.indent(state.htmlState, ""));
+        state.mode = "css";
+
+      }
+    }
+
+    return style;
+
+  }
+
+  function maybeBackup(stream, pat, style) {
+    var cur = stream.current();
+    var close = cur.search(pat);
+    if (close > -1) stream.backUp(cur.length - close);
+    return style;
+  }
+
+  function javascript(stream, state) {
+    if (stream.match(jsEnd) || stream.match(/^<\/\s*script\s*>/i, false)) {
+      state.token = html;
+      state.curState = null;
+      state.mode = "html";
+      return html(stream, state);
+    }
+    return maybeBackup(stream, /<\/\s*script\s*>/,
+                       jsMode.token(stream, state.localState));
+  }
+
+  function css(stream, state) {
+    if (stream.match(cssEnd) || stream.match(/^<\/\s*style\s*>/i, false)) {
+      state.token = html;
+      state.localState = null;
+      state.mode = "html";
+      return html(stream, state);
+    }
+    return maybeBackup(stream, /<\/\s*style\s*>/,
+                       cssMode.token(stream, state.localState));
+  }
+
+  return {
+    startState: function() {
+      var state = htmlMode.startState();
+      return {token: html, localState: null, mode: "html", htmlState: state};
+    },
+
+    copyState: function(state) {
+      if (state.localState)
+        var local = CodeMirror.copyState(state.token == css ? cssMode : jsMode, state.localState);
+      return {token: state.token, localState: local, mode: state.mode,
+              htmlState: CodeMirror.copyState(htmlMode, state.htmlState)};
+    },
+
+    token: function(stream, state) {
+      return state.token(stream, state);
+    },
+
+    indent: function(state, textAfter) {
+      if (state.token === html || /^\s*<\//.test(textAfter))
+        return htmlMode.indent(state.htmlState, textAfter);
+      else if (state.token === javascript)
+        return jsMode.indent(state.localState, textAfter);
+      else
+        return cssMode.indent(state.localState, textAfter);
+    },
+
+    compareStates: function(a, b) {
+      return htmlMode.compareStates(a.htmlState, b.htmlState);
+    },
+
+    electricChars: "/{}:"
+
+  };
+
+});

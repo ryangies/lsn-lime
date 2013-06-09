@@ -1,0 +1,198 @@
+[#:into ../../share/master.ht]
+[#:set u_site=/sys/conf/modules/desktop/ext/index/site]
+[#:set u_dom=/sys/conf/modules/desktop/ext/index/domain]
+[#:set u_misc=/sys/conf/modules/desktop/ext/index/misc]
+
+<div id="list">
+  [#:for (ctx,idx,props) in links/site u_site links/dom u_dom u_misc links/misc]
+  <div class="[#props/type || 'item']">
+    [#:if props/icon]
+    <img src="[#props/icon]"/>
+    [#:end if]
+    [#:if props/type eq 'action']
+    <a class="lsn" href="javascript:void(0)" onclick="[#props/action]">[#:bbcode props/desc.txt]</a>
+    [#:elsif props/type eq 'label']
+    <span>[#:bbcode props/desc.txt]<span>
+    [#:elsif ! props/type]
+    <a class="lsn" href="[#props/src]"
+      onclick="openExt(event, [#:js:var props])">[#:bbcode props/desc.txt]</a>
+    [#:end if]
+  </div>
+  [#:end for]
+</div>
+
+[#:js]
+function openExt (event, props) {
+  if (parent.js.lsn.desktop) {
+    props = props.toObject();
+    if (!props.id) props.id = js.util.randomId('tab');
+    parent.js.lsn.desktop.createTab(props);
+    js.dom.stopEvent(event);
+  }
+}
+[#:end js]
+
+[#:css]
+#list {margin:.5em .5em;}
+#list div.label {margin:1em 0 .5em 0;position:relative;}
+#list div.label span {vertical-align:text-bottom;}
+#list div.hr {margin:.1em 0 .5em 0;}
+#list div.item, #list div.action {margin:.2em 0 .5em .5em;}
+#list div.hr {border-bottom:1px solid black;}
+#list img {float:left;}
+#list a {margin-left:2em;display:block;}
+[#:end css]
+
+__DATA__
+
+links => %{
+
+  site => @{
+
+    %{
+      type => label
+      desc.txt => Site Administration
+    }
+
+    %{
+      src => /desktop/ext/dde/index.html
+      name => Editor
+      desc.txt => Edit existing pages
+      icon => /res/icons/16x16/apps/accessories-text-editor.png
+      canClose => true
+    }
+
+  }
+
+  dom => @{
+
+    %{
+      type => label
+      desc.txt => Domain Management
+    }
+
+    %{
+      id => users
+      src => /desktop/ext/users/index.html
+      name => User Accounts
+      desc.txt => User accounts
+      icon => /res/icons/16x16/apps/system-users.png
+      canClose => true
+    }
+
+  }
+
+  misc => @{
+
+    %{
+      type => label
+      desc.txt => Desktop
+    }
+
+    %{
+      id => settings
+      src => /desktop/ext/settings/index.html
+      name => Settings
+      desc.txt => Settings
+      icon => /res/icons/16x16/categories/preferences-system.png
+      canClose => true
+    }
+
+    %{
+      type => action
+      action => parent.js.lsn.desktop.logout()
+      desc.txt => Sign out
+      icon => /res/icons/16x16/actions/system-log-out.png
+    }
+
+  }
+
+}
+
+available => %{
+
+  site => @{
+
+    %{
+      id => preview
+      src => /
+      name => View
+      desc.txt => View the site
+      icon => /res/icons/16x16/apps/internet-web-browser.png
+      side => right
+      canClose => true
+      loadInBackground => false
+    }
+
+    %{
+      id => fsroot
+      src => /desktop/ext/browse/index.html
+      name => Root
+      desc.txt => Go to the root folder
+      icon => /res/icons/16x16/places/user-home.png
+      side => right
+      canClose => true
+      pos => 0
+      loadInBackground => false
+    }
+
+    %{
+      type => label
+      desc.txt => Applications
+    }
+
+    %{
+      id => wireframe
+      src => /wireframe/index.html
+      name => Wireframe
+      desc.txt => Wireframe Editor
+      icon => /res/icons/16x16/apps/system-software-update.png
+      side => right
+      canClose => true
+      loadInBackground => false
+    }
+
+  }
+
+  dom => @{
+
+    %{
+      id => email
+      src => /desktop/ext/email/index.html
+      name => Email
+      desc.txt => Email accounts
+      icon => /res/icons/16x16/apps/internet-mail.png
+      side => right
+      canClose => true
+      loadInBackground => false
+    }
+
+  }
+
+  misc => @{
+
+    %{
+      id => docs
+      src => /desktop/ext/docs/index.html
+      name => Docs
+      desc.txt => Documentation
+      icon => /res/icons/16x16/apps/help-browser.png
+      side => left
+      canClose => true
+      loadInBackground => false
+    }
+
+    %{
+      id => prefs
+      src => /desktop/ext/prefs/index.html
+      name => Prefs
+      desc.txt => Preferences
+      icon => /res/icons/16x16/emotes/face-cool.png
+      side => left
+      canClose => true
+      loadInBackground => false
+    }
+
+  }
+
+}

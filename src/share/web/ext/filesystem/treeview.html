@@ -1,0 +1,16 @@
+[#:into `../share/layouts/layout.ht`]
+[#:js src=`../share/js/ext-filesystem.js`]
+[#:css src=`./local.css`]
+
+<div class="layout-body">
+  <div id="test-treeview"></div>
+</div>
+
+[#:js event='document, load']
+  var view = new js.ext.filesystem.view.TreeView();
+  view.expand('/');
+  js.dom.replaceChildren('test-treeview', view.getChildren());
+[#:end js]
+
+[#:js event='document, unload']
+[#:end js]

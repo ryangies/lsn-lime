@@ -1,0 +1,25 @@
+# HashFile 2.1
+sections => @{
+
+  %{
+    heading => Samples
+    shortcuts => @{
+      %{
+        name => Edit Live
+        href => #handler:edit-html-live:/index.html
+        desc => Sample description
+      }
+      %{
+        name => Edit Text
+        href => #handler:edit-text-file:/web/data/site.hf
+        desc => Sample description
+      }
+      %{
+        name => Open Window
+        href => #handler:window-open:http://www.example.com
+        desc => Sample description
+      }
+    }
+  }
+
+}

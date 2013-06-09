@@ -1,0 +1,76 @@
+[#:js]
+
+  var handler = function (action, node) {
+    var dnode = node.data;
+    var dlg = env.dialogs.get('[#_content_id]');
+    dlg.run(dnode, function (action, values) {
+      dlg.submit('set_mode', {}, function () {
+        dlg.hide();
+      });
+    });
+  };
+
+/*
+  var initiator = new js.ext.share.Initiator({
+    'text': 'Chmod',
+    'type': 'file-action',
+    'target': 'selection',
+    'tooltip': 'Change the file\'s mode',
+    'action': 'do-file-chmod',
+    'icon': '/res/icons/16x16/emblems/emblem-system.png',
+    'sortValue': 3,
+    'matchTypes': [/file-/]
+  });
+
+  env.registerHandler('do-file-chmod', handler, initiator);
+*/
+
+  env.registerHandler('do-file-chmod', handler);
+
+  function onDialogShow (action, dnode) {
+    this.form.getInput('addr').setValue(dnode.getAddress());
+    this.form.getInput('mode').setValue('');
+    this.submit('get_mode', {}, function (r) {
+      var mode = r.getValue('mode');
+      this.form.getInput('mode').setValue(mode);
+    });
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.DialogForm, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.setModuleURL('[#`./module.pm`]');
+    this.form.loadSchema([#:json schema]);
+    this.form.attachUI(this.getElementById('inputs'));
+    this.addActionListener('onDialogShow', onDialogShow, this);
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="cancel">Cancel</button>
+    <button type="button" name="action" value="ok">Update</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-filesystem-inc-chmod
+_title => Chmod
+_icon => /res/icons/16x16/emblems/emblem-system.png
+schema => %{
+  fields => @{
+    %{
+      type => hidden
+      name => addr
+    }
+    %{
+      type => text
+      name => mode
+      label => Mode
+      description => Unix file mode
+    }
+  }
+}

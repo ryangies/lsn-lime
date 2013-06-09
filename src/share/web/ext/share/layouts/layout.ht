@@ -1,0 +1,79 @@
+[#:into ./master.ht]
+[#:use ../data/colors.hf]
+[#:comment]
+
+Standard layout backgrounds:
+
+  Including one of the /ext/share/var/bg-layout?.ht is a quick way of
+  inserting divs with the corresponding class names. The background
+  colors are specified below.
+
+If you want to create your own `workspace` layout:
+
+  var area4 = env.layout.getArea('layout1-area4');
+  var layout = area4.addLayout({structure:'nested', name: 'workspace'});
+
+If you are nesting the elements (structure:'nested'), and
+If that workspace is going to handle its own scrolling:
+
+  #your-screen-id .workspace { overflow: auto; }
+  #your-screen-id .layout1-area4 { overflow: none !important; }
+
+Otherwise the outer area will create a that horizonal scrollbar as
+layout1-area4 and workspace are the same width.
+
+[#:end comment]
+[#:css]
+
+  #bg-area1 { background:[#gray30]; }
+  #bg-area2 { background:[#gray90]; }
+  #bg-area3 { background:[#gray60]; }
+  #bg-area4 { }
+
+  .layout1-area1 { overflow:hidden; }
+  .layout1-area3 { overflow:hidden; }
+  .layout1-area2 { overflow:auto; }
+  .layout1-area4 { overflow:auto; }
+
+  .layout2-area1 { overflow:hidden; }
+  .layout2-area3 { overflow:hidden; }
+  .layout2-area2 { overflow:auto; }
+  .layout2-area4 { overflow:auto; }
+
+  .layout3-area1 { overflow:hidden; }
+  .layout3-area3 { overflow:hidden; }
+  .layout3-area2 { overflow:auto; }
+  .layout3-area4 { overflow:auto; }
+
+[#:end css]
+[#:js]
+
+  var bodyArea = env.layout.getArea('layout-body');
+  var screenArea = bodyArea.addLayout({'name':'screen-area'});
+
+  var layout1 = screenArea.addLayout({'structure':'nested'});
+  var layout1Head = layout1.addRow(null, 30, {'structure':'flat'});
+  var layout1Body = layout1.addRow(null, null, {'structure':'flat', 'gap':[1,0,0]});
+  layout1Head.addColumn('layout1-area1', 200);
+  layout1Head.addColumn('layout1-area3', null);
+  layout1Body.addColumn('layout1-area2', 200);
+  layout1Body.addColumn('layout1-area4', null);
+
+  var layout2 = screenArea.addLayout({'structure':'nested'});
+  var layout2Main = layout2.addColumn('layout2-body-main', null, {'structure':'flat'});
+  var layout2Menu = layout2.addColumn('layout2-body-menu', 200, {'structure':'flat'});
+  layout2Menu.addRow('layout2-area1', 30);
+  layout2Menu.addRow('layout2-area2');
+  layout2Main.addRow('layout2-area3', 30);
+  layout2Main.addRow('layout2-area4', null);
+
+  var layout3 = screenArea.addLayout({'structure':'nested'});
+  var layout3Menu = layout3.addColumn('layout3-body-menu', 300, {'structure':'flat'});
+  var layout3Main = layout3.addColumn('layout3-body-main', null, {'structure':'flat'});
+  layout3Menu.addRow('layout3-area1', 30);
+  layout3Menu.addRow('layout3-area2');
+  layout3Main.addRow('layout3-area3', 30);
+  layout3Main.addRow('layout3-area4', null);
+
+[#:end js]
+[#CONTENT]

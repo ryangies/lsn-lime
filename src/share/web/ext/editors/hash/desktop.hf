@@ -1,0 +1,6 @@
+# HashFile 2.1
+addr => /ext/editors/hash/
+name => Hash editor
+icon => /res/icons/16x16/nodes/data-hash.png
+elem => ext-editors-hash-screen
+layout => layout1

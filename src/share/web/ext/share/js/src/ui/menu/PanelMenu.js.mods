@@ -1,0 +1,40 @@
+
+    this.als = []; // Action listeners
+    this.setContext(context);
+    this.setSelector(selector);
+
+  PanelNode.setContext = function (context) {
+    this.context = context;
+    this.walk(function (child) {
+      child.setContext(context);
+    });
+  };
+
+  PanelNode.setSelector = function (selector) {
+    while (this.als.length) {
+      var al = this.als.pop();
+      al.remove();
+    }
+    this.selector = selector;
+    if (this.selector && this.data && this.data.target) {
+      switch (this.data.target) {
+        case 'selection':
+          this.setAvailable(false);
+          this.als.push(
+            this.selector.addActionListener('onSelect', this.onSelectTarget, this),
+            this.selector.addActionListener('onDeselect', this.onDeselectTarget, this)
+          );
+          break;
+        case 'cwd':
+          this.als.push(
+            this.selector.addActionListener('onChangeDirectory', this.onSelectTarget, this)
+          );
+          break;
+        default:
+          throw new TypeError('invalid panel-menu target');
+      }
+    }
+    this.walk(function (child) {
+      child.setSelector(selector);
+    });
+  };

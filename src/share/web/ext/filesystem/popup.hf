@@ -1,0 +1,64 @@
+# HashFile 2.1
+items => @{
+
+  %{
+    type => category
+    target => selection
+    heading => 
+  }
+
+#{
+
+  Removed so to keep the pop-up menu specific to `open as`, rather
+  than trying to maintain all of the actions available for a particular
+  item.
+
+  %{
+    type => category
+    target => selection
+    heading => <hr/>
+    items => @{
+      %{
+        type => item
+        text => Copy
+        tooltip => Copy to another folder
+        action => ext-filesystem-show-copy
+        icon => /res/icons/16x16/actions/edit-copy.png
+      }
+      %{
+        type => item
+        text => Move
+        tooltip => Move to another folder
+        action => ext-filesystem-show-move
+        icon => /res/icons/16x16/actions/edit-move.png
+      }
+      %{
+        type => item
+        text => Delete
+        tooltip => Remove permanently
+        action => ext-filesystem-show-delete
+        icon => /res/icons/16x16/actions/edit-delete2.png
+      }
+    }
+  }
+#}
+
+#{
+  %{
+    type => category
+    target => selection
+    heading => Testing
+    items => @{
+      %{
+        type => item
+        text => Click Me
+        tooltip => What happens onClick
+        action => no-operation
+        icon => /res/icons/16x16/emotes/face-monkey.png
+      }
+    }
+  }
+#}
+
+}
+

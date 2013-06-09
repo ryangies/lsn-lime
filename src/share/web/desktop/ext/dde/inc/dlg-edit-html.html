@@ -1,0 +1,64 @@
+[#:into ./dlg-base.html]
+
+<div id="[#UID2]area">
+<textarea id="[#UID2]source"></textarea>
+</div>
+<button id="scrub.btn">Scrub HTML</button>
+<button id="convert.btn">Convert UTF-8 to HTML entities</button>
+
+[#:css]
+#[#UID2]area {}
+#[#UID2]source {width:50em;height:30em;border:1px inset black;}
+[#:end css]
+
+[#:js event='widget, load']
+var dlg=this;
+js.dom.addEventListener('scrub.btn', 'click', function (event) {
+  var scrubber = new js.dom.Scrubber(dlg.params.js);
+  var elem = scrubber.scrub(dlg.params.target);
+  var src = dlg.params.js.dom.getAttribute(elem, 'innerHTML');
+  js.dom.setValue("[#UID2]source", src);
+  dlg.params.isModified = true;
+});
+js.dom.addEventListener('convert.btn', 'click', function (event) {
+  var bHtml = false; // Also convert HTML markup characters
+  var src = js.data.entities.decode(js.dom.getValue('[#UID2]source'), bHtml);
+  js.dom.setValue("[#UID2]source", src);
+  dlg.params.isModified = true;
+});
+new js.dom.KeyListener('[#UID2]source', 'ctrl+enter', function (event) {
+  js.dom.stopEvent(event);
+  this.doEvent('ok');
+}, this);
+[#:end js]
+
+[#:js event='widget, ready']
+var src = this.params.editor.getHTML();
+this.params.origHTML = src;
+js.dom.setValue("[#UID2]source", src);
+var vp = js.dom.getViewportPosition();
+var maxHeight = vp.height - 100;
+if (js.dom.getHeight('[#UID2]source') > maxHeight) {
+  js.dom.setStyle('[#UID2]source', 'height', maxHeight + 'px');
+}
+js.dom.getElement("[#UID2]source").focus();
+[#:end js]
+
+[#:js event='widget, apply']
+this.params.editor.setHTML(js.dom.getValue("[#UID2]source"));
+this.params.applied = true;
+this.params.isModified = true;
+[#:end js]
+
+[#:js event='widget, ok']
+if (!this.params.applied) this.doEvent('apply');
+[#:end js]
+
+[#:js event='widget, cancel']
+if (this.params.isModified) this.params.editor.setHTML(this.params.origHTML);
+[#:end js]
+
+__DATA__
+
+_title => Edit Source
+_btn_apply => 1

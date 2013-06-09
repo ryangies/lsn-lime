@@ -1,0 +1,69 @@
+[#:js]
+
+  var initiator = new js.ext.share.Initiator({
+    'text': 'Unzip',
+    'type': 'file-action',
+    'target': 'selection',
+    'tooltip': 'Unzip into the current folder',
+    'action': 'do-file-unzip',
+    'icon': '/res/icons/16x16/emblems/zipper.png',
+    'sortValue': 1,
+    'matchTypes': [/file-zip/]
+  });
+
+  var handler = function (action, node) {
+    var dnode = node.data;
+    var dlg = env.dialogs.get('[#_content_id]');
+    dlg.run(dnode, function (action, values) {
+      dlg.submit('unzip', {}, function () {
+        dnode.getParentNode().fetch(); // refresh cwd
+        dlg.hide();
+      });
+    });
+  };
+
+  env.registerHandler('do-file-unzip', handler, initiator);
+
+  function onDialogShow (action, dnode) {
+    this.form.getInput('zip_addr').setValue(dnode.getAddress());
+    this.form.getInput('dest_addr').setValue(dnode.parentNode.getAddress());
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.DialogForm, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.setModuleURL('[#`./module.pm`]');
+    this.form.loadSchema([#:json schema]);
+    this.form.attachUI(this.getElementById('inputs'));
+    this.addActionListener('onDialogShow', onDialogShow, this);
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+    <p>The contents of this ZIP archive will be extracted into the current directory.</p>
+    <p>Existing files will be replaced!</p>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="cancel">Cancel</button>
+    <button type="button" name="action" value="ok">Unzip</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-filesystem-inc-unzip
+_title => Unzip
+_icon => /res/icons/16x16/nodes/file-jar.png
+schema => %{
+  fields => @{
+    %{
+      type => hidden
+      name => zip_addr
+    }
+    %{
+      type => hidden
+      name => dest_addr
+    }
+  }
+}

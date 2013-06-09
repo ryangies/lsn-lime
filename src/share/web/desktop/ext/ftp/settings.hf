@@ -1,0 +1,71 @@
+# HashFile 2.1
+fieldsets => @{
+  %{
+    heading => Connection Settings
+    fields => %{
+      host => %{
+        label => Server name or IP address
+        type => text
+      }
+      username => %{
+        label => Login name
+        type => text
+      }
+      password => %{
+        label => Password
+        type => password
+      }
+      path => %{
+        label => Remote directory
+        type => text
+        value => /
+      }
+      text_mode => %{
+        label => Text-file transfer mode
+        type => select
+        options => @{
+          %{
+            text => Binary
+            value => binary
+          }
+          %{
+            text => ASCII
+            value => ascii
+          }
+        }
+      }
+    }
+  }
+  %{
+    heading => Local Settings
+    fields => %{
+      local_root => %{
+        label => Local root
+        type => text
+        value => /
+      }
+      query_all => %{
+        label => Files Query
+        type => text
+        value => **|{?(=~i):\.(html?|xml|jpe?g|gif|png|css|js)$}|{?(!~):web/admin}
+        maxlength => 128
+      }
+      resources => %{
+        label => Additional Paths (one per line)
+        type => textarea
+        value => 
+      }
+      excludes => %{
+        label => Exclude Patterns (one per line)
+        type => textarea
+        value => web/admin
+      }
+      compile => %{
+        label => Compile (wget) Pattern
+        type => text
+        value => \.(html|css|js)$
+        maxlength => 128
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+[#:use /res/palettes/lsn.hf]
+
+[#:css]
+#ListView {border-collapse:collapse;}
+#ListView tr.selected {background:[#gray3];color:[#green1];}
+#ListView td {padding:0;margin:0;}
+#ListView a {cursor:pointer;}
+#ListView a:hover {color:[#green1];text-decoration:underline;}
+[#:end css]
+
+[#:js]
+new js.lsn.ext.wireframe.ui.ListView(app);
+[#:end js]
+
+<table id="ListView"></table>

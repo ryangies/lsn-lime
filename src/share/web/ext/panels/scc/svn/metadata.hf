@@ -1,0 +1,66 @@
+# HashFile 2.1
+
+status_text => %{
+  ? => Unknown
+  ! => Missing
+  M => Modified
+  A => Added
+  A+ => Added+Modified
+  C => Conflict
+  D => Deleted
+  R => Replaced
+  o => Override
+  X => External
+  ~ => Object mismatch
+  I => Ignore
+}
+
+actions => @{
+  %{
+    value => add
+    innerHTML => Add
+  }
+  %{
+    value => remove
+    innerHTML => Remove
+  }
+  %{
+    value => commit
+    innerHTML => Commit
+  }
+  %{
+    value => replace
+    innerHTML => Replace
+  }
+  %{
+    value => skip
+    innerHTML => Skip
+  }
+  %{
+    value => revert
+    innerHTML => Revert
+  }
+  %{
+    value => ignore
+    innerHTML => Ignore
+  }
+  %{
+    value => destroy
+    innerHTML => Destroy
+  }
+}
+
+default_action => %{
+  ? => add
+  ! => destroy
+  M => commit
+  A => commit
+  A+ => commit
+  C => skip
+  D => commit
+  R => skip
+  o => replace
+  X => skip
+  ~ => replace
+  I => skip
+}

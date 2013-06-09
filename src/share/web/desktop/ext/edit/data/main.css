@@ -1,0 +1,26 @@
+[#:use /desktop/share/colors.hf]
+
+.lde .lbl {
+  color:[#green1];
+}
+
+.lde .ctrl input,
+.lde .ctrl textarea {
+  color:[#gray1];
+  border:1px solid [#gray2];
+}
+
+.lde .ctrl textarea:focus {
+  color:[#black];
+}
+
+.lde .ctrl div.rszta {
+  border-width:0 1px 1px 1px;
+  border-style:solid;
+  border-color:[#gray2];
+  background-color: [#gray3];
+}
+
+.lde .ctrl div.rszta:hover {
+  background-color: [#gray2];
+}

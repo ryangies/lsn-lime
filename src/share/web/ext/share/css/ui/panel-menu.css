@@ -1,0 +1,63 @@
+/** ext.ui.share.ui.menu.PanelMenu */
+.panel-menu-unavailable {
+  display:none;
+}
+dl.panel-menu,
+dl.panel-menu dt {
+  margin:4px;
+  font-weight:bold;
+}
+dl.panel-menu dd {
+  margin:0;
+}
+
+/** ext.ui.share.ui.menu.CategoryNode */
+/** ext.ui.share.ui.menu.PopupMenu */
+ol.action-menu {
+  padding:0;
+  margin:0;
+}
+dl.panel-menu li {
+  list-style:none;
+  margin:0;
+}
+dl.panel-menu a {
+  display:block;
+  font:13px/16px Arial,sans-serif;
+  padding:2px 8px;
+}
+dl.panel-menu a,
+dl.panel-menu a:hover,
+dl.panel-menu a:visited {
+  text-decoration:none;
+  color:[#blue2];
+}
+dl.panel-menu a:hover {
+  background-color:[#gray80];
+  color:[#blue2a];
+}
+dl.panel-menu a.action {
+  cursor:pointer;
+  white-space:nowrap;
+}
+dl.panel-menu a * {
+  vertical-align:middle;
+}
+dl.panel-menu a img.icon {
+  margin-right:5px;
+}
+
+/** ext.ui.share.ui.menu.PopupMenu */
+[#:use /res/css/snippets.hf]
+div.popup-menu {
+  padding:10px;
+  position:absolute;
+}
+div.popup-menu dl:first-child {
+  background-color:[#gray95];
+  border:1px solid [#gray50];
+  border-radius:3px;
+  [#box-shadow blur='5px' color=gray80]
+  [#linear-gradient color0=gray95 color1=gray90]
+  padding:5px 0;
+}

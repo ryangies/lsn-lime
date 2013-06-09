@@ -1,0 +1,202 @@
+[#:use ../share/data/colors.hf]
+
+/** Crumb View */
+
+div.crumb-view dl {
+  margin:0;
+  line-height:30px;
+}
+div.crumb-view dt,
+div.crumb-view dd {
+  float:left;
+  margin-left:0;
+}
+div.crumb-view dt a {
+  display:block;
+  float:left;
+  height:30px;
+  overflow:hidden;
+  max-width:200px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  padding-right:5px;
+}
+div.crumb-view dt a {
+  padding-left:7px;
+  background-image:url(/res/icons/scalable/toolbar/crumb-separator.png);
+  background-position-x:left;
+  background-position-y:center;
+  background-repeat:no-repeat;
+}
+div.crumb-view > dl > dt > a {
+  padding-left:0px;
+  background-image:none;
+}
+div.crumb-view dt a * {
+  vertical-align:middle;
+}
+div.crumb-view dt a img {
+  border:none;
+}
+div.crumb-view dt a .icon {
+  margin-left:5px;
+  padding-right:5px;
+}
+div.crumb-view dt a .arrow {
+  margin-left:5px;
+}
+div.crumb-view dt a,
+div.crumb-view dt a:visited {
+  text-decoration:none;
+  background-color:[#gray80];
+  color:[#gray10];
+}
+div.crumb-view dt a:hover {
+  background-color:[#gray85];
+}
+div.crumb-view dt a:hover span.name {
+  color:[#black];
+}
+div.crumb-view dl.inactive dt a {
+  background-color:transparent;
+}
+
+/** List View */
+
+table.tree-list-view {
+  width:100%;
+}
+table.tree-list-view thead th.icon {
+  width:26px;
+}
+table.tree-list-view tbody tr {
+  height:1.5em;
+}
+table.tree-list-view tbody tr:hover {
+}
+table.tree-list-view tbody tr.selected {
+  background-color:[#gray90];
+}
+table.tree-list-view tbody td.icon {
+  padding:0 5px;
+}
+table.tree-list-view td {
+  cursor:default;
+  white-space:nowrap;
+}
+table.tree-list-view td * {
+  vertical-align:top;
+}
+table.tree-list-view img.icon {
+  border:none;
+}
+table.tree-list-view a,
+table.tree-list-view a:visited {
+  text-decoration:none;
+  color:inherit;
+}
+table.tree-list-view a:hover {
+  text-decoration:underline;
+  color:inherit;
+}
+
+table.tree-list-view td.name {
+}
+table.tree-list-view td.detail {
+  font-size:small;
+  font-family:fixed;
+  padding-right:1em;
+  text-align:right;
+  color:inherit;
+}
+table.tree-list-view td.w10 { width:10%; }
+table.tree-list-view td.w20 { width:20%; }
+table.tree-list-view td.w30 { width:30%; }
+table.tree-list-view td.w40 { width:40%; }
+table.tree-list-view td.w50 { width:50%; }
+table.tree-list-view td.w60 { width:60%; }
+table.tree-list-view td.w70 { width:70%; }
+table.tree-list-view td.w80 { width:80%; }
+table.tree-list-view td.w90 { width:90%; }
+table.tree-list-view td.w100 { width:100%; }
+
+/** Select View */
+
+/*
+div.select-view {
+  width:400px;
+  height:300px;
+  overflow:auto;
+}
+*/
+div.select-view dl {
+  position:relative;
+}
+div.select-view dl {
+  position:relative;
+  margin:0;
+  line-height:1.8em;
+}
+div.select-view dt {
+  position:relative;
+}
+div.select-view dd {
+  margin-left:0;
+  padding-left:16px;
+  background-color:[#gray80];
+}
+div.select-view dt .icon.toggle {
+  position:absolute;
+  top:3px;
+  left:0;
+  cursor:pointer;
+}
+/**
+ * When a node can be collapsed, a toggle icon is displayed to the left.
+ * To do this, we position the icon absolutely, and give this (next sibling)
+ * a margin. This `with-toggle` class is only presenet in this case. Usually
+ * it is only the root node which (of this list) which does not collapse.
+ * (/ext/share/js/src/filesystem/view/SelectViewLayer.js)
+ */
+div.select-view dt a.with-toggle {
+  margin-left:16px;
+}
+div.select-view dt a {
+  display:block;
+  height:1.8em;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+div.select-view dt a * {
+  vertical-align:middle;
+}
+div.select-view dt a img {
+  border:none;
+}
+div.select-view dt a .icon.type {
+  margin-left:5px;
+  padding-right:5px;
+}
+div.select-view dt a,
+div.select-view dt a:visited {
+  text-decoration:none;
+  background-color:[#gray90];
+  color:[#gray10];
+}
+div.select-view dt a:hover {
+  background-color:[#gray95];
+}
+div.select-view dt.selected a,
+div.select-view dt.selected a:hover {
+  background-color:[#orange3];
+}
+div.select-view dt a:hover span.name {
+  color:[#black];
+}
+div.select-view dl.active {
+  display:block;
+}
+div.select-view dl.inactive {
+  display:none;
+}

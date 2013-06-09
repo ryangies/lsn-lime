@@ -1,0 +1,9 @@
+# HashFile 2.1
+src => /var/www/vhosts/admin.example.com/htdocs
+dest => /var/www/vhosts/example.com/htdocs
+excludes => ${
+- .svn
+- test
+- testing
+- web/admin
+}

@@ -1,0 +1,28 @@
+[#:js]
+  env.dialogs.register('[#name]', js.ext.share.ui.DialogStatus, function () {
+    this.setContent(js.dom.getElement('[#id]'));
+    this.makeModal();
+  });
+[#:end js]
+[#:css]
+  #[#id] #dialog-content {
+    position:relative;
+    text-align:left;
+    width:200px;
+  }
+  #[#id] #dialog-content p {
+    margin:0;
+    line-height:2em;
+    padding:.5em;
+  }
+  #[#id] #dialog-content img {
+    vertical-align:text-bottom;
+  }
+[#:end css]
+<div id="[#id]">
+[#:into ./borders.ht]
+  <div id="dialog-content">
+    [#CONTENT]
+  </div>
+[#:end into]
+</div>

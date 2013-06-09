@@ -1,0 +1,61 @@
+[#:js]
+
+  function onDialogLoad (action) {
+    // Load
+    var ctrl = this.form.getInput('fsnode');
+    ctrl.addActionListener('onSelect', function (action, tnode) {
+      this.form.getInput('name').setValue(tnode.getName());
+    }, this);
+  }
+
+  function onDialogShow (action, params) {
+    // Select according to params
+    this.form.getInput('name').setValue('');
+    this.form.getInput('fsnode').setValue(params.value);
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.DialogForm, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.form.loadSchema([#:json schema]);
+    this.form.attachUI(this.getElementById('inputs'));
+    this.addActionListener('onDialogLoad', onDialogLoad, this);
+    this.addActionListener('onDialogShow', onDialogShow, this);
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-popup.ht]
+  <div id="dialog-contents">
+    <div id="inputs"></div>
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="cancel">Cancel</button>
+    <button type="button" name="action" value="ok">Select</button>
+  </div>
+[#:end into]
+
+[#:css]
+  #[#_content_id] #inputs {
+    width:500px;
+    height:400px;
+    overflow:auto;
+  }
+[#:end css]
+
+__DATA__
+_content_id => ext-editors-live-select-file
+_title => Select file
+_icon => /res/icons/16x16/nodes/file-text.png
+schema => %{
+  fields => @{
+    %{
+      type => hidden
+      name => name
+    }
+    %{
+      type => select-filesystem-entry
+      name => fsnode
+    }
+  }
+}
+

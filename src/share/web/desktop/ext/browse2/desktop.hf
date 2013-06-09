@@ -1,0 +1,8 @@
+# HashFile 2.1
+category => site
+name => File Manager
+title => File Manager
+desc => Opens a browser to view and edit files
+icon => /res/icons/16x16/places/folder.png
+pos => 0
+canClose => true

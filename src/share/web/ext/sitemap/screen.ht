@@ -1,0 +1,22 @@
+[#:js src=`../share/js/ext-sitemap.js`]
+[#:js]
+  var smAddr = [#:json ./module.pm/get_sitemap_addr];
+  var screen = new js.ext.sitemap.Screen([#:json ./desktop.hf], smAddr);
+  env.screens.add(screen);
+[#:end js]
+<div id="ext-sitemap-screen" class="screen-area screen-hidden">
+  [#/ext/share/var/bg-layout1.ht]
+  <div id="ext-sitemap-area1" class="layout1-area1"></div>
+  <div id="ext-sitemap-area2" class="layout1-area2"></div>
+  <div id="ext-sitemap-area3" class="layout1-area3"></div>
+  <div id="ext-sitemap-area4" class="layout1-area4"></div>
+</div>
+<div id="ext-sitemap-dialogs" class="dn">
+  [#./inc/overlay.ht]
+  [#./inc/new-webpage.ht]
+  [#./inc/new-category.ht]
+  [#./inc/new-entry.ht]
+  [#./inc/edit-category.ht]
+  [#./inc/edit-webpage.ht]
+  [#./inc/remove.ht]
+</div>

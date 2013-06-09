@@ -1,0 +1,29 @@
+[#:js]
+
+  function onDialogShow (action, dnode) {
+  }
+
+  function onOk (action) {
+    this.hide();
+  }
+
+  env.dialogs.register('[#_content_id]', js.ext.share.ui.Overlay, function () {
+    this.setContent(js.dom.getElement('[#_content_id]'));
+    this.addActionListener('onDialogShow', onDialogShow, this);
+    this.addActionListener('onOk', onOk, this);
+  });
+
+[#:end js]
+
+[#:into /ext/share/dialog/layout-overlay.ht]
+  <div id="dialog-contents">
+  </div>
+  <div id="dialog-buttons">
+    <button type="button" name="action" value="ok">Update</button>
+  </div>
+[#:end into]
+
+__DATA__
+_content_id => ext-sitemap-overlay
+_title => Overlay Testing
+_icon => /res/icons/16x16/sitemap/category.png

@@ -1,0 +1,33 @@
+<iframe id="iframe[#UID]" frameborder="0" class="w1b h4" allowtransparency="true"></iframe>
+
+[#:css]
+#iframe[#UID] {background:url(/desktop/share/images/xbkg.png);}
+[#:end css]
+
+[#:js]
+var w[#UID];
+[#:end js]
+
+[#:js event='widget, load']
+w[#UID] = this;
+[#:end js]
+
+[#:js event='widget, ready']
+var addr = this.params.dnode.getAddress();
+var url = '[#`./editor.html`]?a=' + addr;
+js.dom.setAttribute('iframe[#UID]', 'src', url);
+[#:end js]
+
+[#:js event='widget, hide']
+js.dom.setAttribute('iframe[#UID]', 'src', 'about:blank');
+[#:end js]
+
+__DATA__
+
+menu => @{
+  %{
+    js => w[#UID].doEvent('test');
+    icon => /res/icons/16x16/actions/document-save.png
+    desc.txt => Test
+  }
+}

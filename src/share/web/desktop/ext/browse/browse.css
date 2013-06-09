@@ -1,0 +1,52 @@
+[#:use ./browse.hf]
+[#:use /res/palettes/lsn.hf]
+[#:use /desktop/share/colors.hf]
+a {cursor:pointer;}
+html, body {background-color:[#white];}
+html, body {overflow:hidden;width:100%;height:100%;}
+div.na {filter: alpha(opacity=55); -moz-opacity: .55; opacity: .55;}
+div.na a {cursor:default;text-decoration:none;font-style:italic;}
+
+#sidebar {display:none;position:absolute;left:0;overflow:auto;}
+#sidebar {background:right repeat-y url(/desktop/share/images/br.png) [#gray3];}
+
+#workspace {position:relative;border:none;padding:0;}
+
+#treetop {height:[#treetop-height]px;position:relative;border:none;left:[#sidebar-width]px;}
+#treetop div.item {float:left;margin:4px 4px;padding:0 .2em;}
+#treetop {background:bottom repeat-x url(/desktop/share/images/bb.png);}
+#treetop img {vertical-align:text-top;}
+
+#action1 {zoom:1;}
+#action2 {right:[#area-hpad]px;}
+#action2 {position:absolute;bottom:0;}
+#action1, #action2 {height:[#treetop-height]px;line-height:[#treetop-height]px;}
+
+#tree {overflow:auto;border:none;position:relative;left:[#sidebar-width]px;}
+#tree {padding:[#area-vpad]px [#area-hpad]px;}
+
+#vsplit {background:url(/desktop/share/images/vsep.png);font-size:0pt;cursor:n-resize;}
+
+#title {position:relative;border:none;height:[#title-height]px;}
+#title {background:bottom repeat-x url(/desktop/share/images/bb.png);}
+#titleleft {position:absolute;top:[#area-hpad]px;}
+#titleleft * {vertical-align:text-bottom;}
+#title-icon {margin:0 4px;}
+#title-name {font-weight:bold;color:[#blue1];}
+#editmenu {position:absolute;top:26px;left:4px;}
+
+#editarea {position:relative;left:0;margin:0;padding:0;;overflow:hidden;}
+#editarea {background:[#gray3];}
+
+div.hidden {visibility:hidden;}
+
+table.hublist td.detail0 {font-size:small;color:blue;font-family:monospace;padding-right:1em;text-align:right;}
+table.hublist td.detail1 {font-size:small;color:green;font-family:monospace;padding-right:1em;}
+table.hublist td.detail2 {font-size:small;color:gray;padding-right:1em;}
+
+.statusNotify {
+  border:1px outset [#orange1];
+  background-color:[#orange2];
+  color:[#white];
+  text-align:center;
+}

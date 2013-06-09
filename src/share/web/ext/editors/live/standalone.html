@@ -1,0 +1,16 @@
+[#:into /ext/share/layouts/layout.ht]
+[#:js src='/ext/share/js/ext-filesystem.js']
+[#:js src='/ext/share/js/ext-sitemap.js']
+[#./screen.ht]
+
+[#:js event='document, load']
+  var loc = new js.http.Location();
+  var addr = loc.getParameters()['addr'] || loc.getParameters()['doc'];
+  if (addr) {
+    var db = env.hub;
+    db.fetch(addr, function (node) {
+      var screen = env.screens.get('/ext/editors/live/');
+      env.screens.select(screen, {'dnode':node});
+    });
+  }
+[#:end js]

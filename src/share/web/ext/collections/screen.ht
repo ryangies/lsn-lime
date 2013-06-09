@@ -1,0 +1,32 @@
+[#:js src=`./local.js`]
+[#:css src=`./local.css`]
+[#:use ./build.hf]
+[#:js]
+  var props = [#:json screen];
+  var target = [#:json ./module.pm/get_collections_addr];
+  var screen = new js.[#namespace].Screen(props, target);
+  env.screens.add(screen);
+
+  var workspace = env.layout.getArea('[#screen/layout]-area4');
+  workspace.addColumn('[#screen/layout]-area5');
+  workspace.addColumn('[#screen/layout]-area6', 200);
+[#:end js]
+[#:css]
+  #[#screen/id]-area2 { background:[#gray80]; }
+  #[#screen/id]-area5 { background:[#gray95]; overflow:auto; }
+  #[#screen/id]-area6 { background:[#gray90]; overflow:auto; }
+[#:end css]
+<div id="[#screen/id]-screen" class="screen-area screen-hidden">
+  [#/ext/share/var/bg-[#screen/layout].ht]
+  <div id="[#screen/id]-area1" class="[#screen/layout]-area1"></div>
+  <div id="[#screen/id]-area2" class="[#screen/layout]-area2"></div>
+  <div id="[#screen/id]-area3" class="[#screen/layout]-area3"></div>
+  <div id="[#screen/id]-area4" class="[#screen/layout]-area4"></div>
+  <div id="[#screen/id]-area5" class="[#screen/layout]-area5"></div>
+  <div id="[#screen/id]-area6" class="[#screen/layout]-area6"></div>
+  <div class="dn">
+    [#:for path in screen/include] 
+      [#[#path]]
+    [#:end for]
+  </div>
+</div>

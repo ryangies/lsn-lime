@@ -1,0 +1,39 @@
+<iframe id="iframe[#UID]" frameborder="0" class="w1b h4" allowtransparency="true"></iframe>
+
+[#:css]
+  #iframe[#UID] {background:url(/desktop/share/images/xbkg.png);}
+[#:end css]
+
+[#:js event='widget, load']
+  function onFrameLoad (event) {
+    this.props.evtLoad.remove();
+    this.props.hasLoaded = true;
+    this.props.js = js.dom.getContentJS('iframe[#UID]');
+    this.doEvent('edit');
+  }
+  this.props.evtLoad = new js.dom.EventListener('iframe[#UID]', 'load', onFrameLoad, this);
+[#:end js]
+
+[#:js event='widget, ready']
+  if (this.props.hasLoaded) {
+    this.doEvent('edit');
+  } else {
+    js.dom.setAttribute('iframe[#UID]', 'src', '[#`./editor.html`]');
+  }
+[#:end js]
+
+[#:js event='widget, edit']
+  this.props.js.local.beginEditing(this.params.dnode);
+[#:end js]
+
+[#:js event='widget, refresh']
+  this.props.js.local.beginEditing(this.params.dnode);
+[#:end js]
+
+[#:js event='widget, checkmodified']
+  this.props.isDirty = this.props.js.local.checkModified();
+[#:end js]
+
+[#:js event='widget, hide']
+  this.props.js.local.endEditing();
+[#:end js]

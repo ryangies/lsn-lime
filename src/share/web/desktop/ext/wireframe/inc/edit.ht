@@ -1,0 +1,11 @@
+[#:use /res/palettes/lsn.hf]
+
+[#:css]
+#EditView {}
+[#:end css]
+
+[#:js]
+new js.lsn.ext.wireframe.ui.EditView(app);
+[#:end js]
+
+<div id="EditView"></div>

@@ -1,0 +1,29 @@
+[#:into /res/layouts/xhtml]
+[#:js src=`/res/js/livesite.js`]
+[#:js src=`/res/js/hub.js`]
+[#:css src=`./inc/screen.css`]
+
+<div class="p10">
+
+  <input id="txt1"/>
+
+  <select>
+    <option>Alpha</option>
+    <option>Bravo</option>
+    <option>Charlie</option>
+  </select>
+
+</div>
+
+[#:css]
+.p10{padding:10px;}
+#txt1{width:400px;}
+[#:end css]
+
+[#:js]
+js.dom.addEventListener(window, 'load', function (event) {
+  var list = new js.hubb.ui.ComboBox();
+  list.attach('txt1');
+  list.expand('/data');
+});
+[#:end js]

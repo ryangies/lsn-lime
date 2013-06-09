@@ -1,0 +1,100 @@
+[#:into /ext/share/layouts/contained.ht]
+[#/ext/share/contrib/codemirror/include.ht]
+[#:js src='/ext/share/js/ext-sitemap.js']
+[#:js src='/ext/editors/hash/local.js']
+[#:css src='/ext/editors/hash/local.css']
+
+[#:js]
+  var layout = new js.lsn.layout.ViewportLayout({gap:[10]});
+  var a_head = layout.addRow('area-head', 80);
+  var a_body = layout.addRow('area-body');
+  var a_foot = layout.addRow('area-foot', 0);
+  a_body.addColumn('area-select', 300)
+  a_body.addColumn('area-editor');
+[#:end js]
+
+[#:js event='document,load']
+
+  var schema = [#:json editSchema];
+  var editor = new js.ext.editors.hash.Editor('page-meta-editor', schema);
+  editor.setOption('autoCommit', true);
+  js.dom.appendChildren('area-editor', editor.getElements());
+
+/*
+  var form = new js.ext.share.input.Form();
+  form.loadSchema(schema);
+  form.attachUI(js.dom.getElement('area-editor'));
+*/
+
+  var selector = js.ext.share.input.factory.createObject('select-sitemap-entry');
+  selector.addActionListener('onSelect', function (action, sel) {
+    editor.unload();
+    var entry = sel.getDataNode();
+    if (entry.getString('.type') == 'webpage') {
+      var db = entry.getDataBridge();
+      var addr = entry.getString('.addr');
+      if (!addr.match(/html$/)) {
+        addr += '/index.html';
+      }
+      addr += '/page';
+      //js.console.log('setData', addr);
+      db.get(addr, function (dnode) {
+        editor.load(dnode);
+      });
+    }
+  });
+
+  js.dom.replaceChildren('area-select', selector.getElements());
+
+[#:end js]
+
+[#:use /ext/share/data/colors.hf]
+[#:css]
+  body > .area-head {background-color:white;}
+  body > .area-body {background-color:white;}
+  body > .area-foot {background-color:black;color:white;}
+  body > .area-select {background-color:[#gray80];}
+  body > .area-editor {}
+  body > .area-select {overflow:auto;}
+  .FieldView > th { width:100px; }
+  .FieldView input.text { width:100%; }
+  .FieldView textarea { width:100%; height:200px; }
+  .area-head h1 { margin:.2em 0; }
+[#:end css]
+
+<div class="area-head">
+  <h1>Page Descriptions</h1>
+  <p>Select the webpage from the list on the left, updates its title and 
+  description on the right. Changes are <b>automatically</b> saved after
+  you click outside of the text area.</p>
+</div>
+<div class="area-body"></div>
+<div class="area-foot"></div>
+
+<div id="area-select" class="area-select"></div>
+<div id="area-editor" class="area-editor"></div>
+
+__DATA__
+editSchema => %{
+  fields => @{
+    %{
+      label => Title
+      type => text
+      name => title
+    }
+    %{
+      label => Description
+      type => textarea
+      name => description
+    }
+    %{
+      label => Aliases
+      description => One per line
+      type => code
+      name => aliases
+      input => %{
+        lineWrapping => false
+      }
+    }
+  }
+}

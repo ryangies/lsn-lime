@@ -1,0 +1,17 @@
+[#:use /res/palettes/lsn.hf]
+body {padding:10px;}
+table.mytbl {background:[#gray4];border:1px solid [#gray2];margin:1em 0;border-collapse:collapse;}
+table.mytbl th {padding:1em;border:1px solid [#gray2];text-align:left;}
+table.mytbl th p {margin:0;}
+table.mytbl td {padding:.5em;border-bottom:1px solid [#gray2];}
+table.mytbl tbody td {border-top:1px solid [#gray2];}
+table.mytbl tbody th button {white-space:nowrap;}
+table.mytbl tbody tr {background:[#white];}
+table.mytbl tbody tr.deployed {background:[#green1];}
+table.mytbl .center {text-align:center;}
+table.mytbl .middle {vertical-align:middle;}
+a.clickable {cursor:pointer;}
+a.toggle:after {content:"(+)";font-family:monospace;text-decoration:none;}
+a.toggle.showing:after {content:"(-)";}
+#output-raw {display:none;}
+#output-raw.visible {display:block;}

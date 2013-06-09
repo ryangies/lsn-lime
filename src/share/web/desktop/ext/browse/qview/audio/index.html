@@ -1,0 +1,22 @@
+<div id="flash[#UID]"></div>
+
+[#:js event='widget, ready']
+var embed = '<embed';
+embed += ' id="embed[#UID]"';
+embed += ' src="/res/html/flvplayer/flvplayer.swf"';
+embed += ' width="240"';
+embed += ' height="20"';
+embed += ' allowscriptaccess="always"';
+embed += ' allowfullscreen="true" ';
+embed += ' wmode="transparent" ';
+embed += ' flashvars="file=' + this.params.dnode.getAddress() + '"/>';
+js.dom.setAttribute('flash[#UID]', 'innerHTML', embed);
+[#:end js]
+
+[#:css]
+#embed[#UID] {position:absolute;z-index:1;top:1em;left:1em;}
+[#:end css]
+
+[#:js event='widget, hide']
+js.dom.removeChildren('flash[#UID]');
+[#:end js]

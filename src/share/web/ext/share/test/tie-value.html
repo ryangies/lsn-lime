@@ -1,0 +1,14 @@
+[#:into /ext/share/layouts/master.ht]
+
+[#:js]
+  env.hub.fetch('[#`./data.hf/tied-array`]', function (dnode) {
+    parentDiv = js.dom.createElement('DIV');
+    itemSpec = new js.dom.TiedElement('IMG', 'src');
+    tie(dnode, parentDiv, itemSpec)
+    js.console.log('got it');
+  });
+[#:end js]
+
+<div class="layout-body">
+Testing
+</div>

@@ -20,6 +20,8 @@ editors/AttributeControl.js
 editors/AttributeEditor.js
 editors/StyleControl.js
 editors/StyleEditor.js
+editors/ImageCtrl.js
+editors/BackgroundImageCtrl.js
 editors/ImageEditor.js
 editors/InlineImageEditor.js
 editors/InputEditor.js

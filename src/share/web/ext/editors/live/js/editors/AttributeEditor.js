@@ -59,19 +59,7 @@ js.extend('lsn.ext.dde', function (js) {
   AttributeEditor.end = function () {
     this.dlg.hide();
     if (this.modified) {
-      var data = {};
-      var resize = null;
-      for (var i = 0, ctrl; ctrl = this.ctrls[i]; i++) {
-        if (ctrl.attr == 'resize') {
-          resize = this.getAttribute(ctrl.attr);
-          continue;
-        }
-        data[ctrl.attr] = this.getAttribute(ctrl.attr);
-      }
-      if (resize) {
-        data['src'] += '?resize=' + resize;
-      }
-      this.recordChanges(data);
+      this.recordChanges();
     }
     for (var i = 0, ctrl; ctrl = this.ctrls[i]; i++) {
       ctrl.destroy();
@@ -84,7 +72,8 @@ js.extend('lsn.ext.dde', function (js) {
     var names = attrs.keys();
     for (var j = 0, name; name = names[j]; j++) {
       var ds = attrs.get(name);
-      var raw = data[name];
+      var raw = this.getAttributeValue(name);
+//    var raw = data[name];
       if (!js.util.defined(raw)) raw = '';
       var val = js.data.entities.decode(raw);
       var re = new RegExp('\\[' + '#', 'g');
@@ -155,11 +144,6 @@ js.extend('lsn.ext.dde', function (js) {
       var attr = ctrl.attr;
       var value = ctrl.getValue();
       this.setAttribute(attr, value);
-      if (attr == 'resize' && value) isResized = true;
-    }
-    if (!isResized) {
-      this.dde.js.dom.removeAttribute(this.target, 'width');
-      this.dde.js.dom.removeAttribute(this.target, 'height');
     }
     this.dde.refreshMasks();
   };
@@ -181,6 +165,15 @@ js.extend('lsn.ext.dde', function (js) {
   AttributeEditor.getAttribute = function (attr) {
     return this.dde.js.dom.getAttribute(this.target, attr);
   };
+
+  /** getAttributeValue - Get the final storage value
+   *
+   *  This abstraction is originally provided for the image src attribute. It
+   *  allows one to have one final data value that is handled by multiple
+   *  input controls. The multiple input controls use [get/set]Attribute, and
+   *  only when changes are recorded does getAttributeValue get called.
+   */
+  AttributeEditor.getAttributeValue = AttributeEditor.getAttribute;
 
   AttributeEditor.onOk = function () {
     this.onApply();

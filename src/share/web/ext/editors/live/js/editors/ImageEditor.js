@@ -21,6 +21,10 @@ js.extend('lsn.ext.dde', function (js) {
       this.target, 'load', this.onImageLoad, this
     );
     this.detectHyperlink();
+    var klass = this.opts.get('zoom') == 'zoom'
+      ? js.lsn.ext.dde.BackgroundImageCtrl
+      : js.lsn.ext.dde.ImageCtrl
+    this.imageCtrl = new klass(this.dde, this.target, this.opts);
     return CAttributeEditor.prototype.begin.apply(this, arguments);
   };
 
@@ -46,6 +50,12 @@ js.extend('lsn.ext.dde', function (js) {
     ctrl.addActionListener('onChange', this.onSelectImage, this);
   };
 
+  ImageEditor.onCancel = function () {
+    CAttributeEditor.prototype.onCancel.apply(this, arguments);
+    this.imageCtrl.reset();
+    this.imageCtrl.updateTarget();
+  };
+
   ImageEditor.onSelectImage = function (action) {
     this.setAttribute('src', this.getValue('src'));
     this.setAttribute('resize', this.getValue('resize'));
@@ -61,30 +71,9 @@ js.extend('lsn.ext.dde', function (js) {
       this.enableHyperlink();
       this.dde.js.dom.setAttribute(this.hyperlink, attr, value);
     } else if (attr == 'resize') {
-      var src = this.getAttribute('src');
-      var loc = new js.http.Location(src);
-      if (loc.isSameOrigin()) {
-        src += '?resize=' + (value || '1:1');
-        var req = new js.http.Request(src);
-        req.method = 'HEAD';
-        req.submit(null, [function (req) {
-          try {
-            var headers = req.xhr.getAllResponseHeaders();
-            var w = req.xhr.getResponseHeader('X-Image-DisplayWidth');
-            var h = req.xhr.getResponseHeader('X-Image-DisplayHeight');
-            if (w && h) {
-              this.dde.js.dom.setAttribute(this.target, 'width', w);
-              this.dde.js.dom.setAttribute(this.target, 'height', h);
-            }
-            this.dde.refreshMasks();
-          } catch (ex) {
-            // Remote image
-          }
-        }, this]);
-      }
-      if (value) {
-        this.dde.js.dom.setAttribute(this.target, 'src', src);
-      }
+      this.imageCtrl.setResize(value);
+    } else if (attr == 'src') {
+      this.imageCtrl.setSourcePath(encodeURI(value));
     } else {
       CAttributeEditor.prototype.setAttribute.apply(this, arguments);
     }
@@ -100,25 +89,22 @@ js.extend('lsn.ext.dde', function (js) {
         result = '';
       }
     } else if (attr == 'src') {
-      var src = this.dde.js.dom.getAttribute(this.target, 'src');
-      var parts = src.split('?', 2);
-      if (parts && parts.length == 2 && parts[1].match(/resize=([\dx]+)/)) {
-        result = parts[0];
-      } else {
-        result = src;
-      }
+      result = this.imageCtrl.getSourcePath();
       result = decodeURIComponent(result);
     } else if (attr == 'resize') {
-      var src = this.dde.js.dom.getAttribute(this.target, 'src');
-      var parts = src.split('?', 2);
-      if (parts && parts.length == 2) {
-        var m = parts[1].match(/resize=([\dx]+)/);
-        if (m) result = m[1];
-      }
+      result = this.imageCtrl.getResize();
     } else {
       result = CAttributeEditor.prototype.getAttribute.apply(this, arguments);
     }
     return result;
+  };
+
+  ImageEditor.getAttributeValue = function (attr) {
+    return attr == 'src'
+      ? this.opts.get('resize') == 'no-resize'
+        ? this.imageCtrl.getSourcePath()
+        : this.imageCtrl.getSource()
+      : this.getAttribute(attr);
   };
 
   ImageEditor.detectHyperlink = function () {

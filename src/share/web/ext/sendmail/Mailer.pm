@@ -69,6 +69,8 @@ sub set_arg {
 #
 #   name => Jon
 #
+# When C<$template> is a file-system node, the parser uses its path as the
+# working directory.
 # ------------------------------------------------------------------------------
 
 sub send_templated_mail {
@@ -76,9 +78,16 @@ sub send_templated_mail {
   my $template = shift;
   my $data = shift;
   my %params = ();
+  my @opts = ();
+  if (isa($template, FS('Node'))) {
+    my $addr = $template->get_addr;
+    my $path = addr_parent($addr);
+    my $name = addr_name($addr);
+    @opts = (-path => $path, -name => $name);
+  }
   foreach my $k (keys %$template) {
     my $v = $template->{$k};
-    $params{$k} = $self->parse_value($v, $data);
+    $params{$k} = $self->parse_value($v, $data, @opts);
   }
   $self->send_mail(%params, @_);
   1;
@@ -88,7 +97,7 @@ sub parse_value {
   my $self = shift;
   my $str = str_ref(shift);
   my $vars = shift;
-  my $out = $$self{'parser'}->compile_text($str, $vars);
+  my $out = $$self{'parser'}->compile_text($str, $vars, @_);
 # encode_entities($$out, '^\n\x20-\x25\x27-\x7e');
   $$out;
 }

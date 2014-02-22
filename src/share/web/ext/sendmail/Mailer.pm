@@ -222,7 +222,7 @@ sub send_mail {
   foreach my $k (keys %params) {
     if (my $v = $params{$k}) {
       $v = $params{$k} = encode('MIME-Header', $v);
-warn "MIME-Header[$k]: $v\n";
+      $$Hub{'/sys/log'}->info("MIME-Header[$k]: $v\n");
     }
   }
 

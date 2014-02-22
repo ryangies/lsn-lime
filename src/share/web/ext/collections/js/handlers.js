@@ -21,11 +21,13 @@ js.extend('{#namespace}', function (js) {
     });
   });
 
-  function _createItem (storage, schema, bEmbedSchemaName) {
+  function _createItem (storage, schema, key, bEmbedSchemaName) {
 
-    var key = storage.isDataArray()
-      ? '<next>'
-      : js.util.rand4() + js.util.rand4();
+    if (!key) {
+      key = storage.isDataArray()
+        ? '<next>'
+        : js.util.rand4() + js.util.rand4();
+    }
 
     var addr = js.data.addr_join(storage.getAddress(), key);
 
@@ -88,10 +90,10 @@ js.extend('{#namespace}', function (js) {
     
       var childSchemas = cwd.getAvailableChildSchemas();
 
-      function onSelectSchema (index) {
-        var itemSchema = childSchemas[index];
+      function onSelectSchema (action, values) {
+        var itemSchema = childSchemas[values.choice];
         if (!itemSchema) return;
-        _createItem(cwd.getAppendage(), itemSchema, true);
+        _createItem(cwd.getAppendage(), itemSchema, values.id, true);
       }
 
       if (childSchemas.length > 1) {
@@ -126,13 +128,11 @@ js.extend('{#namespace}', function (js) {
               }
             ]
           }
-        }, function (action, values) {
-          onSelectSchema(values.choice);
-        });
+        }, onSelectSchema);
 
       } else {
 
-        _createItem(cwd.getAppendage(), childSchemas[0], true);
+        _createItem(cwd.getAppendage(), childSchemas[0], null, true);
 
       }
 

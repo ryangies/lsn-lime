@@ -11,20 +11,24 @@ diff => @{
     match => /^@@|^\\/
     name => hi-context
     style => color:[#gray2];
+    final => 0
   }
   %{
     match => /^\+/
     name => hi-added
     style => color:[#blue1];
+    final => 0
   }
   %{
     match => /^\-/
     name => hi-removed
     style => color:[#green1];text-decoration:line-through;
+    final => 0
   }
   %{
     match => /^\\/
     name => hi-error
     style => color:[#red2];
+    final => 0
   }
 }

@@ -154,8 +154,7 @@ js.extend('ext.share.contrib.codemirror', function (js) {
           return null;
         }
       };
-      var foo = parserConfig.backdrop;
-      return CodeMirror.overlayParser(CodeMirror.getMode(config, alias), overlay);
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, alias), overlay);
     });
   };
 

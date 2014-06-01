@@ -128,10 +128,16 @@ js.extend('ext.editors.hash', function (js) {
 
   _proto.show = function (appendTo, cb) {
     js.dom.appendChildren(appendTo, this.getElements());
-    js.dom.setOpacity(this.uiRoot, 1);
-    js.dom.setStyle(this.uiRoot, 'visibility', 'visible'); // So controls are active
+    this.unhide();
     this.focus();
     this.executeClassAction('onShow', this);
+    if (cb) js.lang.callback(cb);
+  };
+
+  _proto.unhide = function (cb) {
+    js.dom.setOpacity(this.uiRoot, 1);
+    js.dom.setStyle(this.uiRoot, 'visibility', 'visible'); // So controls are active
+    this.executeClassAction('onUnhide', this);
     if (cb) js.lang.callback(cb);
   };
 
@@ -161,9 +167,16 @@ js.extend('ext.editors.hash', function (js) {
 
   _proto.unload = function () {
     this.dnode = null;
-    this.schema = null;
+    //this.schema = null;
+    this.reset();
     if (this.alUpdate) this.alUpdate.remove();
     if (this.alRemove) this.alRemove.remove();
+  };
+
+  _proto.reset = function () {
+    if (this.view && this.view.form) {
+      this.view.form.reset();
+    }
   };
 
   _proto.onDataLoad = function (dnode) {

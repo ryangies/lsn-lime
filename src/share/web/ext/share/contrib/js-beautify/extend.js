@@ -5,7 +5,7 @@ js.extend('ext.share.contrib', function (js) {
 
 js.extend('ext.share.contrib', function (js) {
   {#./beautify-html.js}
-  this.beautifyHTML = style_html;
+  this.beautifyHTML = html_beautify;
 });
 
 js.extend('ext.share.contrib', function (js) {

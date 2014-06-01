@@ -48,8 +48,8 @@ js.extend('ext.share.input', function (js) {
       }
     }, this);
     this.editor = CodeMirror(onLoad, this.getParameters());
-    this.editor.setOption('onChange', onChange);
-    this.editor.setOption('onBlur', onBlur);
+    this.editor.on('change', onChange);
+    this.editor.on('blur', onBlur);
     if (this.getParameter('mode')) {
       _helper.loadMode(this.getParameter('mode'), this.editor);
     }

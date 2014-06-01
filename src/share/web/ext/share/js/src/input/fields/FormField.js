@@ -80,6 +80,7 @@ js.extend('ext.share.input.fields', function (js) {
   };
 
   _proto.reset = function () {
+    return this.input.reset();
   };
 
   // ScalarNode will emit onChange.

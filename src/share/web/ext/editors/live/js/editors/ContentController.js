@@ -18,7 +18,7 @@ ECMAScript.Extend('lsn.ext.dde', function (js) {
 
   proto.attach = function (elem) {
     this.target = elem;
-    this.exec('useCSS', true); // which means no, don't use css
+    this.exec('styleWithCSS', false);
   };
 
   proto.detach = function () {

@@ -2,16 +2,16 @@ js.extend('lsn.ext.dde.popups', function (js) {
 
   CPopupMenu = js.lsn.ext.dde.PopupMenu;
 
-  this.Heading = function (dde, editor) {
+  this.ListType = function (dde, editor) {
     this.createUI();
     this.editor = editor;
     CPopupMenu.apply(this, [dde, [this.ui.root]]);
   };
 
-  var _proto = this.Heading.prototype = js.lang.createMethods(CPopupMenu);
+  var _proto = this.ListType.prototype = js.lang.createMethods(CPopupMenu);
 
   _proto.match = function (elem) {
-    return /^H[123456]$/.test(elem.tagName)
+    return /^[OU]L$/.test(elem.tagName)
   };
 
   _proto.createUI = function () {
@@ -19,21 +19,44 @@ js.extend('lsn.ext.dde.popups', function (js) {
     this.ui = new Object();
 
     // Input contol
-    this.ui.ctrl = js.dom.createElement('INPUT', {
+    this.ui.ctrl = js.dom.createElement('SELECT', {
       onChange: [function (event) {
           var ctrl = js.dom.getEventTarget(event);
           var value = js.dom.getValue(ctrl);
           this.setTargetValue(value);
-        }, this],
-      style: {
-        'width': '10em',
-        'font-size': '9px'
-      }
-    });
+        }, this]
+    }, [
+      'OPTION=disc',
+      'OPTION=circle',
+      'OPTION=square',
+      'OPTION=decimal',
+      'OPTION=decimal-leading-zero',
+      'OPTION=lower-roman',
+      'OPTION=upper-roman',
+      'OPTION=lower-greek',
+      'OPTION=lower-latin',
+      'OPTION=upper-latin',
+      'OPTION=armenian',
+      'OPTION=georgian',
+      'OPTION=lower-alpha',
+      'OPTION=upper-alpha',
+      'OPTION=none'
+      /*
+      'OPTION=1',
+      'OPTION=A',
+      'OPTION=a',
+      'OPTION=I',
+      'OPTION=i',
+      'OPTION=circle',
+      'OPTION=disc',
+      'OPTION=square',
+      'OPTION=triangle'
+      */
+    ]);
 
     this.ui.root = js.dom.createElement('DIV', 
       {style:{margin:'2px'}}, [
-      'B=id(#)', {style: {'font-size': '9px'}},
+      'B=List Type: ', {style: {'font-size': '9px'}},
       this.ui.ctrl
     ]);
 
@@ -112,13 +135,14 @@ js.extend('lsn.ext.dde.popups', function (js) {
   };
 
   _proto.getTargetValue = function (value) {
-    //this.dde.js.dom.getAttribute(this.target, 'id');
-    return this.target ? this.target.id : undefined;
+    if (!this.target) return;
+    var value = this.dde.js.dom.getStyle(this.target, 'list-style-type');
+    return value;
   };
 
   _proto.setTargetValue = function (value) {
     if (!this.target) return;
-    this.target.id = value;
+    this.dde.js.dom.setStyle(this.target, 'list-style-type', value);
   };
 
 });

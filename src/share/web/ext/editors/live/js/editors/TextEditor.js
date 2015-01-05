@@ -20,8 +20,11 @@ js.extend('lsn.ext.dde', function (js) {
     this.submarkers = new js.lsn.ext.dde.MarkerList(
       dde, js.lsn.ext.dde.markers.InlineMarker
     );
+    this.popups = [
+      new js.lsn.ext.dde.popups.Heading(dde, this),
+      new js.lsn.ext.dde.popups.ListType(dde, this)
+    ];
     this.hrefPopup = new js.lsn.ext.dde.popups.Href(dde, this);
-    this.headingPopup = new js.lsn.ext.dde.popups.Heading(dde, this);
   };
 
   var TextEditor = this.TextEditor.prototype = js.lang.createMethods(
@@ -66,8 +69,10 @@ js.extend('lsn.ext.dde', function (js) {
       }
     }
     this.dde.status.clear();
+    for (var i = 0, popup; popup = this.popups[i]; i++) {
+      if (popup.isActive()) popup.hide();
+    }
     if (this.hrefPopup.isActive()) this.hrefPopup.hide();
-    if (this.headingPopup.isActive()) this.headingPopup.hide();
 //    this.vFocus.remove();
   };
 
@@ -171,8 +176,11 @@ js.extend('lsn.ext.dde', function (js) {
     var menuId = this.getTargetMenuId();
     var menuElem = this.focusElement;
     var spath = [];
+    var popupTarget = null;
+    var popupInstance = null;
     var isAnchor = false;
     var isHeading = false;
+    var listElem = null;
     for (var i = 0, elem; elem = stack[i]; i++) {
 
       spath.unshift(elem.tagName);
@@ -197,15 +205,28 @@ js.extend('lsn.ext.dde', function (js) {
         }
       }
 
-      if (/^H[123456]/.test(elem.tagName) && elem !== this.target) {
-        isHeading = true;
-        if (!this.headingPopup.isActive() || this.headingPopup.target != elem) {
-          this.headingPopup.show(elem);
+      if (!popupTarget && elem !== this.target) {
+        for (var j = 0, popup; popup = this.popups[j]; j++) {
+          if (popup.match(elem)) {
+            popupTarget = elem;
+            popupInstance = popup;
+            break;
+          }
         }
       }
 
     }
-    if (!isHeading && this.headingPopup.isActive()) this.headingPopup.hide();
+
+    for (var i = 0, popup; popup = this.popups[i]; i++) {
+      if (popup === popupInstance) {
+        if (popup.target !== popupTarget) {
+          popup.show(popupTarget);
+        }
+      } else if (popup.isActive()) {
+        popup.hide();
+      }
+    }
+
     if (!isAnchor && this.hrefPopup.isActive()) this.hrefPopup.hide();
     var pathMenu = [];
     var lastIdx = spath.length - 1;
@@ -339,8 +360,6 @@ js.extend('lsn.ext.dde', function (js) {
   TextEditor.jumpForward = function () {
     if (this.hrefPopup && this.hrefPopup.isActive()) {
       this.hrefPopup.focus();
-//  } else if (this.headingPopup && this.headingPopup.isActive()) {
-//    this.headingPopup.focus();
     } else {
       this.dde.selectNext();
     }

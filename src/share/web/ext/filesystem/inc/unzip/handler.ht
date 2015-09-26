@@ -8,7 +8,7 @@
     'action': 'do-file-unzip',
     'icon': '/res/icons/16x16/emblems/zipper.png',
     'sortValue': 1,
-    'matchTypes': [/file-zip/]
+    'matchTypes': [/file-binary-zip/]
   });
 
   var handler = function (action, node) {

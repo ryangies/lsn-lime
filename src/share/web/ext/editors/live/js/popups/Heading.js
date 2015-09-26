@@ -10,6 +10,10 @@ js.extend('lsn.ext.dde.popups', function (js) {
 
   var _proto = this.Heading.prototype = js.lang.createMethods(CPopupMenu);
 
+  _proto.match = function (elem) {
+    return /^H[123456]$/.test(elem.tagName)
+  };
+
   _proto.createUI = function () {
 
     this.ui = new Object();
@@ -99,6 +103,7 @@ js.extend('lsn.ext.dde.popups', function (js) {
   };
 
   _proto.hide = function () {
+    this.target = undefined;
     this.kp.detach(this.ui.ctrl);
     this.vScroll.remove();
     js.dom.removeElement(this.elem);

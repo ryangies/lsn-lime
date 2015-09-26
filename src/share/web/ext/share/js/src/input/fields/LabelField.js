@@ -18,9 +18,9 @@ js.extend('site', function (js) {
   // Field states
   _proto.INITIAL    = 1;
   _proto.EDITING    = 2;
-  _proto.READY      = 4;
-  _proto.SUBMITTING = 8;
-  _proto.ERROR      = 16;
+  _proto.READY      = 3;
+  _proto.SUBMITTING = 4;
+  _proto.ERROR      = 5;
 
   _proto.setState = function (state) {
     js.dom.removeAttribute(this.elem, 'readonly');

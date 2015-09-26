@@ -39,6 +39,7 @@ js.extend('ext.share.input.fields', function (js) {
     var valueText = this.getValueText();
     var encodedValue = js.data.entities.encode(valueText, true);
     js.dom.setValue(this.uiDisplay, encodedValue);
+    this.input.enable();
   };
 
   _proto.getValueText = function () {
@@ -80,6 +81,7 @@ js.extend('ext.share.input.fields', function (js) {
   };
 
   _proto.reset = function () {
+    return this.input.reset();
   };
 
   // ScalarNode will emit onChange.
@@ -173,7 +175,7 @@ js.extend('ext.share.input.fields', function (js) {
 
   _proto.onCommitValue = function (dnode) {
     if (!dnode) return; // leaves input in disabled state
-    if (dnode !== this.dnode) return;
+    if (dnode !== this.dnode) return; // leaves input in disabled state
     this.isModified = false;
     this.updateDisplayValue();
     this.input.enable();

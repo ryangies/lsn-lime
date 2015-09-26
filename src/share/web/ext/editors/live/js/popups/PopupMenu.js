@@ -22,6 +22,8 @@ js.extend('lsn.ext.dde', function (js) {
       return this.active;
     },
 
+    match: js.lang.createAbstractFunction(),
+
     show: function (event) {
       this.clickMask.show();
       this.dde.refreshMasks();
@@ -36,6 +38,7 @@ js.extend('lsn.ext.dde', function (js) {
     },
 
     hide: function () {
+      this.target = undefined;
       js.dom.removeElement(this.elem);
       this.clickMask.hide();
       this.active = false;

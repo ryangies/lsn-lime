@@ -6,7 +6,7 @@ license => mit
 version => @{
   1
   0
-  4
+  16
 }
 dir_copy => %{
   share => src/share

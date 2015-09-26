@@ -57,10 +57,6 @@
     _input.reset();
   }
 
-  function onDecode (action) {
-    setValue(js.data.entities.decode(_input.serialize(), false));
-  }
-
   function onScrub (action) {
     js.console.log('onScrub');
     var div = _context.js.dom.createElement('DIV', {
@@ -68,8 +64,8 @@
     });
     var scrubber = new js.dom.Scrubber(_context.js);
     scrubber.scrub(div);
-//  setValue(div.innerHTML);
-    _input.deserialize(div.innerHTML);
+    setValue(div.innerHTML);
+//  _input.deserialize(div.innerHTML);
   }
 
   function onOk (action) {
@@ -83,7 +79,6 @@
     this.addActionListener('onDialogShow', onDialogShow, this);
     this.addActionListener('onDialogReady', onDialogReady, this);
     this.addActionListener('onDialogHide', onDialogHide, this);
-    this.addActionListener('onDecode', onDecode, this);
     this.addActionListener('onScrub', onScrub, this);
     this.addActionListener('onOk', onOk, this);
   });
@@ -104,7 +99,6 @@
   <div class="overlay-footer">
     <div id="buttons">
       <button type="button" name="action" value="scrub">Scrub</button>
-      <button type="button" name="action" value="decode">Convert UTF-8 to HTML entities</button>
       <button type="button" name="action" value="ok">OK</button>
     </div>
   </div>

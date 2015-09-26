@@ -214,7 +214,8 @@ js.extend('ext.share.filesystem', function (js) {
   };
 
   _proto.canDisplay = function () {
-    return true;
+    var dnode = this.getDataNode();
+    return dnode.isFile() || dnode.isDirectory() || dnode.getType() == 'loading';
   };
 
   _proto.canExpand = function () {

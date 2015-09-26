@@ -1,7 +1,7 @@
 #!/bin/bash
 
-scriptdir=$(readlink -f "$(dirname $(readlink -f $0))")
-root=$(readlink -f "$scriptdir/../")
+scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+root="$( cd "$scriptdir/.." && pwd )"
 source "$LSN_COMMON/functions"
 cd $root
 

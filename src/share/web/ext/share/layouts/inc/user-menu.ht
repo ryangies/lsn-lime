@@ -13,8 +13,10 @@
 
 <ol id="lsd-umenu">
   <li>
-    <a id="lsd-dn" class="cell" href="[#/sys/server/uri]" target="_blank" title="[#tooltips/dn]">
-      <span class="cell">[#/sys/request/scheme]:[#/sys/server/uri]</span>
+
+    [#:set site-url = '[#/sys/request/scheme]:[#/sys/request/headers/Host || /sys/server/uri]']
+    <a id="lsd-dn" class="cell" href="[#site-url]" target="_blank" title="[#tooltips/dn]">
+      <span class="cell">[#site-url]</span>
     </a>
   </li>
   <li>

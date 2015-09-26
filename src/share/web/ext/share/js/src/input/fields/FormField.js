@@ -143,8 +143,10 @@ js.extend('ext.share.input.fields', function (js) {
 
   _proto.onCreateValue = function (dnode) {
     if (dnode) {
-      this.alCreate.remove();
-      this.alCreate = null;
+      if (this.alCreate)  {
+        this.alCreate.remove();
+        this.alCreate = null;
+      }
       var key = dnode.getKey();
       var parentValue = dnode.getParentNode();
       this.tieValue(parentValue, key, true);

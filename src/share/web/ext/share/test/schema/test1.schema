@@ -48,6 +48,54 @@ fields => @{
     type => checkbox
     name => test-checkbox
     label => Checkbox
+    input => %{
+      label => Checkbox label
+    }
+  }
+
+  %{
+    type => checkboxes
+    name => test-checkboxes
+    label => Checkboxes
+    value => b
+    input => %{
+      delimeter => |
+      options => %{
+        a => Alpha
+        b => Bravo
+        c => Charlie
+      }
+    }
+  }
+
+  %{
+    type => checkboxes
+    name => test-checkboxes-vertical
+    label => Checkboxes (vertical)
+    value => Charlie
+    input => %{
+      delimeter => ,
+      layout => vertical
+      options => @{
+        Alpha
+        Bravo
+        Charlie
+      }
+    }
+  }
+
+  %{
+    type => radio-group
+    name => test-radio
+    label => Radio
+    input => %{
+      layout => vertical
+      options => %{
+        a => Alpha
+        b => Bravo
+        c => Charlie
+      }
+    }
   }
 
   %{
@@ -99,6 +147,12 @@ fields => @{
   }
 
   %{
+    type => latlng
+    name => test-latlng
+    label => Latitude/Longitude
+  }
+
+  %{
     type => select
     name => test-select1
     label => Select (option format 1)
@@ -139,6 +193,7 @@ fields => @{
     label => Select (option format 3)
     input => %{
       options => %{
+        => N/A
         a => Alpha
         b => Bravo
         c => Charlie
@@ -174,6 +229,24 @@ fields => @{
   }
 
   %{
+    type => select-filesystem-image
+    name => test-image
+    label => Image
+    input => %{
+      rootAddress => /images
+    }
+  }
+
+  %{
+    type => image-list
+    name => test-image-list
+    label => Image List
+    input => %{
+      dataSource => /images
+    }
+  }
+
+  %{
     type => textarea
     name => test-textarea
     label => Textarea
@@ -205,21 +278,6 @@ fields => @{
 #     undoDepth => 40
 #     tabindex => null
     }
-  }
-
-  %{
-    type => image-list
-    name => test-image-list
-    label => Image List
-    input => %{
-      dataSource => /images
-    }
-  }
-
-  %{
-    type => latlng
-    name => test-latlng
-    label => Latitude/Longitude
   }
 
 }

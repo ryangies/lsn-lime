@@ -58,7 +58,7 @@ sub _get_document_root {
 }
 
 sub _get_root {
-  return _get_document_root();
+  return $Hub->get('/sys/conf/modules/svn/root_path') || _get_document_root();
 }
 
 # ------------------------------------------------------------------------------
@@ -273,6 +273,12 @@ sub svn_get_command {
   my @command = ();
   if (my $sock = $$Hub{'/sys/ENV/SSH_AUTH_SOCK'}) {
     push @command, "SSH_AUTH_SOCK=$sock";
+  }
+  if (my $identity = _get_module_config()->{'ssh_identity'}) {
+    # BETA
+    # Should change this to ssh_command in the config so to not force
+    # skipping of host verification and provide more flexibility
+    push @command, "SVN_SSH='ssh -i $identity -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'";
   }
   push @command, 'svn';
   push @command, '--non-interactive', '--config-dir', '/tmp';

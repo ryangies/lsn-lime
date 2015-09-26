@@ -41,6 +41,8 @@ files => @{
   src/input/InputText.js
   src/input/InputBoolean.js
   src/input/InputCheckbox.js
+  src/input/InputCheckboxes.js
+  src/input/InputRadioGroup.js
   src/input/InputTextarea.js
   src/input/InputDecimal.js
   src/input/InputDate.js

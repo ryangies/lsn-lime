@@ -41,7 +41,7 @@ js.extend('ext.share.input', function (js) {
   _proto.onLoad = function (dnode) {
     this.createOptions(dnode.toObject());
   };
-      
+
   _proto.createOptions = function (options) {
     if (js.util.isAssociative(options)) {
       for (var value in options) {

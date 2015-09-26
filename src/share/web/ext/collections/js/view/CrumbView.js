@@ -28,8 +28,12 @@ js.extend('{#namespace}.view', function (js) {
   );
 
   Layer.extendUI = function () {
-    this.svName = this.node.getName();
-    this.svName.tie(this.uiName, ['innerHTML']);
+    try {
+      this.svName = this.node.getName();
+      this.svName.tie(this.uiName, ['innerHTML']);
+    } catch (ex) {
+      js.console.log("Could not get name from node:", this.node);
+    }
   };
 
   Layer.updateUI = function () {

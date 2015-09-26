@@ -274,6 +274,11 @@ sub svn_get_command {
   if (my $sock = $$Hub{'/sys/ENV/SSH_AUTH_SOCK'}) {
     push @command, "SSH_AUTH_SOCK=$sock";
   }
+  warn "Use identity?";
+  if (my $identity = _get_module_config()->{'ssh_identity'}) {
+    warn "Using identity: $identity";
+    push @command, "SVN_SSH='ssh -i $identity -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'";
+  }
   push @command, 'svn';
   push @command, '--non-interactive', '--config-dir', '/tmp';
   return join ' ', @command;

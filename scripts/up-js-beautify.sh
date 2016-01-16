@@ -14,9 +14,9 @@ dir_dest="$root/src/share/web/ext/share/contrib/js-beautify"
 
 if [ ! -d "$dir_proj" ]; then
   if ($(ask_yn "Create: $dir_proj")); then
-    pdir=$(readlink -f "$dir_proj/../")
+    pdir=$(dir_absolute "$dir_proj/../")
     name=$(basename "$dir_proj")
-    cd $(readlink -f "$dir_proj/../")
+    cd $pdir
     git clone "$git_repo" "$name"
     cd $dir_proj
   else

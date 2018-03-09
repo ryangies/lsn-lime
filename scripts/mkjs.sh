@@ -4,7 +4,7 @@ root="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 source "$LSN_COMMON/functions"
 cd $root
 
-proc=$(ps -fC lsn-jsc)
+proc=$(ps -fC lsn-jsc 2> /dev/null)
 if [ "$?" == "0" ]; then
   echo $proc
   if (! ask_yn 'Run anyway?'); then

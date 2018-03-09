@@ -41,34 +41,38 @@ js.extend('ext.share.input.fields', function (js) {
   };
 
   _proto.tieValue = function (dnode, key, bAutoCommit) {
-    // bAutoCommit is implicitly true
-    var storedValue = dnode.getValue(key);
-    if (!storedValue) {
+    try {
+      // bAutoCommit is implicitly true
+      var storedValue = dnode.getValue(key);
+      if (!storedValue) {
+        throw 'Missing storage';
+        /** Need to store/callback then proceed to vifify
+         *
+        storedValue = new js.hubb.ArrayNode();
+        storedValue.setAttribute('addr', dnode.getAddress() + '/' + key);
+        storedValue.setAttribute('type', 'data-array');
+        storedValue.setAttribute('mtime', 0);
+        dnode.setValue(key, storedValue);
+        */
+      }
+      var id = dnode.getAddress();
+      var schema = env.schemas.fetch(this.data.schema);
+      if (!schema) throw 'Missing schema';
+      this.editor = new js.ext.collections.Editor(id);
+      this.editor.loadDataAndSchema(storedValue, schema);
+      var selection = new js.ext.share.Selection();
+      this.collMenu = new js.ext.share.ui.menu.PanelMenu(env, selection);
+      this.collMenu.load({#:json collMenu});
+      js.dom.replaceChildren(this.uiRoot, this.editor.getElements());
+      js.dom.replaceChildren(this.uiMenu, this.collMenu.getElements());
+      js.dom.appendChildren(this.uiMenu, this.editor.getMenu().getElements());
+      selection.select(this.editor);
+      return this.input.setValue(storedValue);
+    } catch (ex) {
       js.dom.replaceChildren(this.uiRoot, js.dom.createElements(
-        'P.error=Missing storage'
+        'P.error=' + ex.toString()
       ));
-      return;
-      /** Need to store/callback then proceed to vifify
-       *
-      storedValue = new js.hubb.ArrayNode();
-      storedValue.setAttribute('addr', dnode.getAddress() + '/' + key);
-      storedValue.setAttribute('type', 'data-array');
-      storedValue.setAttribute('mtime', 0);
-      dnode.setValue(key, storedValue);
-      */
     }
-    var id = dnode.getAddress();
-    var schema = env.schemas.fetch(this.data.schema);
-    this.editor = new js.ext.collections.Editor(id);
-    this.editor.loadDataAndSchema(storedValue, schema);
-    var selection = new js.ext.share.Selection();
-    this.collMenu = new js.ext.share.ui.menu.PanelMenu(env, selection);
-    this.collMenu.load({#:json collMenu});
-    js.dom.replaceChildren(this.uiRoot, this.editor.getElements());
-    js.dom.replaceChildren(this.uiMenu, this.collMenu.getElements());
-    js.dom.appendChildren(this.uiMenu, this.editor.getMenu().getElements());
-    selection.select(this.editor);
-    return this.input.setValue(storedValue);
   };
 
 });
